@@ -10,7 +10,6 @@ function Layout({ children }) {
   return (
     <div>
       {!isLocation && <Navbar />}
-      {isLocation && <Sidebar />}
       <main>{children}</main>
     </div>
   );

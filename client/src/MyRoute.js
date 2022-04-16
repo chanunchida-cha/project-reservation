@@ -10,6 +10,8 @@ import PartnerLogin from "./components/partner/PartnerLogin";
 import HomePartner from "./components/partner/HomePartner";
 import HomeAdmin from "./components/admin/HomeAdmin";
 import Layout from "./components/Layout";
+import Sidebar from "./components/admin/Sidebar";
+import AllPartner from "./components/admin/AllPartner";
 function MyRoute() {
   return (
     <Layout>
@@ -21,7 +23,7 @@ function MyRoute() {
         <Route path={"/partnerregister"} exact component={PartnerRegis} />
         <Route path={"/partnerlogin"} exact component={PartnerLogin} />
         <Route path={"/homepartner"} exact component={HomePartner} />
-        <Route path={"/admin"} exact component={HomeAdmin} />
+        <Route path={"/admin"} component={Sidebar} />
       </Switch>
     </Layout>
   );
