@@ -21,6 +21,7 @@ const user = mongoose.Schema({
   },
   token: {
     type: String,
+   
   },
 });
 

@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { store } from "./components/Store";
+import { userStore } from "./components/customer/userStore";
 
 const App = observer(() => {
   return (
-    <div className="ml-9 ">
-      {store.username}
-      <h1 className="text-3xl font-bold underline">Hello</h1>
+    <div>
+      <div className="container p-2 ">
+        {userStore.username}
+        <h1 className="text-3xl font-bold underline">Hello</h1>
+      </div>
     </div>
   );
 });

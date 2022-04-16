@@ -2,7 +2,7 @@ const Users = require("../models/userDB");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   const { username, password } = req.body;
   try {
     if (!(username && password)) {
@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => {
+const getUser = async (req, res) => {
   try {
     const user = await Users.findById(req.user.user_id).select("-password");
     if (!user) throw Error("User does not exist");
@@ -40,6 +40,10 @@ exports.getUser = async (req, res) => {
   }
 };
 
+module.exports ={
+  login,
+  getUser
+}
 // const { username, password } = req.body;
 // const user = await Users.findOne({ user: username, password: password });
 // if (user && user.password === password) {
