@@ -8,8 +8,8 @@ function Layout({ children }) {
   const location = useLocation();
   const isLocation = location.pathname.startsWith("/admin");
   return (
-    <div>
-      {!isLocation && <Navbar />}
+    <div className="wrapper">
+      {!isLocation ? <Navbar /> : <Sidebar />}
       <main>{children}</main>
     </div>
   );

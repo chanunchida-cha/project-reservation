@@ -1,31 +1,55 @@
 const partners = require("../models/partnerDB");
 
-const getAllPartner = (req, res) => {
-    partners.find((err,partners)=>{
+const getPartnerVerify = (req, res) => {
+  partners.find({ status: "verification" }, (err, partners) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(partners);
+    }
+  });
+};
+const getPartnerApprove = (req, res) => {
+  partners.find({ status: "approve" }, (err, partners) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(partners);
+    }
+  });
+};
+
+const getPartnerById = (req, res) => {
+  const { id } = req.params;
+  partners.findById(id, (err, partner) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(partner);
+    }
+  });
+};
+
+const updateStatusPartner = (req, res) => {
+  const { id } = req.params;
+  partners.findByIdAndUpdate(
+    id,
+    {
+      $set: req.body,
+    },
+    (err, partner) => {
       if (err) {
         console.log(err);
-    } else {
-        res.json(partners);
+      } else {
+        res.json(partner);
+      }
     }
-  
-    })
-  };
+  );
+};
 
-const getPartnerById = (req,res)=>{
-    let id = req.params.id;
-    partners.findById(id , (err,partner)=>{
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(partner);
-        }
-      
-    })
-
-}
-
-
-  module.exports ={
-      getAllPartner,
-      getPartnerById
-  }
+module.exports = {
+  getPartnerVerify,
+  getPartnerApprove,
+  getPartnerById,
+  updateStatusPartner,
+};

@@ -1,8 +1,15 @@
 const { Router } = require("express");
 const router = Router();
-const {getAllPartner,getPartnerById} = require("../controllers/adminController")
+const {
+  getPartnerVerify,
+  getPartnerById,
+  updateStatusPartner,
+  getPartnerApprove,
+} = require("../controllers/adminController");
 
-router.route("/").get(getAllPartner);
-router.route("/:id").get(getPartnerById);
+router.route("/verify").get(getPartnerVerify);
+router.route("/approve").get(getPartnerApprove);
+router.route("/verify/:id").get(getPartnerById);
+router.route("/updatestatus/:id").put(updateStatusPartner);
 
 module.exports = router;

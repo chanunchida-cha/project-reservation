@@ -42,7 +42,7 @@ const partners = mongoose.Schema({
   },
   status: {
     type: String,
-    default: "varification",
+    default: "verification",
   },
   token: {
     type: String,

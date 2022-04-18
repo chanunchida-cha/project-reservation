@@ -1,37 +1,31 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { Layout, Menu, Breadcrumb } from "antd";
-import { Link, Prompt, useLocation } from "react-router-dom";
+import { Layout, Menu } from "antd";
+import { Link } from "react-router-dom";
 import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
   TeamOutlined,
   UserOutlined,
   LaptopOutlined,
   NotificationOutlined,
   CodepenOutlined,
 } from "@ant-design/icons";
-import HomeAdmin from "./HomeAdmin";
-import AllPartner from "./AllPartner";
+
+import ContentAdmin from "./ContentAdmin";
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const location = useLocation();
-  const isAllPartner = location.pathname === "/admin/allpartner";
+  // const isPartnerVerify = useRouteMatch("/admin/partnerverify");
   const { SubMenu } = Menu;
-  const { Header, Content, Footer, Sider } = Layout;
+  const { Content, Sider } = Layout;
   const onCollapsed = () => {
     setCollapsed(!collapsed);
   };
+
   return (
     <Layout style={{ minHeight: "100vh", fontFamily: "Prompt" }}>
       <Sider
+        style={{ backgroundColor: "#fff" }}
         collapsible
         collapsed={collapsed}
         onCollapse={onCollapsed}
-        width={200}
-        className="site-layout-background"
       >
         <Menu
           mode="inline"
@@ -48,18 +42,25 @@ function Sidebar() {
           >
             <Link to="/admin">cubeQue</Link>
           </Menu.Item>
-          <SubMenu key="sub1" icon={<UserOutlined />} title="ร้านอาหาร">
+          <SubMenu key="sub1" icon={<TeamOutlined />} title="ร้านอาหาร">
             <Menu.Item key="2">
-              <Link to="/admin/allpartner">การอนุมัติร้านค้า</Link>
+              <Link to="/admin/partnerverify">รอตรวจสอบ</Link>
+            </Menu.Item>
+            <Menu.Item key="11">
+              <Link to="/admin/partnerapprove">อนุมัติ</Link>
             </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
+          <SubMenu key="sub2" icon={<UserOutlined />} title="ลูกค้า">
             <Menu.Item key="3">option5</Menu.Item>
             <Menu.Item key="4">option6</Menu.Item>
             <Menu.Item key="5">option7</Menu.Item>
             <Menu.Item key="6">option8</Menu.Item>
           </SubMenu>
-          <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
+          <SubMenu
+            key="sub3"
+            icon={<NotificationOutlined />}
+            title="ผู้ดูแลระบบ"
+          >
             <Menu.Item key="7">option9</Menu.Item>
             <Menu.Item key="8">option10</Menu.Item>
             <Menu.Item key="9">option11</Menu.Item>
@@ -76,7 +77,7 @@ function Sidebar() {
             minHeight: 280,
           }}
         >
-          {isAllPartner ? <AllPartner /> : <HomeAdmin />}
+          <ContentAdmin />
         </Content>
       </Layout>
     </Layout>
