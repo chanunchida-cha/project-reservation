@@ -1,11 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {getToken} from "../../services/authorize"
+import { getToken } from "../../services/authorize";
 
 class PartnerStore {
-  username = undefined;
-  status = undefined;
+  partner = {};
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -70,8 +70,8 @@ class PartnerStore {
       })
       .then((response) => {
         sessionStorage.setItem("token", JSON.stringify(response.data.token));
-        this.username = response.data.username;
-        console.log(this.username);
+        this.partner = response.data;
+        console.log(this.partner);
       })
       .catch((err) => {
         Swal.fire({
@@ -84,19 +84,21 @@ class PartnerStore {
         throw err;
       });
   }
-  getPartner(){
-    axios.get(`${process.env.REACT_APP_API_PARTNER}/getpartner`,{
-      headers: { "x-access-token": getToken() },
-    }) .then((response) => {
-      this.username = response.data;
-      console.log(this.username);
-    })
-    .catch((err) => {
-      console.log(err.response.data.error);
-    });
+  getPartner() {
+    axios
+      .get(`${process.env.REACT_APP_API_PARTNER}/getpartner`, {
+        headers: { "x-access-token": getToken() },
+      })
+      .then((response) => {
+        this.partner = response.data;
+        console.log(this.partner);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
   }
   logout() {
-    this.username = undefined;
+    this.partner = undefined;
     sessionStorage.removeItem("token");
   }
 }

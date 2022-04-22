@@ -4,9 +4,17 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { username, email, password, confirmPass } = req.body;
+    const {
+      username,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      password,
+      confirmPass,
+    } = req.body;
 
-    if (!(username && email && password && confirmPass)) {
+    if (!(username && email && phoneNumber && password && confirmPass)) {
       res.status(400).json({ error: "All input is requires" });
     }
 
@@ -25,7 +33,10 @@ const register = async (req, res) => {
     //create user
     const user = await Users.create({
       username: username,
+      firstname: firstname,
+      lastname: lastname,
       email: email.toLowerCase(),
+      phoneNumber: phoneNumber,
       password: encrytedPassword,
       confirmPass: encrytedConfirmPassword,
     });
@@ -47,6 +58,6 @@ const register = async (req, res) => {
   }
 };
 
-module.exports ={
-  register
-}
+module.exports = {
+  register,
+};

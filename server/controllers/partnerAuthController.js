@@ -31,19 +31,19 @@ const partnerLogin = async (req, res) => {
   }
 };
 
-const getPartner =  async (req,res) =>{
-try{
-  const partner = await partners.findById(req.partner.partner_id).select("-password");
-  if(!partner) throw Error("Partner does not exist");
-  res.json(partner.username)
+const getPartner = async (req, res) => {
+  try {
+    const partner = await partners
+      .findById(req.partner.partner_id)
+      .select("-password");
+    if (!partner) throw Error("Partner does not exist");
+    res.json(partner);
+  } catch (e) {
+    res.status(400).json({ msg: e.message });
+  }
+};
 
-}catch(e){
-res.status(400).json({msg: e.message})
-}
-
-}
-
-module.exports ={
+module.exports = {
   partnerLogin,
-  getPartner
-}
+  getPartner,
+};

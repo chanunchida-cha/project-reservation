@@ -1,18 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { adminStore } from "./adminStore";
 import { useParams, useHistory } from "react-router-dom";
-import { Radio, Form, Button } from "antd";
+import { Radio, Button } from "antd";
 
 const SinglePartnerVerify = observer(() => {
   const { id } = useParams();
   const history = useHistory();
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState("approve");
+  const [note, setNote] = useState("");
   console.log(value);
 
   const onValueChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
+  };
+
+  const onNoteChange = (e) => {
+    setNote(e.target.value);
+    console.log(note);
   };
 
   useEffect(() => {
@@ -30,13 +36,16 @@ const SinglePartnerVerify = observer(() => {
     address,
     status,
   } = adminStore.partner;
+  const isNote = adminStore.partner.note;
   const isVerify = status === "verification";
+  const statusDisapprove = value === "disapprove";
+  const disapprove = status === "disapprove";
 
   function updateStatus(e) {
     e.preventDefault();
-    adminStore.updateStatusPartner(_id, value);
+    adminStore.updateStatusPartner(_id, value, note);
     history.push("/admin/partnerapprove");
-    console.log(_id, value);
+    console.log(_id, value, note);
   }
   return (
     <div
@@ -82,6 +91,16 @@ const SinglePartnerVerify = observer(() => {
           </div>
         </dl>
       </div>
+      {isNote && disapprove && (
+        <div>
+          <div class="border-t border-gray-200" />
+          <div class="px-4 py-2 sm:px-6">
+            <p class="mt-1 max-w-2xl text-sm text-red-500">
+              หมายเหตุ* {adminStore.partner.note}
+            </p>
+          </div>
+        </div>
+      )}
       {isVerify && (
         <div className="ml-6 mb-3">
           <form onSubmit={updateStatus}>
@@ -89,7 +108,28 @@ const SinglePartnerVerify = observer(() => {
               <Radio value={"approve"}>อนุมัติ</Radio>
               <Radio value={"disapprove"}>ไม่อนุมัติ</Radio>
             </Radio.Group>
-            <Button type="primary" htmlType="submit">
+            {statusDisapprove && (
+              <div className="m-2 mr-5">
+                <label
+                  htmlFor="about"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {" "}
+                  หมายเหตุ{" "}
+                </label>
+                <div className="mt-1">
+                  <textarea
+                    id="about"
+                    name="about"
+                    rows="4"
+                    className="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                    placeholder="หมายเหตุ"
+                    onChange={onNoteChange}
+                  ></textarea>
+                </div>
+              </div>
+            )}
+            <Button className="ml-2" type="primary" htmlType="submit">
               บันทึก
             </Button>
           </form>

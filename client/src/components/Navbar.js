@@ -20,7 +20,7 @@ const Navbar = observer(() => {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-0">
-          {(!userStore.username && !partnerStore.username) &&(
+          {!userStore.username && !partnerStore.username && (
             <li>
               <a href="/login">Log in</a>
             </li>
@@ -43,29 +43,11 @@ const Navbar = observer(() => {
             </a>
             <ul className="p-2 bg-base-100">
               <li>
-                <a href="/partner">Partner with us</a>
+                <a href="/joinpartner">Partner with us</a>
               </li>
-              {(!userStore.username && !partnerStore.username)&& (
+              {!userStore.username && !partnerStore.username && (
                 <li>
-                  <a href="/partnerlogin">Log in</a>
-                </li>
-              )}
-               {partnerStore.username && (
-                <li>
-                 {partnerStore.username}
-                </li>
-              )}
-              {partnerStore.username && (
-                <li>
-                  <button
-                    className="btn btn-active btn-ghost"
-                    onClick={() => {
-                      partnerStore.logout();
-                      history.push("/");
-                    }}
-                  >
-                    Log Out
-                  </button>
+                  <a href="/loginpartner">Log in</a>
                 </li>
               )}
             </ul>

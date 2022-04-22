@@ -11,12 +11,31 @@ class UserStore {
   }
 
   async createUser(ifo) {
-    const { username, email, password, confirmPass } = ifo;
-    console.log(username, email, password, confirmPass);
+    const {
+      username,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      password,
+      confirmPass,
+    } = ifo;
+    console.log(
+      username,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      password,
+      confirmPass
+    );
     await axios
       .post(`${process.env.REACT_APP_API}/register`, {
         username: username,
+        firstname: firstname,
+        lastname: lastname,
         email: email,
+        phoneNumber: phoneNumber,
         password: password,
         confirmPass: confirmPass,
       })

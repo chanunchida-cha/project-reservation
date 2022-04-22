@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import {
   TeamOutlined,
   UserOutlined,
-  LaptopOutlined,
   NotificationOutlined,
   CodepenOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 
 import ContentAdmin from "./ContentAdmin";
@@ -49,23 +49,21 @@ function Sidebar() {
             <Menu.Item key="11">
               <Link to="/admin/partnerapprove">อนุมัติ</Link>
             </Menu.Item>
+            <Menu.Item key="12">
+              <Link to="/admin/partnerdisapprove">ไม่อนุมัติ</Link>
+            </Menu.Item>
           </SubMenu>
-          <SubMenu key="sub2" icon={<UserOutlined />} title="ลูกค้า">
-            <Menu.Item key="3">option5</Menu.Item>
-            <Menu.Item key="4">option6</Menu.Item>
-            <Menu.Item key="5">option7</Menu.Item>
-            <Menu.Item key="6">option8</Menu.Item>
-          </SubMenu>
-          <SubMenu
-            key="sub3"
-            icon={<NotificationOutlined />}
-            title="ผู้ดูแลระบบ"
-          >
-            <Menu.Item key="7">option9</Menu.Item>
-            <Menu.Item key="8">option10</Menu.Item>
-            <Menu.Item key="9">option11</Menu.Item>
-            <Menu.Item key="10">option12</Menu.Item>
-          </SubMenu>
+
+          <Menu.Item icon={<UserOutlined />} key="3">
+            <Link to={"/admin/customersdata"}>ข้อมูลลูกค้า</Link>
+          </Menu.Item>
+
+          <Menu.Item icon={<NotificationOutlined />} key="7">
+            ข้อมูลผู้ดูแลระบบ
+          </Menu.Item>
+          <Menu.Item icon={<BarChartOutlined />} key="14">
+            รายงาน
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout style={{ padding: "0 24px 24px" }}>

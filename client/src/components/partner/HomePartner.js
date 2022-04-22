@@ -1,15 +1,15 @@
 import React from "react";
 import Navbar from "../Navbar";
+import { observer } from "mobx-react-lite";
 import { partnerStore } from "./partnerStore";
 import { useHistory } from "react-router-dom";
 
-function HomePartner() {
-  const username = partnerStore.username;
+const HomePartner = observer(() => {
+  const username = partnerStore.partner;
   const history = useHistory();
-  if (username == undefined) {
-    history.push("/");
-  }
+  console.log(username.username);
+
   return <div>HomePartner</div>;
-}
+});
 
 export default HomePartner;

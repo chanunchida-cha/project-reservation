@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
-const partners = mongoose.Schema({
-  restaurantName: {
-    type: String,
-    required: true,
-    unique: true,
-  },
+const admins = mongoose.Schema({
   firstname: {
     type: String,
     required: true,
@@ -19,14 +14,6 @@ const partners = mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  confirmPass: {
-    type: String,
-    required: true,
-  },
   email: {
     type: String,
     required: true,
@@ -36,20 +23,14 @@ const partners = mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
+  password: {
     type: String,
     required: true,
   },
-  status: {
+  confirmPass: {
     type: String,
-    default: "verification",
-  },
-  note: {
-    type: String,
-  },
-  token: {
-    type: String,
+    required: true,
   },
 });
 
-module.exports = mongoose.model("partners", partners);
+module.exports = mongoose.model("admins", admins);

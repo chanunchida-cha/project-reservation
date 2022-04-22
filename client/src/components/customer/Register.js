@@ -7,11 +7,22 @@ import Swal from "sweetalert2";
 const Register = observer(() => {
   const [info, setInfo] = useState({
     username: "",
+    firstname: "",
+    lastname: "",
     email: "",
+    phoneNumber: "",
     password: "",
     confirmPass: "",
   });
-  const { username, email, password, confirmPass } = info;
+  const {
+    username,
+    firstname,
+    lastname,
+    email,
+    phoneNumber,
+    password,
+    confirmPass,
+  } = info;
 
   function onChangeInput(event) {
     const { name, value } = event.target;
@@ -29,7 +40,10 @@ const Register = observer(() => {
 
     setInfo({
       username: "",
+      firstname: "",
+      lastname: "",
       email: "",
+      phoneNumber: "",
       password: "",
       confirmPass: "",
     });
@@ -37,12 +51,41 @@ const Register = observer(() => {
 
   return (
     <div>
-    
       <div className="container p-2 pt-5">
         <form onSubmit={registerSubmit}>
           <center>
             <h1 className="text-xl font-bold">Register</h1>
           </center>
+          <div className="form-group">
+            <div className="row">
+              <div className="col">
+                <label className="text-lg">Firstname:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="First name"
+                  aria-label="First name"
+                  name="firstname"
+                  value={firstname}
+                  onChange={onChangeInput}
+                  required
+                />
+              </div>
+              <div className="col">
+                <label className="text-lg">Lastname:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Last name"
+                  aria-label="Last name"
+                  name="lastname"
+                  value={lastname}
+                  onChange={onChangeInput}
+                  required
+                />
+              </div>
+            </div>
+          </div>
 
           <div className="form-group">
             <label className="text-lg">Username:</label>
@@ -64,6 +107,18 @@ const Register = observer(() => {
               placeholder="Email"
               name="email"
               value={email}
+              onChange={onChangeInput}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label className="text-lg">เบอร์โทรศัพท์:</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="081-252000"
+              name="phoneNumber"
+              value={phoneNumber}
               onChange={onChangeInput}
               required
             />
