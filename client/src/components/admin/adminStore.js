@@ -10,6 +10,8 @@ class AdminStore {
   partnersDisApprove = [];
   customers = [];
   customer = {};
+  admins = [];
+  admin = {};
   constructor() {
     makeAutoObservable(this);
   }
@@ -338,6 +340,136 @@ class AdminStore {
         this.getPartnerVarify();
         this.getPartnerApprove();
         this.getPartnerDisApprove();
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data.error,
+        });
+      });
+  }
+
+  getAdminsData() {
+    axios
+      .get(`${process.env.REACT_APP_API_ADMIN}/adminsdata`)
+      .then((response) => {
+        this.admins = response.data;
+        console.log(this.admins);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data.error,
+        });
+      });
+  }
+  async getAdminById(id) {
+    await axios
+      .get(`${process.env.REACT_APP_API_ADMIN}/adminsdata/${id}`)
+      .then((response) => {
+        this.admin = response.data;
+        console.log(this.admin);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data.error,
+        });
+      });
+  }
+
+  async createAdmin(admin) {
+    const {
+      username,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      password,
+      confirmPass,
+    } = admin;
+    console.log(
+      username,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      password,
+      confirmPass
+    );
+    await axios
+      .post(`${process.env.REACT_APP_API_ADMIN}/createadmin`, {
+        username: username,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phoneNumber: phoneNumber,
+        password: password,
+        confirmPass: confirmPass,
+      })
+      .then((response) => {
+        Swal.fire(
+          "เพิ่มข้อมูลผู้ดูแลระบบเรียบร้อยแล้ว",
+          "create admin success!",
+          "success"
+        );
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "มีข้อผิดพลาด",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
+      });
+  }
+
+  editAdmin(id, admin) {
+    const {
+      username,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      password,
+      confirmPass,
+    } = admin;
+    axios
+      .put(`${process.env.REACT_APP_API_ADMIN}/editadmin/${id}`, {
+        username: username,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phoneNumber: phoneNumber,
+        password: password,
+        confirmPass: confirmPass,
+      })
+      .then((response) => {
+        Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
+        this.getAdminsData();
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "มีบางอย่างผิดพลาด",
+          title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+          text: err.response.data.error,
+        });
+      });
+  }
+  deleteAdmin(id) {
+    axios
+      .delete(`${process.env.REACT_APP_API_ADMIN}/deleteadmin/${id}`)
+      .then((response) => {
+        Swal.fire(
+          "ลบข้อมูลผู้ดูแลระบบเรียบร้อยแล้ว!",
+          response.data.message,
+          "success"
+        );
+        this.getAdminsData();
       })
       .catch((err) => {
         Swal.fire({

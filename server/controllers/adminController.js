@@ -1,5 +1,6 @@
 const partners = require("../models/partnerDB");
 const Users = require("../models/userDB");
+const admins = require("../models/adminDB");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { json } = require("express");
@@ -275,6 +276,113 @@ const editPartner = (req, res) => {
   );
 };
 
+const getAdmins = (req, res) => {
+  admins.find((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(data);
+    }
+  });
+};
+
+const getAdminById = (req, res) => {
+  const { id } = req.params;
+  admins.findById(id, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(data);
+    }
+  });
+};
+
+const createAdmin = async (req, res) => {
+  try {
+    const {
+      username,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      password,
+      confirmPass,
+    } = req.body;
+
+    if (!(username && email && phoneNumber && password && confirmPass)) {
+      res.status(400).json({ error: "All input is requires" });
+    }
+
+    const oldAdmin = await admins.findOne({ email, username });
+
+    if (oldAdmin) {
+      res.status(400).json({ error: "Admin already exist" });
+    }
+    if (password != confirmPass) {
+      res.status(400).json({ error: "Please check password" });
+    }
+
+    encrytedPassword = await bcrypt.hash(password, 10);
+    encrytedConfirmPassword = await bcrypt.hash(confirmPass, 10);
+
+    //create user
+    const admin = await admins.create({
+      username: username,
+      firstname: firstname,
+      lastname: lastname,
+      email: email.toLowerCase(),
+      phoneNumber: phoneNumber,
+      password: encrytedPassword,
+      confirmPass: encrytedConfirmPassword,
+    });
+
+    //creat token
+
+    const token = jwt.sign(
+      { admin_id: admin._id, email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    admin.token = token;
+    res.status(200).json(admin);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const editAdmin = (req, res) => {
+  const { id } = req.params;
+  admins.findByIdAndUpdate(
+    id,
+    {
+      $set: req.body,
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(data);
+      }
+    }
+  );
+};
+
+const deleteAdmin = (req, res) => {
+  const { id } = req.params;
+  admins.findByIdAndDelete(id, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "delete success",
+      });
+    }
+  });
+};
+
 module.exports = {
   getPartner,
   getPartnerVerify,
@@ -290,4 +398,9 @@ module.exports = {
   createPartner,
   deletePartner,
   editPartner,
+  getAdmins,
+  getAdminById,
+  createAdmin,
+  editAdmin,
+  deleteAdmin
 };

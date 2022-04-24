@@ -8,6 +8,7 @@ import PartnerRegis from "./components/partner/PartnerRegis";
 import PartnerLogin from "./components/partner/PartnerLogin";
 import HomePartner from "./components/partner/HomePartner";
 import Layout from "./components/Layout";
+import LoginAdmin from "./components/admin/LoginAdmin";
 
 function MyRoute() {
   return (
@@ -19,6 +20,7 @@ function MyRoute() {
         <Route path={"/joinpartner"} exact component={Partner} />
         <Route path={"/registerpartner"} exact component={PartnerRegis} />
         <Route path={"/loginpartner"} exact component={PartnerLogin} />
+        <Route path={"/adminlogin"} exact component={LoginAdmin} />
       </Switch>
     </Layout>
   );

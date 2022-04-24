@@ -4,9 +4,9 @@ import { adminStore } from "./adminStore";
 import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
-const CreateCustomer = observer(() => {
+const CreateAdmin = observer(() => {
   const history = useHistory();
-  const [info, setInfo] = useState({
+  const [admin, setAdmin] = useState({
     username: "",
     firstname: "",
     lastname: "",
@@ -15,6 +15,7 @@ const CreateCustomer = observer(() => {
     password: "",
     confirmPass: "",
   });
+
   const {
     username,
     firstname,
@@ -23,24 +24,23 @@ const CreateCustomer = observer(() => {
     phoneNumber,
     password,
     confirmPass,
-  } = info;
+  } = admin;
 
-  console.log(info);
   function onChangeInput(event) {
     const { name, value } = event.target;
-    setInfo((prevInfo) => {
+    setAdmin((prevAdmin) => {
       return {
-        ...prevInfo,
+        ...prevAdmin,
         [name]: value,
       };
     });
   }
 
-  async function createCustomer(event) {
+  async function createAdmin(event) {
     event.preventDefault();
-    await adminStore.createCustomer(info);
+    await adminStore.createAdmin(admin);
 
-    setInfo({
+    setAdmin({
       username: "",
       firstname: "",
       lastname: "",
@@ -49,15 +49,16 @@ const CreateCustomer = observer(() => {
       password: "",
       confirmPass: "",
     });
-    history.push("/admin/customersdata");
+    history.push("/admin/adminsdata");
   }
+
   return (
     <div>
       <div className="mt-5 md:mt-0 md:col-span-2">
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
-          เพิ่มข้อมูลลูกค้า
+          เพิ่มข้อมูลผู้ดูแลระบบ
         </h3>
-        <form onSubmit={createCustomer}>
+        <form onSubmit={createAdmin}>
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">
@@ -190,7 +191,7 @@ const CreateCustomer = observer(() => {
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
               <Button className="text-base" type="primary" htmlType="submit">
-                เพิ่มข้อมูลลูกค้า
+                เพิ่มข้อมูลผู้ดูแลระบบ
               </Button>
             </div>
           </div>
@@ -199,5 +200,4 @@ const CreateCustomer = observer(() => {
     </div>
   );
 });
-
-export default CreateCustomer;
+export default CreateAdmin;

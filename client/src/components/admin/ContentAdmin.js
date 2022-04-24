@@ -11,6 +11,10 @@ import CreateCustomer from "./CreateCustomer";
 import EditCustomer from "./EditCustomer";
 import CreatePartner from "./CreatePartner";
 import EditPartner from "./EditPartner";
+import AdminsData from "./AdminsData";
+import CreateAdmin from "./CreateAdmin";
+import SingleAdminData from "./SingleAdminData";
+import EditAdmin from "./EditAdmin";
 
 function ContentAdmin() {
   return (
@@ -51,6 +55,14 @@ function ContentAdmin() {
         />
         <Route path={"/admin/createpartner"} exact component={CreatePartner} />
         <Route path={"/admin/editpartner/:id"} exact component={EditPartner} />
+        <Route path={"/admin/adminsdata"} exact component={AdminsData} />
+        <Route
+          path={"/admin/adminsdata/:id"}
+          exact
+          component={SingleAdminData}
+        />
+        <Route path={"/admin/createadmin"} exact component={CreateAdmin} />
+        <Route path={"/admin/editadmin/:id"} exact component={EditAdmin} />
       </Switch>
     </div>
   );

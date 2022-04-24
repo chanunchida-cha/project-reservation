@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { adminStore } from "./adminStore";
-import { useHistory } from "react-router-dom";
-import { observer } from "mobx-react-lite";
-
-const CreateCustomer = observer(() => {
-  const history = useHistory();
-  const [info, setInfo] = useState({
+import { useParams } from "react-router-dom";
+function EditAdmin() {
+  const { id } = useParams();
+  const [admin, setAdmin] = useState({
     username: "",
     firstname: "",
     lastname: "",
@@ -15,6 +13,7 @@ const CreateCustomer = observer(() => {
     password: "",
     confirmPass: "",
   });
+
   const {
     username,
     firstname,
@@ -23,41 +22,43 @@ const CreateCustomer = observer(() => {
     phoneNumber,
     password,
     confirmPass,
-  } = info;
+  } = admin;
 
-  console.log(info);
+  useEffect(async () => {
+    await adminStore.getAdminById(id);
+    setAdmin({
+      username: adminStore.admin.username,
+      firstname: adminStore.admin.firstname,
+      lastname: adminStore.admin.lastname,
+      email: adminStore.admin.email,
+      phoneNumber: adminStore.admin.phoneNumber,
+      password: adminStore.admin.password,
+      confirmPass: adminStore.admin.confirmPass,
+    });
+  }, []);
+
   function onChangeInput(event) {
     const { name, value } = event.target;
-    setInfo((prevInfo) => {
+    setAdmin((prevAdmin) => {
       return {
-        ...prevInfo,
+        ...prevAdmin,
         [name]: value,
       };
     });
   }
 
-  async function createCustomer(event) {
-    event.preventDefault();
-    await adminStore.createCustomer(info);
-
-    setInfo({
-      username: "",
-      firstname: "",
-      lastname: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      confirmPass: "",
-    });
-    history.push("/admin/customersdata");
+  function editAdminSubmit(e) {
+    e.preventDefault();
+    adminStore.editAdmin(id, admin);
   }
+
   return (
     <div>
       <div className="mt-5 md:mt-0 md:col-span-2">
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
-          เพิ่มข้อมูลลูกค้า
+          แก้ไขข้อมูลผู้ดูแลระบบ
         </h3>
-        <form onSubmit={createCustomer}>
+        <form onSubmit={editAdminSubmit}>
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">
@@ -112,6 +113,7 @@ const CreateCustomer = observer(() => {
                     value={username}
                     onChange={onChangeInput}
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    disabled
                   />
                 </div>
 
@@ -166,6 +168,7 @@ const CreateCustomer = observer(() => {
                     id="password"
                     autoComplete="password"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    disabled
                   />
                 </div>
 
@@ -184,13 +187,14 @@ const CreateCustomer = observer(() => {
                     id="confirmPass"
                     autoComplete="confirmPass"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    disabled
                   />
                 </div>
               </div>
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
               <Button className="text-base" type="primary" htmlType="submit">
-                เพิ่มข้อมูลลูกค้า
+                แก้ไขข้อมูลผู้ดูแลระบบ
               </Button>
             </div>
           </div>
@@ -198,6 +202,6 @@ const CreateCustomer = observer(() => {
       </div>
     </div>
   );
-});
+}
 
-export default CreateCustomer;
+export default EditAdmin;

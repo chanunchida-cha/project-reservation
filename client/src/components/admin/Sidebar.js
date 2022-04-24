@@ -59,7 +59,7 @@ function Sidebar() {
           </Menu.Item>
 
           <Menu.Item icon={<NotificationOutlined />} key="7">
-            ข้อมูลผู้ดูแลระบบ
+          <Link to={"/admin/adminsdata"}>ข้อมูลผู้ดูแลระบบ</Link>
           </Menu.Item>
           <Menu.Item icon={<BarChartOutlined />} key="14">
             รายงาน
