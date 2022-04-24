@@ -2,9 +2,13 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { adminStore } from "./adminStore";
-import { Link } from "react-router-dom";
+import { Button } from "antd";
+import { Link, useHistory } from "react-router-dom";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import Swal from "sweetalert2";
 
 const PartnerVerify = observer(() => {
+  const history = useHistory();
   useEffect(() => {
     adminStore.getPartnerVarify();
   }, []);
@@ -12,12 +16,36 @@ const PartnerVerify = observer(() => {
   const partners = adminStore.partners;
   console.log(partners);
 
+  const confirmDelete = (id) => {
+    Swal.fire({
+      title: "ยืนยันการลบข้อมูล",
+      icon: "warning",
+      showCancelButton: true,
+    }).then((resualt) => {
+      if (resualt.isConfirmed) {
+        adminStore.deletePartner(id);
+      }
+    });
+  };
+
   return (
     <div className="ml-200">
       <div className="px-4 py-3 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
           ข้อมูลร้านอาหารรอการตรวจสอบ
         </h3>
+        <div className="border-t border-gray-300" />
+        <div className="mb-2 mt-2 ">
+          <Button
+            className="text-base"
+            type="primary"
+            onClick={() => {
+              history.push("/admin/createpartner");
+            }}
+          >
+            เพิ่มข้อมูลร้านอาหาร
+          </Button>
+        </div>
       </div>
       {partners.map((partner) => {
         return (
@@ -25,12 +53,37 @@ const PartnerVerify = observer(() => {
             key={partner._id}
             className="bg-white shadow overflow-hidden sm:rounded-lg mb-6"
           >
-            <div className="px-4 py-3 sm:px-6">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
-                <Link to={`/admin/partnerverify/${partner._id}`}>
-                  ร้าน{partner.restaurantName}
-                </Link>
-              </h3>
+            <div className="grid grid-cols-2 ">
+              <div className="px-4 py-3 sm:px-6   ">
+                <h3 className="text-lg leading-6 font-medium text-gray-900 ">
+                  <Link to={`/admin/partnerverify/${partner._id}`}>
+                    ร้าน{partner.restaurantName}
+                  </Link>
+                </h3>
+              </div>
+              <div className="px-4 py-3 text-right">
+                <Button
+                  className="text-base  mr-3"
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => {
+                    history.push(`/admin/editpartner/${partner._id}`);
+                  }}
+                >
+                  {<EditOutlined />}
+                </Button>
+                <Button
+                  className="text-base"
+                  type="primary"
+                  danger
+                  htmlType="submit"
+                  onClick={() => {
+                    confirmDelete(partner._id);
+                  }}
+                >
+                  {<DeleteOutlined />}
+                </Button>
+              </div>
             </div>
             <div className="border-t border-gray-200">
               <dl>

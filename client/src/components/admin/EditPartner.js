@@ -1,70 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
+import { Button } from "antd";
 import { adminStore } from "./adminStore";
 import { useHistory, useParams } from "react-router-dom";
-import { Button } from "antd";
-
-const EditCustomer = observer(() => {
+const EditPartner = observer(() => {
   const { id } = useParams();
-  const [info, setInfo] = useState({
-    username: "",
+  const [partner, setPartner] = useState({
+    restaurantName: "",
     firstname: "",
     lastname: "",
     email: "",
     phoneNumber: "",
+    address: "",
+    username: "",
     password: "",
     confirmPass: "",
   });
+  const {
+    restaurantName,
+    firstname,
+    lastname,
+    email,
+    phoneNumber,
+    address,
+    username,
+    password,
+    confirmPass,
+  } = partner;
+
   useEffect(async () => {
-    await adminStore.getCustomerById(id);
-    setInfo({
-      username: adminStore.customer.username,
-      firstname: adminStore.customer.firstname,
-      lastname: adminStore.customer.lastname,
-      email: adminStore.customer.email,
-      phoneNumber: adminStore.customer.phoneNumber,
-      password: adminStore.customer.password,
-      confirmPass: adminStore.customer.confirmPass,
+    await adminStore.getPartnerVarifyById(id);
+    setPartner({
+      restaurantName: adminStore.partner.restaurantName,
+      firstname: adminStore.partner.firstname,
+      lastname: adminStore.partner.lastname,
+      email: adminStore.partner.email,
+      phoneNumber: adminStore.partner.phoneNumber,
+      address: adminStore.partner.address,
+      username: adminStore.partner.username,
+      password: adminStore.partner.password,
+      confirmPass: adminStore.partner.confirmPass,
     });
   }, []);
 
-  console.log("info", info);
-
   function onChangeInput(event) {
     const { name, value } = event.target;
-    setInfo((prevInfo) => {
+    setPartner((prevInfo) => {
       return {
         ...prevInfo,
         [name]: value,
       };
     });
   }
-  const {
-    username,
-    firstname,
-    lastname,
-    email,
-    phoneNumber,
-    password,
-    confirmPass,
-  } = info;
 
-  function editCustomerSubmit(e) {
+  function editPartnerSubmit(e) {
     e.preventDefault();
-    adminStore.editCustomer(id, info);
+    adminStore.editPartner(id, partner);
   }
-
   return (
     <div>
       <div className="mt-5 md:mt-0 md:col-span-2">
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
-          แก้ไขข้อมูลลูกค้า
+          แก้ไขข้อมูลร้านอาหาร
         </h3>
-        <form onSubmit={editCustomerSubmit}>
+        <form onSubmit={editPartnerSubmit}>
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">
+                <div className="col-span-6 sm:col-span-6">
+                  <label
+                    htmlFor="email-address"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    ชื่อร้านอาหาร
+                  </label>
+                  <input
+                    type="text"
+                    name="restaurantName"
+                    id="restaurantName"
+                    autoComplete="restaurantName"
+                    value={restaurantName}
+                    onChange={onChangeInput}
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                  />
+                </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label
                     htmlFor="first-name"
@@ -193,11 +212,28 @@ const EditCustomer = observer(() => {
                     disabled
                   />
                 </div>
+                <div className="col-span-6 sm:col-span-6">
+                  <label
+                    htmlFor="email-address"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    ที่ตั้งร้านอาหาร
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    value={address}
+                    onChange={onChangeInput}
+                    id="address"
+                    autoComplete="address"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                  />
+                </div>
               </div>
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
               <Button className="text-base" type="primary" htmlType="submit">
-                แก้ไขข้อมูลลูกค้า
+                แก้ไขข้อมูลร้านอาหาร
               </Button>
             </div>
           </div>
@@ -206,5 +242,4 @@ const EditCustomer = observer(() => {
     </div>
   );
 });
-
-export default EditCustomer;
+export default EditPartner;

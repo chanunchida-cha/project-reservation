@@ -4,6 +4,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { json } = require("express");
 
+const getPartner = (req, res) => {
+  partners.find((err, partners) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(partners);
+    }
+  });
+};
 const getPartnerVerify = (req, res) => {
   partners.find({ status: "verification" }, (err, partners) => {
     if (err) {
@@ -166,7 +175,108 @@ const editCustomer = (req, res) => {
   );
 };
 
+const createPartner = async (req, res) => {
+  try {
+    const {
+      restaurantName,
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
+      confirmPass,
+      phoneNumber,
+      address,
+    } = req.body;
+    if (
+      !(
+        restaurantName &&
+        firstname &&
+        lastname &&
+        username &&
+        email &&
+        password &&
+        confirmPass &&
+        phoneNumber &&
+        address
+      )
+    ) {
+      res.status(400).json({ error: "All input is requires" });
+    }
+
+    const oldPartner = await partners.findOne({
+      restaurantName,
+      email,
+      username,
+    });
+    if (oldPartner) {
+      res.status(400).json({ error: "user already exist" });
+    }
+    if (password != confirmPass) {
+      res.status(400).json({ error: "Please check password" });
+    }
+
+    encrytedPassword = await bcrypt.hash(password, 10);
+    encrytedConfirmPassword = await bcrypt.hash(confirmPass, 10);
+
+    const partner = await partners.create({
+      restaurantName: restaurantName,
+      firstname: firstname,
+      lastname: lastname,
+      username: username,
+      password: encrytedPassword,
+      confirmPass: encrytedConfirmPassword,
+      email: email.toLowerCase(),
+      phoneNumber: phoneNumber,
+      address: address,
+    });
+    const token = jwt.sign(
+      { partner_id: partner._id, email },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    partner.token = token;
+    res.status(200).json(partner);
+  } catch (err) {
+    res.status(400).json({ msg: err.message });
+  }
+};
+
+const deletePartner = (req, res) => {
+  const { id } = req.params;
+  partners.findByIdAndDelete(id, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json({
+        status: "delete success",
+      });
+    }
+  });
+};
+
+const editPartner = (req, res) => {
+  const { id } = req.params;
+  partners.findByIdAndUpdate(
+    id,
+    {
+      $set: req.body,
+    },
+    (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(data);
+      }
+    }
+  );
+};
+
 module.exports = {
+  getPartner,
   getPartnerVerify,
   getPartnerApprove,
   getPartnerById,
@@ -177,4 +287,7 @@ module.exports = {
   createCustomer,
   deleteCustomer,
   editCustomer,
+  createPartner,
+  deletePartner,
+  editPartner,
 };

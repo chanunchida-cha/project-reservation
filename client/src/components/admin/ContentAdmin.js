@@ -9,6 +9,8 @@ import SinglePartnerVerify from "./SinglePartnerVerify";
 import SingleCustomerData from "./SingleCustomerData";
 import CreateCustomer from "./CreateCustomer";
 import EditCustomer from "./EditCustomer";
+import CreatePartner from "./CreatePartner";
+import EditPartner from "./EditPartner";
 
 function ContentAdmin() {
   return (
@@ -47,6 +49,8 @@ function ContentAdmin() {
           exact
           component={EditCustomer}
         />
+        <Route path={"/admin/createpartner"} exact component={CreatePartner} />
+        <Route path={"/admin/editpartner/:id"} exact component={EditPartner} />
       </Switch>
     </div>
   );

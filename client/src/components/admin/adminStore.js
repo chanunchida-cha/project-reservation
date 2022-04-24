@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 class AdminStore {
+  allParner = [];
   partners = [];
   partner = {};
   partnersApprove = [];
@@ -11,6 +12,21 @@ class AdminStore {
   customer = {};
   constructor() {
     makeAutoObservable(this);
+  }
+  getAllPartner() {
+    axios
+      .get(`${process.env.REACT_APP_API_ADMIN}/allpartner`)
+      .then((response) => {
+        this.allParner = response.data;
+        console.log(this.allParner);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data.error,
+        });
+      });
   }
   getPartnerVarify() {
     axios
@@ -58,8 +74,8 @@ class AdminStore {
       });
   }
 
-  getPartnerVarifyById(id) {
-    axios
+  async getPartnerVarifyById(id) {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/verify/${id}`)
       .then((response) => {
         this.partner = response.data;
@@ -216,6 +232,117 @@ class AdminStore {
         Swal.fire({
           icon: "มีบางอย่างผิดพลาด",
           title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+          text: err.response.data.error,
+        });
+      });
+  }
+
+  async createPartner(partner) {
+    const {
+      restaurantName,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      address,
+      username,
+      password,
+      confirmPass,
+    } = partner;
+    console.log(
+      restaurantName,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      address,
+      username,
+      password,
+      confirmPass
+    );
+    await axios
+      .post(`${process.env.REACT_APP_API_ADMIN}/createpartner`, {
+        restaurantName: restaurantName,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        username: username,
+        password: password,
+        confirmPass: confirmPass,
+      })
+      .then((response) => {
+        Swal.fire(
+          "เพิ่มข้อมูลร้านอาหารเรียบร้อยแล้ว",
+          "create partner success!",
+          "success"
+        );
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "มีข้อผิดพลาด",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
+      });
+  }
+
+  editPartner(id, partner) {
+    const {
+      restaurantName,
+      firstname,
+      lastname,
+      email,
+      phoneNumber,
+      address,
+      username,
+      password,
+      confirmPass,
+    } = partner;
+    axios
+      .put(`${process.env.REACT_APP_API_ADMIN}/editpartner/${id}`, {
+        restaurantName: restaurantName,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phoneNumber: phoneNumber,
+        address: address,
+        username: username,
+        password: password,
+        confirmPass: confirmPass,
+      })
+      .then((response) => {
+        Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
+        this.getAllPartner();
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "มีบางอย่างผิดพลาด",
+          title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+          text: err.response.data.error,
+        });
+      });
+  }
+  deletePartner(id) {
+    axios
+      .delete(`${process.env.REACT_APP_API_ADMIN}/deletepartner/${id}`)
+      .then((response) => {
+        Swal.fire(
+          "ลบข้อมูลร้านอาหารเรียบร้อยแล้ว!",
+          response.data.message,
+          "success"
+        );
+        this.getPartnerVarify();
+        this.getPartnerApprove();
+        this.getPartnerDisApprove();
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
           text: err.response.data.error,
         });
       });
