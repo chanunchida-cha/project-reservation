@@ -18,14 +18,14 @@ const SidebarPartner = observer(() => {
   const status = partnerStore.partner.status;
   console.log(status);
   const { SubMenu } = Menu;
-  const { Content, Sider } = Layout;
+  const { Content, Sider, Header } = Layout;
   const onCollapsed = () => {
     setCollapsed(!collapsed);
   };
 
-  if (partnerStore.partner.username === undefined) {
-    history.push("/");
-  }
+  // if (partnerStore.partner.username === undefined) {
+  //   history.push("/");
+  // }
 
   return (
     <>
@@ -56,19 +56,13 @@ const SidebarPartner = observer(() => {
               }
               style={{ fontSize: "20px" }}
             >
-              <Link to="/admin">cubeQue</Link>
+              <Link to="/partner">cubeQue</Link>
             </Menu.Item>
-            <SubMenu key="sub1" icon={<TeamOutlined />} title="ร้านอาหาร">
-              <Menu.Item key="2">
-                <Link to="#">รอตรวจสอบ</Link>
-              </Menu.Item>
-              <Menu.Item key="11">
-                <Link to="#">อนุมัติ</Link>
-              </Menu.Item>
-              <Menu.Item key="12">
-                <Link to="#">ไม่อนุมัติ</Link>
-              </Menu.Item>
-            </SubMenu>
+
+            <Menu.Item key="2">
+              <Link to="/partner/information">จัดการข้อมูลทั่วไป</Link>
+            </Menu.Item>
+
             <SubMenu key="sub2" icon={<UserOutlined />} title="ลูกค้า">
               <Menu.Item key="3">option5</Menu.Item>
               <Menu.Item key="4">option6</Menu.Item>
@@ -97,6 +91,7 @@ const SidebarPartner = observer(() => {
             </Menu.Item>
           </Menu>
         </Sider>
+
         <Layout style={{ padding: "0 24px 24px" }}>
           <Content
             className="site-layout-background"
