@@ -98,7 +98,7 @@ class PartnerStore {
       });
   }
   logout() {
-    this.partner = undefined;
+    this.partner = {};
     sessionStorage.removeItem("token");
   }
 }

@@ -7,15 +7,17 @@ import SidebarPartner from "./partner/SidebarPartner";
 
 function Layout({ children }) {
   const location = useLocation();
-  const isLocation = location.pathname.startsWith("/admin");
+  const isLocationAdmin = location.pathname.startsWith("/admin");
   const isLocationPartner = location.pathname.startsWith("/partner");
+  const isLocationLoginAdmin = location.pathname;
+  console.log(isLocationLoginAdmin);
   return (
     <div className="wrapper">
-      {isLocation ? (
+      {isLocationAdmin ? (
         <Sidebar />
       ) : isLocationPartner ? (
         <SidebarPartner />
-      ) : (
+      ) : isLocationLoginAdmin === "/loginadmin" ? null : (
         <Navbar />
       )}
       <main>{children}</main>

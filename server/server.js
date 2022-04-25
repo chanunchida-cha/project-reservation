@@ -8,6 +8,7 @@ const authRoute = require("./routes/authRoute");
 const partnerRegisRoute = require("./routes/partnerRegisRoute");
 const partnerAuthRoute = require("./routes/partnerAuthRoute");
 const adminRoute = require("./routes/adminRoute");
+const adminAuthRoute = require("./routes/adminAuthRoute");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/user", authRoute);
 app.use("/partner", partnerRegisRoute);
 app.use("/partner", partnerAuthRoute);
 app.use("/admin", adminRoute);
+app.use("/admin", adminAuthRoute);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(` start server in port ${port}`));

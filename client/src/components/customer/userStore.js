@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { getToken } from "../../services/authorize";
 
 class UserStore {
-  username = undefined;
+  customer = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -62,8 +62,8 @@ class UserStore {
       })
       .then((response) => {
         sessionStorage.setItem("token", JSON.stringify(response.data.token));
-        this.username = response.data.username;
-        console.log(this.username.token);
+        this.customer = response.data;
+        console.log(this.customer);
       })
       .catch((err) => {
         Swal.fire({
@@ -82,15 +82,15 @@ class UserStore {
         headers: { "x-access-token": getToken() },
       })
       .then((response) => {
-        this.username = response.data;
-        console.log(this.username);
+        this.customer = response.data;
+        console.log(this.customer);
       })
       .catch((err) => {
         console.log(err.response.data.error);
       });
   }
   logout() {
-    this.username = undefined;
+    this.customer = {};
     sessionStorage.removeItem("token");
   }
 }

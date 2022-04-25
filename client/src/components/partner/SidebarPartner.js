@@ -23,6 +23,10 @@ const SidebarPartner = observer(() => {
     setCollapsed(!collapsed);
   };
 
+  if (partnerStore.partner.username === undefined) {
+    history.push("/");
+  }
+
   return (
     <>
       {(status == "disapprove" || status == "verification") && (

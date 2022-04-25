@@ -1,8 +1,10 @@
 import { makeAutoObservable } from "mobx";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { getToken } from "../../services/authorize";
 
 class AdminStore {
+  adminlogin = {};
   allParner = [];
   partners = [];
   partner = {};
@@ -14,6 +16,48 @@ class AdminStore {
   admin = {};
   constructor() {
     makeAutoObservable(this);
+  }
+
+  async loginAdmin(login) {
+    const { username, password } = login;
+    console.log(username, password);
+    await axios
+      .post(`${process.env.REACT_APP_API_ADMIN}/adminlogin`, {
+        username: username,
+        password: password,
+      })
+      .then((response) => {
+        sessionStorage.setItem("token", JSON.stringify(response.data.token));
+        this.adminlogin = response.data;
+        console.log(this.adminlogin);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Sorry",
+          text: err.response.data.error,
+        });
+
+        console.log(err);
+        throw err;
+      });
+  }
+  getAdmin() {
+    axios
+      .get(`${process.env.REACT_APP_API_ADMIN}/getadmin`, {
+        headers: { "x-access-token": getToken() },
+      })
+      .then((response) => {
+        this.adminlogin = response.data;
+        console.log(this.adminlogin);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  }
+  logout() {
+    this.adminlogin = {};
+    sessionStorage.removeItem("token");
   }
   getAllPartner() {
     axios

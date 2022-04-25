@@ -34,16 +34,16 @@ const getUser = async (req, res) => {
   try {
     const user = await Users.findById(req.user.user_id).select("-password");
     if (!user) throw Error("User does not exist");
-    res.json(user.username);
+    res.json(user);
   } catch (e) {
     res.status(400).json({ msg: e.message });
   }
 };
 
-module.exports ={
+module.exports = {
   login,
-  getUser
-}
+  getUser,
+};
 // const { username, password } = req.body;
 // const user = await Users.findOne({ user: username, password: password });
 // if (user && user.password === password) {

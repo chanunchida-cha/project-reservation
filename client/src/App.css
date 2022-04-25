@@ -4,11 +4,26 @@ body{
   'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
   'Noto Color Emoji', 'Prompt', sans-serif;
 }
-h3{
+h4{
  font-family:'Prompt', sans-serif ;
 
 }
+h2{
+  font-family:'Prompt', sans-serif ;
+ 
+ }
+ h3{
+  font-family:'Prompt', sans-serif ;
+ 
+ }
+ label{
+  font-family:'Prompt', sans-serif ;
+ 
+ }
 p{
+  font-family:'Prompt', sans-serif ;
+}
+ิbutton{
   font-family:'Prompt', sans-serif ;
 }
 

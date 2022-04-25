@@ -20,7 +20,7 @@ function MyRoute() {
         <Route path={"/joinpartner"} exact component={Partner} />
         <Route path={"/registerpartner"} exact component={PartnerRegis} />
         <Route path={"/loginpartner"} exact component={PartnerLogin} />
-        <Route path={"/adminlogin"} exact component={LoginAdmin} />
+        <Route path={"/loginadmin"} exact component={LoginAdmin} />
       </Switch>
     </Layout>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   TeamOutlined,
   UserOutlined,
@@ -10,7 +10,9 @@ import {
 } from "@ant-design/icons";
 
 import ContentAdmin from "./ContentAdmin";
+import { adminStore } from "./adminStore";
 function Sidebar() {
+  const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   // const isPartnerVerify = useRouteMatch("/admin/partnerverify");
   const { SubMenu } = Menu;
@@ -18,6 +20,10 @@ function Sidebar() {
   const onCollapsed = () => {
     setCollapsed(!collapsed);
   };
+
+  if (adminStore.adminlogin.username === undefined) {
+    history.push("/loginadmin");
+  }
 
   return (
     <Layout style={{ minHeight: "100vh", fontFamily: "Prompt" }}>
@@ -59,10 +65,19 @@ function Sidebar() {
           </Menu.Item>
 
           <Menu.Item icon={<NotificationOutlined />} key="7">
-          <Link to={"/admin/adminsdata"}>ข้อมูลผู้ดูแลระบบ</Link>
+            <Link to={"/admin/adminsdata"}>ข้อมูลผู้ดูแลระบบ</Link>
           </Menu.Item>
           <Menu.Item icon={<BarChartOutlined />} key="14">
             รายงาน
+          </Menu.Item>
+          <Menu.Item
+            key="15"
+            onClick={() => {
+              adminStore.logout();
+              history.push("/loginadmin");
+            }}
+          >
+            Logout
           </Menu.Item>
         </Menu>
       </Sider>

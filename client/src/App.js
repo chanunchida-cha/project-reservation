@@ -6,7 +6,7 @@ import { Button } from "antd";
 const App = observer(() => {
   return (
     <div className="p-2">
-      {userStore.username}
+      {userStore.customer.username}
       <h1 className="text-3xl font-bold underline">Hello</h1>
       <Button type="primary">Button</Button>
     </div>

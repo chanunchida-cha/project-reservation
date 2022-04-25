@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { partnerStore } from "./partnerStore";
 import { useHistory } from "react-router-dom";
-import Navbar from "../Navbar";
 
 const PartnerLogin = observer(() => {
   const history = useHistory();

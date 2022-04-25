@@ -51,7 +51,7 @@ const ElementStatus = observer(() => {
             </div>
             <div className="grid justify-items-end">
               <button
-                className="btn btn-error btn btn-sm"
+                className="btn btn-error btn-sm"
                 onClick={() => {
                   partnerStore.logout();
                   history.push("/");
