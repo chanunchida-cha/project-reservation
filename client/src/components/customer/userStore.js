@@ -56,7 +56,7 @@ class UserStore {
     const { username, password } = login;
     console.log(username, password);
     await axios
-      .post(`${process.env.REACT_APP_API_AUTH}/login`, {
+      .post(`${process.env.REACT_APP_API}/login`, {
         username: username,
         password: password,
       })
@@ -78,7 +78,7 @@ class UserStore {
   }
   getUser() {
     axios
-      .get(`${process.env.REACT_APP_API_AUTH}/getuser`, {
+      .get(`${process.env.REACT_APP_API}/getuser`, {
         headers: { "x-access-token": getToken() },
       })
       .then((response) => {

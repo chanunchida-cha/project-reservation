@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { adminStore } from "./adminStore";
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function LoginAdmin() {
   const history = useHistory();
@@ -24,6 +25,7 @@ function LoginAdmin() {
     event.preventDefault();
     await adminStore.loginAdmin(login);
     history.push("/admin");
+    
   }
   return (
     <div className=" min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

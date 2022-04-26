@@ -31,7 +31,7 @@ app.use(cors());
 app.use(morgan());
 
 //route
-app.use("/users", registerRoute);
+app.use("/user", registerRoute);
 app.use("/user", authRoute);
 app.use("/partner", partnerRegisRoute);
 app.use("/partner", partnerAuthRoute);
