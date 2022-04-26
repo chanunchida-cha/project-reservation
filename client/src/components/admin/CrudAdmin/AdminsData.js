@@ -1,19 +1,18 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { adminStore } from "./adminStore";
+import { adminStore } from "../adminStore";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 
-const CustomersData = observer(() => {
+const AdminsData = observer(() => {
   const history = useHistory();
-
   useEffect(() => {
-    adminStore.getCustomersData();
+    adminStore.getAdminsData();
   }, []);
-  const customers = adminStore.customers;
+  const admins = adminStore.admins;
 
   const confirmDelete = (id) => {
     Swal.fire({
@@ -22,7 +21,7 @@ const CustomersData = observer(() => {
       showCancelButton: true,
     }).then((resualt) => {
       if (resualt.isConfirmed) {
-        adminStore.deleteCustomer(id);
+        adminStore.deleteAdmin(id);
       }
     });
   };
@@ -32,7 +31,7 @@ const CustomersData = observer(() => {
       <div className="ml-200">
         <div className="px-4 py-3 sm:px-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900">
-            ข้อมูลลูกค้า
+            ข้อมูลผู้ดูแลระบบ
           </h3>
           <div className="border-t border-gray-300" />
 
@@ -41,24 +40,24 @@ const CustomersData = observer(() => {
               className="text-base"
               type="primary"
               onClick={() => {
-                history.push("/admin/createcustomer");
+                history.push("/admin/createadmin");
               }}
             >
-              เพิ่มข้อมูลลูกค้า
+              เพิ่มข้อมูลผู้ดูแลระบบ
             </Button>
           </div>
         </div>
-        {customers.map((customer) => {
+        {admins.map((admin) => {
           return (
             <div
-              key={customer._id}
+              key={admin._id}
               className="bg-white shadow overflow-hidden sm:rounded-lg mb-6"
             >
               <div className="grid grid-cols-2 ">
                 <div className="px-4 py-3 sm:px-6   ">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 ">
-                    <Link to={`/admin/customersdata/${customer._id}`}>
-                      คุณ {`${customer.firstname}  ${customer.lastname}`}
+                    <Link to={`/admin/adminsdata/${admin._id}`}>
+                      คุณ {`${admin.firstname}  ${admin.lastname}`}
                     </Link>
                   </h3>
                 </div>
@@ -68,7 +67,7 @@ const CustomersData = observer(() => {
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
-                      history.push(`/admin/editcustomer/${customer._id}`);
+                      history.push(`/admin/editadmin/${admin._id}`);
                     }}
                   >
                     {<EditOutlined />}
@@ -79,7 +78,7 @@ const CustomersData = observer(() => {
                     danger
                     htmlType="submit"
                     onClick={() => {
-                      confirmDelete(customer._id);
+                      confirmDelete(admin._id);
                     }}
                   >
                     {<DeleteOutlined />}
@@ -93,13 +92,13 @@ const CustomersData = observer(() => {
                       ชื่อ-นามสกุล
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {`${customer.firstname}  ${customer.lastname}`}
+                      {`${admin.firstname}  ${admin.lastname}`}
                     </dd>
                   </div>
                   <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">อีเมล</dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {customer.email}
+                      {admin.email}
                     </dd>
                   </div>
                   <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -107,7 +106,7 @@ const CustomersData = observer(() => {
                       เบอร์โทรศัพท์
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {customer.phoneNumber}
+                      {admin.phoneNumber}
                     </dd>
                   </div>
                 </dl>
@@ -121,4 +120,4 @@ const CustomersData = observer(() => {
   );
 });
 
-export default CustomersData;
+export default AdminsData;

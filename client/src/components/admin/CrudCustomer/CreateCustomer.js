@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "antd";
-import { adminStore } from "./adminStore";
+import { adminStore } from "../adminStore";
 import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 

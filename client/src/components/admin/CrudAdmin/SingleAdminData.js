@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { adminStore } from "./adminStore";
+import { adminStore } from "../adminStore";
 
 const SingleAdminData = observer(() => {
   const { id } = useParams();

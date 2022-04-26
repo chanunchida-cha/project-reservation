@@ -1,20 +1,20 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import CustomersData from "./CustomersData";
+import CustomersData from "./CrudCustomer/CustomersData";
 import HomeAdmin from "./HomeAdmin";
-import PartnerApprove from "./PartnerApprove";
-import PartnerDisApprove from "./PartnerDisApprove";
-import PartnerVerify from "./PartnerVerify";
-import SinglePartnerVerify from "./SinglePartnerVerify";
-import SingleCustomerData from "./SingleCustomerData";
-import CreateCustomer from "./CreateCustomer";
-import EditCustomer from "./EditCustomer";
-import CreatePartner from "./CreatePartner";
-import EditPartner from "./EditPartner";
-import AdminsData from "./AdminsData";
-import CreateAdmin from "./CreateAdmin";
-import SingleAdminData from "./SingleAdminData";
-import EditAdmin from "./EditAdmin";
+import PartnerApprove from "./CrudPartner/PartnerApprove";
+import PartnerDisApprove from "./CrudPartner/PartnerDisApprove";
+import PartnerVerify from "./CrudPartner/PartnerVerify";
+import SinglePartner from "./CrudPartner/SinglePartner";
+import SingleCustomerData from "./CrudCustomer/SingleCustomerData";
+import CreateCustomer from "./CrudCustomer/CreateCustomer";
+import EditCustomer from "./CrudCustomer/EditCustomer";
+import CreatePartner from "./CrudPartner/CreatePartner";
+import EditPartner from "./CrudPartner/EditPartner";
+import AdminsData from "./CrudAdmin/AdminsData";
+import CreateAdmin from "./CrudAdmin/CreateAdmin";
+import SingleAdminData from "./CrudAdmin/SingleAdminData";
+import EditAdmin from "./CrudAdmin/EditAdmin";
 
 function ContentAdmin() {
   return (
@@ -22,11 +22,7 @@ function ContentAdmin() {
       <Switch>
         <Route path={"/admin"} exact component={HomeAdmin} />
         <Route path={"/admin/partnerverify"} exact component={PartnerVerify} />
-        <Route
-          path={"/admin/partnerverify/:id"}
-          exact
-          component={SinglePartnerVerify}
-        />
+        <Route path={"/admin/partner/:id"} exact component={SinglePartner} />
         <Route
           path={"/admin/partnerapprove"}
           exact

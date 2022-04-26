@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { adminStore } from "./adminStore";
+import { adminStore } from "../adminStore";
 import { useParams, useHistory } from "react-router-dom";
 import { Radio, Button } from "antd";
 
-const SinglePartnerVerify = observer(() => {
+const SinglePartner = observer(() => {
   const { id } = useParams();
   const history = useHistory();
   const [value, setValue] = useState("approve");
@@ -139,4 +139,4 @@ const SinglePartnerVerify = observer(() => {
   );
 });
 
-export default SinglePartnerVerify;
+export default SinglePartner;

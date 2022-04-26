@@ -21,10 +21,6 @@ function Sidebar() {
     setCollapsed(!collapsed);
   };
 
-  if (adminStore.adminlogin.username === undefined) {
-    history.push("/loginadmin");
-  }
-
   return (
     <Layout style={{ minHeight: "100vh", fontFamily: "Prompt" }}>
       <Sider

@@ -1,49 +1,46 @@
 import React, { useState } from "react";
-import { observer } from "mobx-react-lite";
 import { Button } from "antd";
-import { adminStore } from "./adminStore";
+import { adminStore } from "../adminStore";
 import { useHistory } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
-const CreatePartner = observer(() => {
+const CreateAdmin = observer(() => {
   const history = useHistory();
-  const [partner, setPartner] = useState({
-    restaurantName: "",
+  const [admin, setAdmin] = useState({
+    username: "",
     firstname: "",
     lastname: "",
     email: "",
     phoneNumber: "",
-    address: "",
-    username: "",
     password: "",
     confirmPass: "",
   });
+
   const {
-    restaurantName,
+    username,
     firstname,
     lastname,
     email,
     phoneNumber,
-    address,
-    username,
     password,
     confirmPass,
-  } = partner;
+  } = admin;
 
   function onChangeInput(event) {
     const { name, value } = event.target;
-    setPartner((prevInfo) => {
+    setAdmin((prevAdmin) => {
       return {
-        ...prevInfo,
+        ...prevAdmin,
         [name]: value,
       };
     });
   }
 
-  async function createPartner(event) {
+  async function createAdmin(event) {
     event.preventDefault();
-    await adminStore.createPartner(partner);
+    await adminStore.createAdmin(admin);
 
-    setPartner({
+    setAdmin({
       username: "",
       firstname: "",
       lastname: "",
@@ -52,36 +49,19 @@ const CreatePartner = observer(() => {
       password: "",
       confirmPass: "",
     });
-    history.push("/admin/partnerverify");
+    history.push("/admin/adminsdata");
   }
 
   return (
     <div>
       <div className="mt-5 md:mt-0 md:col-span-2">
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
-          เพิ่มข้อมูลร้านอาหาร
+          เพิ่มข้อมูลผู้ดูแลระบบ
         </h3>
-        <form onSubmit={createPartner}>
+        <form onSubmit={createAdmin}>
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">
-                <div className="col-span-6 sm:col-span-6">
-                  <label
-                    htmlFor="email-address"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    ชื่อร้านอาหาร
-                  </label>
-                  <input
-                    type="text"
-                    name="restaurantName"
-                    id="restaurantName"
-                    autoComplete="restaurantName"
-                    value={restaurantName}
-                    onChange={onChangeInput}
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
-                  />
-                </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label
                     htmlFor="first-name"
@@ -207,28 +187,11 @@ const CreatePartner = observer(() => {
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
                   />
                 </div>
-                <div className="col-span-6 sm:col-span-6">
-                  <label
-                    htmlFor="email-address"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    ที่ตั้งร้านอาหาร
-                  </label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={address}
-                    onChange={onChangeInput}
-                    id="address"
-                    autoComplete="address"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
-                  />
-                </div>
               </div>
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
               <Button className="text-base" type="primary" htmlType="submit">
-                เพิ่มข้อมูลร้านอาหาร
+                เพิ่มข้อมูลผู้ดูแลระบบ
               </Button>
             </div>
           </div>
@@ -237,4 +200,4 @@ const CreatePartner = observer(() => {
     </div>
   );
 });
-export default CreatePartner;
+export default CreateAdmin;

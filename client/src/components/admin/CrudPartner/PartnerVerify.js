@@ -1,20 +1,20 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { adminStore } from "./adminStore";
-import { Link, useHistory } from "react-router-dom";
+import { adminStore } from "../adminStore";
 import { Button } from "antd";
+import { Link, useHistory } from "react-router-dom";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 
-const PartnerDisApprove = observer(() => {
+const PartnerVerify = observer(() => {
   const history = useHistory();
   useEffect(() => {
-    adminStore.getPartnerDisApprove();
+    adminStore.getPartnerVarify();
   }, []);
 
-  const partnerDisApprove = adminStore.partnersDisApprove;
-  console.log(partnerDisApprove);
+  const partners = adminStore.partners;
+  console.log(partners);
 
   const confirmDelete = (id) => {
     Swal.fire({
@@ -27,14 +27,27 @@ const PartnerDisApprove = observer(() => {
       }
     });
   };
+
   return (
     <div className="ml-200">
       <div className="px-4 py-3 sm:px-6">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
-          ข้อมูลร้านอาหารไม่ได้รับการอนุมัติ
+          ข้อมูลร้านอาหารรอการตรวจสอบ
         </h3>
+        <div className="border-t border-gray-300" />
+        <div className="mb-2 mt-2 ">
+          <Button
+            className="text-base"
+            type="primary"
+            onClick={() => {
+              history.push("/admin/createpartner");
+            }}
+          >
+            เพิ่มข้อมูลร้านอาหาร
+          </Button>
+        </div>
       </div>
-      {partnerDisApprove.map((partner) => {
+      {partners.map((partner) => {
         return (
           <div
             key={partner._id}
@@ -43,7 +56,7 @@ const PartnerDisApprove = observer(() => {
             <div className="grid grid-cols-2 ">
               <div className="px-4 py-3 sm:px-6   ">
                 <h3 className="text-lg leading-6 font-medium text-gray-900 ">
-                  <Link to={`/admin/partnerverify/${partner._id}`}>
+                  <Link to={`/admin/partner/${partner._id}`}>
                     ร้าน{partner.restaurantName}
                   </Link>
                 </h3>
@@ -92,16 +105,11 @@ const PartnerDisApprove = observer(() => {
                 </div>
               </dl>
             </div>
-            <div class="border-t border-gray-200" />
-            <div class="px-4 py-2 sm:px-6">
-              <p class="mt-1 max-w-2xl text-sm text-red-500">
-                หมายเหตุ* {partner.note}
-              </p>
-            </div>
           </div>
         );
       })}
     </div>
   );
 });
-export default PartnerDisApprove;
+
+export default PartnerVerify;
