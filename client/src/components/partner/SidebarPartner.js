@@ -4,7 +4,6 @@ import { Link, useHistory } from "react-router-dom";
 import { partnerStore } from "./partnerStore";
 import { observer } from "mobx-react-lite";
 import {
-  TeamOutlined,
   UserOutlined,
   NotificationOutlined,
   CodepenOutlined,

@@ -9,6 +9,7 @@ const partnerRegisRoute = require("./routes/partnerRegisRoute");
 const partnerAuthRoute = require("./routes/partnerAuthRoute");
 const adminRoute = require("./routes/adminRoute");
 const adminAuthRoute = require("./routes/adminAuthRoute");
+const restaurantRoute = require("./routes/restaurantRoute");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/user", registerRoute);
 app.use("/user", authRoute);
 app.use("/partner", partnerRegisRoute);
 app.use("/partner", partnerAuthRoute);
+app.use("/partner", restaurantRoute);
 app.use("/admin", adminRoute);
 app.use("/admin", adminAuthRoute);
 

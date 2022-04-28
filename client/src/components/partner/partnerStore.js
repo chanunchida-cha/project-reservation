@@ -91,7 +91,7 @@ class PartnerStore {
       })
       .then((response) => {
         this.partner = response.data;
-        console.log(this.partner);
+        console.log(this.partner._id);
       })
       .catch((err) => {
         console.log(err.response.data.error);
