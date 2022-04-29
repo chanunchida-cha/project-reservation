@@ -1,5 +1,6 @@
 const restaurants = require("../models/restaurantDB");
 const partners = require("../models/partnerDB");
+const mongoose = require("mongoose");
 
 const createInfoRestaurant = async (req, res) => {
   try {
@@ -68,9 +69,36 @@ const getInfoRestaurant = (req, res) => {
     });
 };
 
+const getInfoRestaurantById = (req, res) => {
+  const { id } = req.params;
+  restaurants
+    .aggregate([
+      {
+        $match: {
+          partner_id: mongoose.Types.ObjectId(id),
+        },
+      },
+      {
+        $lookup: {
+          from: "partners",
+          localField: "partner_id",
+          foreignField: "_id",
+          as: "information",
+        },
+      },
+    ])
+    .then((responce) => {
+      res.json(responce);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 module.exports = {
   createInfoRestaurant,
   updateInfoRestaurant,
   deleteInfoRestaurant,
   getInfoRestaurant,
+  getInfoRestaurantById,
 };
