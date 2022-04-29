@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 const Navbar = observer(() => {
   const history = useHistory();
   console.log(userStore.customer.username);
-  console.log(partnerStore.partner.username);
+  console.log(partnerStore.partnerlogin.username);
 
   return (
     <div className="navbar bg-base-100 pr-10">
@@ -19,7 +19,7 @@ const Navbar = observer(() => {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-0">
-          {!userStore.customer.username && !partnerStore.partner.username && (
+          {!userStore.customer.username && !partnerStore.partnerlogin.username && (
             <li>
               <a href="/login">Log in</a>
             </li>
@@ -44,7 +44,7 @@ const Navbar = observer(() => {
               <li>
                 <a href="/joinpartner">Partner with us</a>
               </li>
-              {!userStore.customer.username && !partnerStore.partner.username && (
+              {!userStore.customer.username && !partnerStore.partnerlogin.username && (
                 <li>
                   <a href="/loginpartner">Log in</a>
                 </li>

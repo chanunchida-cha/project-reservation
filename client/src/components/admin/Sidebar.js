@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { Link, useHistory } from "react-router-dom";
+
 import {
   TeamOutlined,
   UserOutlined,
@@ -11,7 +12,11 @@ import {
 
 import ContentAdmin from "./ContentAdmin";
 import { adminStore } from "./adminStore";
+import LoginAdmin from "./LoginAdmin";
 function Sidebar() {
+  const token = sessionStorage.getItem("token");
+  console.log(token);
+
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   // const isPartnerVerify = useRouteMatch("/admin/partnerverify");
@@ -20,6 +25,10 @@ function Sidebar() {
   const onCollapsed = () => {
     setCollapsed(!collapsed);
   };
+
+  if (!token) {
+    return <LoginAdmin />;
+  }
 
   return (
     <Layout style={{ minHeight: "100vh", fontFamily: "Prompt" }}>

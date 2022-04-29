@@ -5,7 +5,7 @@ import { partnerStore } from "./partnerStore";
 import { useHistory } from "react-router-dom";
 
 const HomePartner = observer(() => {
-  const username = partnerStore.partner;
+  const username = partnerStore.partnerlogin;
   const history = useHistory();
   console.log(username.username);
 

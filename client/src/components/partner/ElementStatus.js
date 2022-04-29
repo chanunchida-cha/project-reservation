@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 
 const ElementStatus = observer(() => {
   const history = useHistory();
-  const status = partnerStore.partner.status;
+  const status = partnerStore.partnerlogin.status;
   return (
     <div
       className="fixed z-10 inset-0 overflow-y-auto"
@@ -33,7 +33,7 @@ const ElementStatus = observer(() => {
                     </h3>
                     <div className="mt-2 ">
                       <p className="text-sm  text-gray-500">
-                        {`เนื่องจาก ${partnerStore.partner.note}`}
+                        {`เนื่องจาก ${partnerStore.partnerlogin.note}`}
                       </p>
                     </div>
                   </>

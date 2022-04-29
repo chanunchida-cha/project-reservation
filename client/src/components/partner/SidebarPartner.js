@@ -3,6 +3,7 @@ import { Layout, Menu } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import { partnerStore } from "./partnerStore";
 import { observer } from "mobx-react-lite";
+import PartnerLogin from "./PartnerLogin";
 import {
   UserOutlined,
   NotificationOutlined,
@@ -12,19 +13,19 @@ import ContentPartner from "./ContentPartner";
 import ElementStatus from "./ElementStatus";
 
 const SidebarPartner = observer(() => {
+  const token = sessionStorage.getItem("token");
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
-  const status = partnerStore.partner.status;
-  console.log(status);
+  const status = partnerStore.partnerlogin.status;
   const { SubMenu } = Menu;
-  const { Content, Sider, Header } = Layout;
+  const { Content, Sider } = Layout;
   const onCollapsed = () => {
     setCollapsed(!collapsed);
   };
 
-  // if (partnerStore.partner.username === undefined) {
-  //   history.push("/");
-  // }
+  if (!token) {
+    history.push("/loginpartner");
+  }
 
   return (
     <>
