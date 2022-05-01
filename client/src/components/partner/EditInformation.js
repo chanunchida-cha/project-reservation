@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Radio, Button } from "antd";
 import { partnerStore } from "./partnerStore";
-import { useHistory } from "react-router-dom";
-import Openday from "./Openday";
+import { useParams, useHistory } from "react-router-dom";
+import EditOpenday from "./EditOpenday";
 
 const startOpenday = {
   monday: {
@@ -42,8 +42,9 @@ const startOpenday = {
     end: "",
   },
 };
-
-const InformationManage = observer(() => {
+const EditInformation = observer(() => {
+  const { id } = useParams();
+  console.log(id);
   const history = useHistory();
   const partner_id = partnerStore.partnerlogin._id;
   const [info, setInfo] = useState({
@@ -53,6 +54,55 @@ const InformationManage = observer(() => {
   });
   const { description, address, contact } = info;
   const [openday, setOpenday] = useState(startOpenday);
+  useEffect(async () => {
+    await partnerStore.getInformation(id);
+    partnerStore.partnerInfo.map((info) => {
+      return (
+        setInfo({
+          description: info.description,
+          address: info.address,
+          contact: info.contact,
+        }),
+        setOpenday({
+          monday: {
+            type: info.openday.monday.type,
+            start: info.openday.monday.start,
+            end: info.openday.monday.end,
+          },
+          tuesday: {
+            type: info.openday.tuesday.type,
+            start: info.openday.tuesday.start,
+            end: info.openday.tuesday.end,
+          },
+          wednesday: {
+            type: info.openday.wednesday.type,
+            start: info.openday.wednesday.start,
+            end: info.openday.wednesday.end,
+          },
+          thursday: {
+            type: info.openday.thursday.type,
+            start: info.openday.thursday.start,
+            end: info.openday.thursday.end,
+          },
+          friday: {
+            type: info.openday.friday.type,
+            start: info.openday.friday.start,
+            end: info.openday.friday.end,
+          },
+          saturday: {
+            type: info.openday.saturday.type,
+            start: info.openday.saturday.start,
+            end: info.openday.saturday.end,
+          },
+          sunday: {
+            type: info.openday.sunday.type,
+            start: info.openday.sunday.start,
+            end: info.openday.sunday.end,
+          },
+        })
+      );
+    });
+  }, []);
 
   const onChangeInfo = (event) => {
     const { name, value } = event.target;
@@ -137,18 +187,26 @@ const InformationManage = observer(() => {
       },
     });
   };
-  async function createInformation(event) {
+
+  const infoId = partnerStore.partnerInfo.map((info) => {
+    return info._id;
+  });
+  const infoIdString = infoId.toString();
+  console.log(infoIdString);
+
+  async function updateInformation(event) {
     event.preventDefault();
-    await partnerStore.createInformation(partner_id, info, openday);
-    partnerStore.getInformation(partner_id);
+    await partnerStore.updateInformation(infoIdString, info, openday);
+    partnerStore.getInformation(id);
+    history.push(`/partner/information/${id}`);
   }
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
-          จัดการข้อมูลทั่วไปของร้านอาหาร
+          แก้ไขข้อมูลทั่วไปของร้านอาหาร
         </h3>
-        <form onSubmit={createInformation}>
+        <form onSubmit={updateInformation}>
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">
@@ -167,7 +225,7 @@ const InformationManage = observer(() => {
                     name="description"
                     id="description"
                     autoComplete="description"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-6">
@@ -184,7 +242,7 @@ const InformationManage = observer(() => {
                     value={address}
                     onChange={onChangeInfo}
                     autoComplete="address"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -202,11 +260,11 @@ const InformationManage = observer(() => {
                     value={contact}
                     onChange={onChangeInfo}
                     autoComplete="contact"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
-                <Openday
+                <EditOpenday
                   openday={openday}
                   onChangeMonday={onChangeMonday}
                   onChangeTuesday={onChangeTuesday}
@@ -230,4 +288,5 @@ const InformationManage = observer(() => {
     </div>
   );
 });
-export default InformationManage;
+
+export default EditInformation;

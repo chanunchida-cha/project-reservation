@@ -2,8 +2,9 @@ import React from "react";
 import { Radio } from "antd";
 import TextField from "@mui/material/TextField";
 import { observer } from "mobx-react-lite";
+import { useParams } from "react-router-dom";
 
-const Openday = observer(
+const EditOpenday = observer(
   ({
     openday,
     onChangeMonday,
@@ -378,4 +379,4 @@ const Openday = observer(
     );
   }
 );
-export default Openday;
+export default EditOpenday;

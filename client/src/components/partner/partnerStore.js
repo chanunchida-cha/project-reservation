@@ -5,6 +5,8 @@ import { getToken } from "../../services/authorize";
 
 class PartnerStore {
   partnerlogin = {};
+  allPartnerInfo = [];
+  partnerInfo = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -60,6 +62,80 @@ class PartnerStore {
       });
   }
 
+  createInformation(partner_id, info, openday) {
+    const { description, address, contact } = info;
+
+    console.log(partner_id, description, address, contact, openday);
+    axios
+      .post(`${process.env.REACT_APP_API_PARTNER}/createinfo`, {
+        partner_id: partner_id,
+        description: description,
+        address: address,
+        contact: contact,
+        openday: openday,
+      })
+      .then((response) => {
+        Swal.fire(
+          "บันทึกข้อมูลทั่วไปของร้านเรียบร้อยแล้ว",
+          "create customer success!",
+          "success"
+        );
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "มีข้อผิดพลาด",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
+      });
+  }
+  getAllInformation() {
+    axios
+      .get(`${process.env.REACT_APP_API_PARTNER}/getallinfo`)
+      .then((response) => {
+        this.allPartnerInfo = response.data;
+        console.log(this.allPartnerInfo);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  }
+
+  async getInformation(id) {
+    await axios
+      .get(`${process.env.REACT_APP_API_PARTNER}/getallinfo/${id}`)
+      .then((response) => {
+        this.partnerInfo = response.data;
+        console.log(this.partnerInfo);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  }
+
+  async updateInformation(id, info, openday) {
+    const { description, address, contact } = info;
+    await axios
+      .put(`${process.env.REACT_APP_API_PARTNER}/updateinfo/${id}`, {
+        description: description,
+        address: address,
+        contact: contact,
+        openday: openday,
+      })
+      .then((response) => {
+        Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "มีบางอย่างผิดพลาด",
+          title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+          text: err.response.data.error,
+        });
+      });
+  }
+
   async loginPartner(login) {
     const { username, password } = login;
     console.log(username, password);
@@ -84,8 +160,8 @@ class PartnerStore {
         throw err;
       });
   }
-  getPartner() {
-    axios
+  async getPartner() {
+    await axios
       .get(`${process.env.REACT_APP_API_PARTNER}/getpartner`, {
         headers: { "x-access-token": getToken() },
       })

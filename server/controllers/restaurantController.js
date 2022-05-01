@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 
 const createInfoRestaurant = async (req, res) => {
   try {
-    const { partner_id, description, contact, openday } = req.body;
+    const { partner_id, description, contact,address, openday } = req.body;
+    const partnerId = mongoose.Types.ObjectId(partner_id);
 
     const restaurant = await restaurants.create({
-      partner_id: partner_id,
+      partner_id: partnerId,
       description: description,
       contact: contact,
+      address:address,
       openday: openday,
     });
 

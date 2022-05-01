@@ -3,13 +3,17 @@ const mongoose = require("mongoose");
 const restaurants = mongoose.Schema({
   partner_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "partners",
+    required: true,
   },
   description: {
     type: String,
     required: true,
   },
   contact: {
+    type: String,
+    required: true,
+  },
+  address: {
     type: String,
     required: true,
   },

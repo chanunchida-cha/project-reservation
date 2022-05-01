@@ -3,17 +3,19 @@ import { Layout, Menu } from "antd";
 import { Link, useHistory } from "react-router-dom";
 import { partnerStore } from "./partnerStore";
 import { observer } from "mobx-react-lite";
-import PartnerLogin from "./PartnerLogin";
+
 import {
   UserOutlined,
   NotificationOutlined,
   CodepenOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 import ContentPartner from "./ContentPartner";
 import ElementStatus from "./ElementStatus";
 
 const SidebarPartner = observer(() => {
   const token = sessionStorage.getItem("token");
+  const partner_id = partnerStore.partnerlogin._id;
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   const status = partnerStore.partnerlogin.status;
@@ -29,7 +31,7 @@ const SidebarPartner = observer(() => {
 
   return (
     <>
-      {(status == "disapprove" || status == "verification") && (
+      {(status === "disapprove" || status === "verification") && (
         <div>
           <ElementStatus />
         </div>
@@ -59,8 +61,10 @@ const SidebarPartner = observer(() => {
               <Link to="/partner">cubeQue</Link>
             </Menu.Item>
 
-            <Menu.Item key="2">
-              <Link to="/partner/information">จัดการข้อมูลทั่วไป</Link>
+            <Menu.Item key="2" icon={<FormOutlined />}>
+              <Link to={`/partner/information/${partner_id}`}>
+                จัดการข้อมูลทั่วไป
+              </Link>
             </Menu.Item>
 
             <SubMenu key="sub2" icon={<UserOutlined />} title="ลูกค้า">
