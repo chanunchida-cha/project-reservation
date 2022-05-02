@@ -1,18 +1,20 @@
 const restaurants = require("../models/restaurantDB");
-const partners = require("../models/partnerDB");
+
 const mongoose = require("mongoose");
 
 const createInfoRestaurant = async (req, res) => {
   try {
-    const { partner_id, description, contact,address, openday } = req.body;
+    const { partner_id, description, contact, address, openday } = req.body;
     const partnerId = mongoose.Types.ObjectId(partner_id);
+    const image = req.file.originalname;
 
     const restaurant = await restaurants.create({
       partner_id: partnerId,
       description: description,
       contact: contact,
-      address:address,
+      address: address,
       openday: openday,
+      image: image,
     });
 
     res.status(200).json(restaurant);
@@ -23,10 +25,20 @@ const createInfoRestaurant = async (req, res) => {
 
 const updateInfoRestaurant = (req, res) => {
   const { id } = req.params;
+  const { partner_id, description, contact, address, openday } = req.body;
+  const partnerId = mongoose.Types.ObjectId(partner_id);
+  const image = req.file.originalname;
   restaurants.findByIdAndUpdate(
     id,
     {
-      $set: req.body,
+      $set: {
+        partner_id: partnerId,
+        description: description,
+        contact: contact,
+        address: address,
+        openday: openday,
+        image: image,
+      },
     },
     (err, restaurant) => {
       if (err) {
@@ -63,8 +75,8 @@ const getInfoRestaurant = (req, res) => {
         },
       },
     ])
-    .then((responce) => {
-      res.json(responce);
+    .then((response) => {
+      res.json(response);
     })
     .catch((err) => {
       console.log(err);

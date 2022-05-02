@@ -62,18 +62,12 @@ class PartnerStore {
       });
   }
 
-  createInformation(partner_id, info, openday) {
-    const { description, address, contact } = info;
+  createInformation(formData) {
+    // const { description, address, contact } = info;
 
-    console.log(partner_id, description, address, contact, openday);
+    //console.log(partner_id, description, address, contact, openday);
     axios
-      .post(`${process.env.REACT_APP_API_PARTNER}/createinfo`, {
-        partner_id: partner_id,
-        description: description,
-        address: address,
-        contact: contact,
-        openday: openday,
-      })
+      .post(`${process.env.REACT_APP_API_PARTNER}/createinfo`, formData)
       .then((response) => {
         Swal.fire(
           "บันทึกข้อมูลทั่วไปของร้านเรียบร้อยแล้ว",
@@ -115,13 +109,14 @@ class PartnerStore {
       });
   }
 
-  async updateInformation(id, info, openday) {
+  async updateInformation(id, info, image, openday) {
     const { description, address, contact } = info;
     await axios
       .put(`${process.env.REACT_APP_API_PARTNER}/updateinfo/${id}`, {
         description: description,
         address: address,
         contact: contact,
+        image: image,
         openday: openday,
       })
       .then((response) => {

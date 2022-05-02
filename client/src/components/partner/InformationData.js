@@ -182,6 +182,9 @@ const InformationData = observer(() => {
                   </div>
                 </dl>
               </div>
+              <div>
+                <img src={`/uploads/${partnerInfo.image}`}  />
+              </div>
             </div>
           );
         });
