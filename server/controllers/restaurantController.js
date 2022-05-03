@@ -27,27 +27,53 @@ const updateInfoRestaurant = (req, res) => {
   const { id } = req.params;
   const { partner_id, description, contact, address, openday } = req.body;
   const partnerId = mongoose.Types.ObjectId(partner_id);
-  const image = req.file.originalname;
-  restaurants.findByIdAndUpdate(
-    id,
-    {
-      $set: {
-        partner_id: partnerId,
-        description: description,
-        contact: contact,
-        address: address,
-        openday: openday,
-        image: image,
+  console.log(req.file);
+  // if (!(partnerId && description && image && contact && address && openday)) {
+  //   res.status(400).json({ error: "All input is requires" });
+  // }
+  if (req.file) {
+    const image = req.file.filename;
+    restaurants.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          partner_id: partnerId,
+          description: description,
+          contact: contact,
+          address: address,
+          openday: openday,
+          image: image,
+        },
       },
-    },
-    (err, restaurant) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(restaurant);
+      (err, restaurant) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(restaurant);
+        }
       }
-    }
-  );
+    );
+  } else {
+    restaurants.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          partner_id: partnerId,
+          description: description,
+          contact: contact,
+          address: address,
+          openday: openday,
+        },
+      },
+      (err, restaurant) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(restaurant);
+        }
+      }
+    );
+  }
 };
 
 const deleteInfoRestaurant = (req, res) => {

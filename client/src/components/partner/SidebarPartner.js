@@ -67,12 +67,10 @@ const SidebarPartner = observer(() => {
               </Link>
             </Menu.Item>
 
-            <SubMenu key="sub2" icon={<UserOutlined />} title="ลูกค้า">
-              <Menu.Item key="3">option5</Menu.Item>
-              <Menu.Item key="4">option6</Menu.Item>
-              <Menu.Item key="5">option7</Menu.Item>
-              <Menu.Item key="6">option8</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="3" icon={<FormOutlined />}>
+              <Link to={`/partner/menu`}>เมนูอาหาร</Link>
+            </Menu.Item>
+
             <SubMenu
               key="sub3"
               icon={<NotificationOutlined />}

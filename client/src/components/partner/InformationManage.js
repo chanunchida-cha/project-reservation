@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Radio, Button } from "antd";
 import { partnerStore } from "./partnerStore";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Openday from "./Openday";
 
 const startOpenday = {
@@ -45,17 +45,17 @@ const startOpenday = {
 
 const InformationManage = observer(() => {
   const history = useHistory();
+  const { id } = useParams();
+  console.log(id);
   const partner_id = partnerStore.partnerlogin._id;
   const [info, setInfo] = useState({
     description: "",
     address: "",
     contact: "",
   });
-  const [image, setimage] = useState("");
+  const [image, setimage] = useState(null);
   const { description, address, contact } = info;
   const [openday, setOpenday] = useState(startOpenday);
-  const uploadImage = image.name;
-  console.log(uploadImage);
 
   const onChangeInfo = (event) => {
     const { name, value } = event.target;
@@ -170,10 +170,11 @@ const InformationManage = observer(() => {
     formData.append("openday[sunday][type]", openday.sunday.type);
     formData.append("openday[sunday][start]", openday.sunday.start);
     formData.append("openday[sunday][end]", openday.sunday.end);
-
     await partnerStore.createInformation(formData);
-    partnerStore.getInformation(partner_id);
+    // partnerStore.getInformation(id);
   }
+
+  console.log(image);
 
   return (
     <div>
@@ -181,7 +182,7 @@ const InformationManage = observer(() => {
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
           จัดการข้อมูลทั่วไปของร้านอาหาร
         </h3>
-        <form onSubmit={createInformation}>
+        <form onSubmit={createInformation} encType="multipart/form-data">
           <div className="shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-6 gap-6">
@@ -260,6 +261,11 @@ const InformationManage = observer(() => {
                           strokeLinejoin="round"
                         />
                       </svg>
+                      {/* <div>
+                        <img
+                          src={``}
+                        />
+                      </div> */}
                       <div className="flex text-sm text-gray-600">
                         <label
                           htmlFor="file-upload"

@@ -39,6 +39,7 @@ app.use("/partner", partnerAuthRoute);
 app.use("/partner", restaurantRoute);
 app.use("/admin", adminRoute);
 app.use("/admin", adminAuthRoute);
+app.use("/uploads", express.static("uploads"));
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(` start server in port ${port}`));

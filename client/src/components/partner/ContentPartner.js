@@ -5,6 +5,7 @@ import InformationData from "./InformationData";
 import InformationManage from "./InformationManage";
 import Information from "./Information";
 import EditInformation from "./EditInformation";
+import MenuData from "./CrudMenu/MenuData";
 
 function ContentPartner() {
   return (
@@ -20,6 +21,11 @@ function ContentPartner() {
           path={"/partner/editinformation/:id"}
           exact
           component={EditInformation}
+        />
+          <Route
+          path={"/partner/menu"}
+          exact
+          component={MenuData}
         />
       </Switch>
     </div>

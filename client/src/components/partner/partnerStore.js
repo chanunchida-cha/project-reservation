@@ -12,7 +12,7 @@ class PartnerStore {
     makeAutoObservable(this);
   }
 
-  createPartner(partner) {
+  async createPartner(partner) {
     const {
       restaurantName,
       firstname,
@@ -36,7 +36,7 @@ class PartnerStore {
       confirmPass
     );
 
-    axios
+    await axios
       .post(`${process.env.REACT_APP_API_PARTNER}/register`, {
         restaurantName: restaurantName,
         firstname: firstname,
@@ -62,11 +62,11 @@ class PartnerStore {
       });
   }
 
-  createInformation(formData) {
+  async createInformation(formData) {
     // const { description, address, contact } = info;
 
     //console.log(partner_id, description, address, contact, openday);
-    axios
+    await axios
       .post(`${process.env.REACT_APP_API_PARTNER}/createinfo`, formData)
       .then((response) => {
         Swal.fire(
@@ -81,7 +81,7 @@ class PartnerStore {
           title: "มีข้อผิดพลาด",
           text: err.response.data.error,
         });
-        console.log(err);
+        console.log(err.response.data.error);
         throw err;
       });
   }
@@ -109,25 +109,16 @@ class PartnerStore {
       });
   }
 
-  async updateInformation(id, info, image, openday) {
-    const { description, address, contact } = info;
+  async updateInformation(id, formData) {
+    console.log("formdata", formData);
     await axios
-      .put(`${process.env.REACT_APP_API_PARTNER}/updateinfo/${id}`, {
-        description: description,
-        address: address,
-        contact: contact,
-        image: image,
-        openday: openday,
-      })
+      .put(`${process.env.REACT_APP_API_PARTNER}/updateinfo/${id}`, formData)
       .then((response) => {
         Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
       })
       .catch((err) => {
-        Swal.fire({
-          icon: "มีบางอย่างผิดพลาด",
-          title: "กรุณาตรวจสอบใหม่อีกครั้ง",
-          text: err.response.data.error,
-        });
+        console.log(err.response.data.error);
+        throw err;
       });
   }
 

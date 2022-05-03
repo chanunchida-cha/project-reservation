@@ -8,6 +8,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 const InformationData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
+  console.log(id);
 
   useEffect(() => {
     partnerStore.getInformation(id);
@@ -182,8 +183,10 @@ const InformationData = observer(() => {
                   </div>
                 </dl>
               </div>
-              <div>
-                <img src={`/uploads/${partnerInfo.image}`}  />
+              <div >
+                <img
+                  src={`http://localhost:5500/uploads/${partnerInfo.image}`}
+                />
               </div>
             </div>
           );
