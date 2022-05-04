@@ -1,63 +1,76 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Radio, Button } from "antd";
-import { partnerStore } from "./partnerStore";
-import { useHistory, useParams } from "react-router-dom";
-import Openday from "./Openday";
+import { Radio } from "antd";
+import TextField from "@mui/material/TextField";
+import { Button } from "antd";
+import { partnerStore } from "../partnerStore";
+import { useParams } from "react-router-dom";
 
-const startOpenday = {
-  monday: {
-    type: "",
-    start: "",
-    end: "",
+const days = [
+  {
+    key: "monday",
+    i18n: "วันจันทร์",
   },
-  tuesday: {
-    type: "",
-    start: "",
-    end: "",
+  {
+    key: "tuesday",
+    i18n: "วันอังคาร",
   },
-  wednesday: {
-    type: "",
-    start: "",
-    end: "",
+  {
+    key: "wednesday",
+    i18n: "วันพุธ",
   },
-  thursday: {
-    type: "",
-    start: "",
-    end: "",
+  {
+    key: "thursday",
+    i18n: "วันพฤหัสบดี",
   },
-  friday: {
-    type: "",
-    start: "",
-    end: "",
+  {
+    key: "friday",
+    i18n: "วันศุกร์",
   },
-  saturday: {
-    type: "",
-    start: "",
-    end: "",
+  {
+    key: "saturday",
+    i18n: "วันเสาร์",
   },
-  sunday: {
-    type: "",
-    start: "",
-    end: "",
+  {
+    key: "sunday",
+    i18n: "วันอาทิตย์",
   },
-};
+];
 
-const InformationManage = observer(() => {
-  const history = useHistory();
+const CreateInfomation = observer(() => {
   const { id } = useParams();
   console.log(id);
-  const partner_id = partnerStore.partnerlogin._id;
   const [info, setInfo] = useState({
     description: "",
     address: "",
     contact: "",
   });
+
   const [image, setimage] = useState(null);
   const [preview, setPreview] = useState();
-  const [imageChange, setImageChange] = useState(false);
-  const { description, address, contact } = info;
-  const [openday, setOpenday] = useState(startOpenday);
+  const [openDay, setOpenDay] = useState({
+    monday: {
+      type: "",
+    },
+    tuesday: {
+      type: "",
+    },
+    wednesday: {
+      type: "",
+    },
+    thursday: {
+      type: "",
+    },
+    friday: {
+      type: "",
+    },
+    saturday: {
+      type: "",
+    },
+    sunday: {
+      type: "",
+    },
+  });
 
   const onChangeInfo = (event) => {
     const { name, value } = event.target;
@@ -69,85 +82,10 @@ const InformationManage = observer(() => {
     });
   };
 
-  const onChangeMonday = (event) => {
-    const { name, value } = event.target;
-    setOpenday({
-      ...openday,
-      monday: {
-        ...openday.monday,
-        [name]: value,
-      },
-    });
-  };
-  const onChangeTuesday = (event) => {
-    const { name, value } = event.target;
-    setOpenday({
-      ...openday,
-      tuesday: {
-        ...openday.tuesday,
-        [name]: value,
-      },
-    });
-  };
-  const onChangeWednesday = (event) => {
-    const { name, value } = event.target;
-    setOpenday({
-      ...openday,
-      wednesday: {
-        ...openday.wednesday,
-        [name]: value,
-      },
-    });
-  };
-
-  const onChangeThursday = (event) => {
-    const { name, value } = event.target;
-    setOpenday({
-      ...openday,
-      thursday: {
-        ...openday.thursday,
-        [name]: value,
-      },
-    });
-  };
-  const onChangeFriday = (event) => {
-    const { name, value } = event.target;
-    setOpenday({
-      ...openday,
-      friday: {
-        ...openday.friday,
-        [name]: value,
-      },
-    });
-  };
-
-  const onChangeSaturday = (event) => {
-    const { name, value } = event.target;
-    setOpenday({
-      ...openday,
-      saturday: {
-        ...openday.saturday,
-        [name]: value,
-      },
-    });
-  };
-
-  const onChangesunday = (event) => {
-    const { name, value } = event.target;
-    setOpenday({
-      ...openday,
-      sunday: {
-        ...openday.sunday,
-        [name]: value,
-      },
-    });
-  };
-
   const showPreview = (e) => {
     if (e.target.files[0]) {
       let imageFile = e.target.files[0];
       const objectUrl = URL.createObjectURL(imageFile);
-      setImageChange(true);
       setPreview(objectUrl);
       console.log(objectUrl);
       setimage(imageFile);
@@ -155,42 +93,31 @@ const InformationManage = observer(() => {
       setimage(image);
     }
   };
+  console.log(image);
+  console.log(openDay);
 
-  async function createInformation(event) {
+  const createInformation = async (event) => {
     event.preventDefault();
     const formData = new FormData();
 
-    formData.append("description", description);
-    formData.append("partner_id", partner_id);
-    formData.append("address", address);
-    formData.append("contact", contact);
+    formData.append("description", info.description);
+    formData.append("partner_id", id);
+    formData.append("address", info.address);
+    formData.append("contact", info.contact);
     formData.append("image", image);
-    formData.append("openday[monday][type]", openday.monday.type);
-    formData.append("openday[monday][start]", openday.monday.start);
-    formData.append("openday[monday][end]", openday.monday.end);
-    formData.append("openday[tuesday][type]", openday.tuesday.type);
-    formData.append("openday[tuesday][start]", openday.tuesday.start);
-    formData.append("openday[tuesday][end]", openday.tuesday.end);
-    formData.append("openday[wednesday][type]", openday.wednesday.type);
-    formData.append("openday[wednesday][start]", openday.wednesday.start);
-    formData.append("openday[wednesday][end]", openday.wednesday.end);
-    formData.append("openday[thursday][type]", openday.thursday.type);
-    formData.append("openday[thursday][start]", openday.thursday.start);
-    formData.append("openday[thursday][end]", openday.thursday.end);
-    formData.append("openday[friday][type]", openday.friday.type);
-    formData.append("openday[friday][start]", openday.friday.start);
-    formData.append("openday[friday][end]", openday.friday.end);
-    formData.append("openday[saturday][type]", openday.saturday.type);
-    formData.append("openday[saturday][start]", openday.saturday.start);
-    formData.append("openday[saturday][end]", openday.saturday.end);
-    formData.append("openday[sunday][type]", openday.sunday.type);
-    formData.append("openday[sunday][start]", openday.sunday.start);
-    formData.append("openday[sunday][end]", openday.sunday.end);
+    for (const day of days) {
+      console.log(`openday[${day.key}][type]`);
+      formData.append(`openday[${day.key}][type]`, openDay[day.key].type);
+      if (openDay[day.key].type === "open") {
+        formData.append(`openday[${day.key}][start]`, openDay[day.key].start);
+        formData.append(`openday[${day.key}][end]`, openDay[day.key].end);
+      }
+      console.log(openDay[day.key].type);
+    }
+
     await partnerStore.createInformation(formData);
     partnerStore.getInformation(id);
-  }
-
-  console.log(image);
+  };
 
   return (
     <div>
@@ -212,7 +139,7 @@ const InformationManage = observer(() => {
                   <textarea
                     rows={3}
                     type="text"
-                    value={description}
+                    value={info.description}
                     onChange={onChangeInfo}
                     name="description"
                     id="description"
@@ -231,7 +158,7 @@ const InformationManage = observer(() => {
                     type="text"
                     name="address"
                     id="address"
-                    value={address}
+                    value={info.address}
                     onChange={onChangeInfo}
                     autoComplete="address"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
@@ -249,7 +176,7 @@ const InformationManage = observer(() => {
                     type="text"
                     name="contact"
                     id="contact"
-                    value={contact}
+                    value={info.contact}
                     onChange={onChangeInfo}
                     autoComplete="contact"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
@@ -309,16 +236,107 @@ const InformationManage = observer(() => {
                   </div>
                 </div>
 
-                <Openday
-                  openday={openday}
-                  onChangeMonday={onChangeMonday}
-                  onChangeTuesday={onChangeTuesday}
-                  onChangeWednesday={onChangeWednesday}
-                  onChangeThursday={onChangeThursday}
-                  onChangeFriday={onChangeFriday}
-                  onChangeSaturday={onChangeSaturday}
-                  onChangesunday={onChangesunday}
-                />
+                <div className="col-span-6 sm:col-span-6">
+                  <label
+                    htmlFor="email-address"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    เวลาเปิด-ปิดร้าน
+                  </label>
+                  <div className="mt-2 bg-white shadow-sm border-gray-300 rounded-md p-3 ">
+                    {days.map((day) => {
+                      return (
+                        <div key={day.key} className="mt-3 mb-2">
+                          <label
+                            htmlFor={day.key}
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            {day.i18n}
+                          </label>
+                          <Radio.Group
+                            name="type"
+                            onChange={(e) => {
+                              if (e.target.value === "open") {
+                                setOpenDay({
+                                  ...openDay,
+                                  [day.key]: {
+                                    type: e.target.value,
+                                    start: "",
+                                    end: "",
+                                  },
+                                });
+                              } else {
+                                setOpenDay({
+                                  ...openDay,
+                                  [day.key]: {
+                                    type: e.target.value,
+                                  },
+                                });
+                              }
+                            }}
+                            value={openDay[day.key].type}
+                          >
+                            <Radio value={"open"}>เปิด</Radio>
+                            <Radio value={"close"}>ไม่เปิด</Radio>
+                          </Radio.Group>
+
+                          {openDay[day.key].type === "open" && (
+                            <div className="mt-3">
+                              <TextField
+                                name="start"
+                                id="time"
+                                label="เวลาเปิด"
+                                type="time"
+                                onChange={(e) => {
+                                  setOpenDay({
+                                    ...openDay,
+                                    [day.key]: {
+                                      ...openDay[day.key],
+                                      start: e.target.value,
+                                      end: openDay[day.key].end,
+                                    },
+                                  });
+                                }}
+                                value={openDay[day.key].start}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                inputProps={{
+                                  step: 300, // 5 min
+                                }}
+                                sx={{ width: 150, marginRight: 2 }}
+                              />
+                              <TextField
+                                name="end"
+                                id="time"
+                                label="เวลาปิด"
+                                type="time"
+                                onChange={(e) => {
+                                  setOpenDay({
+                                    ...openDay,
+                                    [day.key]: {
+                                      ...openDay[day.key],
+                                      start: openDay[day.key].start,
+                                      end: e.target.value,
+                                    },
+                                  });
+                                }}
+                                value={openDay[day.key].end}
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                inputProps={{
+                                  step: 300, // 5 min
+                                }}
+                                sx={{ width: 150 }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -333,4 +351,5 @@ const InformationManage = observer(() => {
     </div>
   );
 });
-export default InformationManage;
+
+export default CreateInfomation;

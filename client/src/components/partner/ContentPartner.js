@@ -1,10 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import HomePartner from "./HomePartner";
-import InformationData from "./InformationData";
-import InformationManage from "./InformationManage";
-import Information from "./Information";
-import EditInformation from "./EditInformation";
+import Information from "./CrudInfomation/Information";
+import EditInformation from "./CrudInfomation/EditInformation";
 import MenuData from "./CrudMenu/MenuData";
 
 function ContentPartner() {
@@ -22,11 +20,7 @@ function ContentPartner() {
           exact
           component={EditInformation}
         />
-          <Route
-          path={"/partner/menu"}
-          exact
-          component={MenuData}
-        />
+        <Route path={"/partner/menu"} exact component={MenuData} />
       </Switch>
     </div>
   );
