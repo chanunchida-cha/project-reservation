@@ -53,7 +53,8 @@ const EditInformation = observer(() => {
     contact: "",
   });
   const [image, setimage] = useState(null);
-  console.log(image);
+  const [preview, setPreview] = useState();
+  const [imageChange, setImageChange] = useState(false);
   const { description, address, contact } = info;
   const [openday, setOpenday] = useState(startOpenday);
   useEffect(async () => {
@@ -107,8 +108,17 @@ const EditInformation = observer(() => {
     });
   }, []);
 
-  const onChangeImage = (event) => {
-    setimage(event.target.files[0]);
+  const showPreview = (e) => {
+    if (e.target.files[0]) {
+      let imageFile = e.target.files[0];
+      const objectUrl = URL.createObjectURL(imageFile);
+      setImageChange(true);
+      setPreview(objectUrl);
+      console.log(objectUrl);
+      setimage(imageFile);
+    } else {
+      setimage(image);
+    }
   };
   const onChangeInfo = (event) => {
     const { name, value } = event.target;
@@ -307,7 +317,21 @@ const EditInformation = observer(() => {
                   </label>
                   <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                     <div className="space-y-1 text-center">
-                      <svg
+                      <div>
+                        {imageChange == true ? (
+                          <img
+                            src={preview}
+                            className="mx-auto  h-48 w-96 text-gray-400 rounded-md"
+                          />
+                        ) : (
+                          <img
+                            src={`http://localhost:5500/uploads/${image}`}
+                            className="mx-auto  h-48 w-96 text-gray-400 rounded-md"
+                          />
+                        )}
+                      </div>
+
+                      {!image && <svg
                         className="mx-auto h-12 w-12 text-gray-400"
                         stroke="currentColor"
                         fill="none"
@@ -320,8 +344,8 @@ const EditInformation = observer(() => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
-                      </svg>
-                      <div className="flex text-sm text-gray-600">
+                      </svg>}
+                      <div className="text-sm text-gray-600">
                         <label
                           htmlFor="file-upload"
                           className="relative cursor-pointer bg-white rounded-md font-medium text-[#1890ff] hover:text-[#40a9ff] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
@@ -333,7 +357,7 @@ const EditInformation = observer(() => {
                             type="file"
                             filename="image"
                             className="sr-only"
-                            onChange={onChangeImage}
+                            onChange={showPreview}
                           />
                         </label>
                       </div>

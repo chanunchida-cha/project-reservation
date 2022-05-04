@@ -3,6 +3,17 @@ import { Radio } from "antd";
 import TextField from "@mui/material/TextField";
 import { observer } from "mobx-react-lite";
 
+// const days=[
+//   {
+//     key:"monday",
+//     i18n:"วันจันทร์"
+//   },
+//   {
+//     key:"monday",
+//     i18n:"วันจันทร์"
+//   }
+// ]
+
 const Openday = observer(
   ({
     openday,

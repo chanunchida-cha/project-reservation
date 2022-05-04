@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { partnerStore } from "./partnerStore";
 import { Button } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 
 const InformationData = observer(() => {
   const history = useHistory();
@@ -181,12 +181,16 @@ const InformationData = observer(() => {
                       </div>
                     </dd>
                   </div>
+                  <div className=" bg-gray-50 px-4 py-3 sm:px-6  align-middle  ">
+                    <dt className="text-sm font-medium text-gray-900">
+                      รูปภาพร้านอาหาร
+                    </dt>
+                    <img
+                      className=" mt-4 rounded object-cover h-48 w-96"
+                      src={`http://localhost:5500/uploads/${partnerInfo.image}`}
+                    />
+                  </div>
                 </dl>
-              </div>
-              <div >
-                <img
-                  src={`http://localhost:5500/uploads/${partnerInfo.image}`}
-                />
               </div>
             </div>
           );
