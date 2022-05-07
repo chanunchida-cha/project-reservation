@@ -6,7 +6,7 @@ import Login from "./components/customer/Login";
 import Partner from "./components/partner/Partner";
 import PartnerRegis from "./components/partner/PartnerRegis";
 import PartnerLogin from "./components/partner/PartnerLogin";
-import HomePartner from "./components/partner/HomePartner";
+
 import Layout from "./components/Layout";
 import LoginAdmin from "./components/admin/LoginAdmin";
 

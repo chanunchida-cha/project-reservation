@@ -9,6 +9,8 @@ import {
   NotificationOutlined,
   CodepenOutlined,
   FormOutlined,
+  ContainerOutlined,
+  ScheduleOutlined,
 } from "@ant-design/icons";
 import ContentPartner from "./ContentPartner";
 import ElementStatus from "./ElementStatus";
@@ -67,8 +69,12 @@ const SidebarPartner = observer(() => {
               </Link>
             </Menu.Item>
 
-            <Menu.Item key="3" icon={<FormOutlined />}>
-              <Link to={`/partner/menu`}>เมนูอาหาร</Link>
+            <Menu.Item key="3" icon={<ContainerOutlined />}>
+              <Link to={`/partner/menu/${partner_id}`}>เมนูอาหาร</Link>
+            </Menu.Item>
+
+            <Menu.Item key="4" icon={<ScheduleOutlined />}>
+              <Link to={`/partner/reservation/${partner_id}`}>จัดการรอบการจอง</Link>
             </Menu.Item>
 
             <SubMenu

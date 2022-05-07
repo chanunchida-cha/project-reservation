@@ -48,7 +48,7 @@ const EditInformation = observer(() => {
     contact: "",
   });
   const [image, setimage] = useState(null);
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState(null);
   const [imageChange, setImageChange] = useState(false);
   const [openDay, setOpenDay] = useState({
     monday: {
@@ -155,7 +155,6 @@ const EditInformation = observer(() => {
   const updateInformation = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-
     formData.append("description", info.description);
     formData.append("partner_id", id);
     formData.append("address", info.address);

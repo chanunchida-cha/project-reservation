@@ -4,6 +4,9 @@ import HomePartner from "./HomePartner";
 import Information from "./CrudInfomation/Information";
 import EditInformation from "./CrudInfomation/EditInformation";
 import MenuData from "./CrudMenu/MenuData";
+import CreateMenu from "./CrudMenu/CreateMenu";
+import EditMenu from "./CrudMenu/EditMenu";
+import CreateReserv from "./CrudReservation/CreateReserv";
 
 function ContentPartner() {
   return (
@@ -20,7 +23,10 @@ function ContentPartner() {
           exact
           component={EditInformation}
         />
-        <Route path={"/partner/menu"} exact component={MenuData} />
+        <Route path={"/partner/createmenu/:id"} exact component={CreateMenu} />
+        <Route path={"/partner/menu/:id"} exact component={MenuData} />
+        <Route path={"/partner/editmenu/:id"} exact component={EditMenu} />
+        <Route path={"/partner/reservation/:id"} exact component={CreateReserv} />
       </Switch>
     </div>
   );

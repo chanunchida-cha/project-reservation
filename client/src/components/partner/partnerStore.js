@@ -7,6 +7,8 @@ class PartnerStore {
   partnerlogin = {};
   allPartnerInfo = [];
   partnerInfo = [];
+  menus = [];
+  menu = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -119,6 +121,87 @@ class PartnerStore {
       .catch((err) => {
         console.log(err.response.data.error);
         throw err;
+      });
+  }
+
+  async createMenu(formData) {
+    // const { description, address, contact } = info;
+
+    //console.log(partner_id, description, address, contact, openday);
+    await axios
+      .post(`${process.env.REACT_APP_API_PARTNER}/createmenu`, formData)
+      .then((response) => {
+        Swal.fire(
+          "บันทึกข้อมูลทั่วไปของร้านเรียบร้อยแล้ว",
+          "create customer success!",
+          "success"
+        );
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "มีข้อผิดพลาด",
+          text: err.response.data.error,
+        });
+        console.log(err.response.data.error);
+        throw err;
+      });
+  }
+
+  async getMenuByRest(id) {
+    await axios
+      .get(`${process.env.REACT_APP_API_PARTNER}/getmenu/${id}`)
+      .then((response) => {
+        this.menus = response.data;
+        console.log(this.menus);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  }
+
+  async getMenuById(id) {
+    await axios
+      .get(`${process.env.REACT_APP_API_PARTNER}/getmenubyid/${id}`)
+      .then((response) => {
+        this.menu = response.data;
+        console.log(this.menu);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  }
+
+  async updateMenu(id, formData) {
+    console.log("formdata", formData);
+    await axios
+      .put(`${process.env.REACT_APP_API_PARTNER}/updatemenu/${id}`, formData)
+      .then((response) => {
+        Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+        throw err;
+      });
+  }
+
+  async deleteMenu(menu_id, id) {
+    await axios
+      .delete(`${process.env.REACT_APP_API_PARTNER}/deletemenu/${menu_id}`)
+      .then((response) => {
+        Swal.fire(
+          "ลบข้อมูลผู้ดูแลระบบเรียบร้อยแล้ว!",
+          response.data.message,
+          "success"
+        );
+        this.getMenuByRest(id);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data.error,
+        });
       });
   }
 
