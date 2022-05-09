@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Radio } from "antd";
-import TextField from "@mui/material/TextField";
 import { Button } from "antd";
 import { partnerStore } from "../partnerStore";
 import { useParams, useHistory } from "react-router-dom";
 
-function EditMenu() {
+const EditMenu=observer(()=> {
   const history = useHistory();
   const { id } = useParams();
   const [menu, setMenu] = useState({
@@ -205,6 +203,6 @@ function EditMenu() {
       </div>
     </div>
   );
-}
+})
 
 export default EditMenu;

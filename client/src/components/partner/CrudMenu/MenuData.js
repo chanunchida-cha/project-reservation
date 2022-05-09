@@ -12,8 +12,8 @@ const MenuData = observer(() => {
   const { id } = useParams();
   console.log(id);
   const history = useHistory();
-  useEffect(async() => {
-   await partnerStore.getMenuByRest(id);
+  useEffect(async () => {
+    await partnerStore.getMenuByRest(id);
   }, []);
 
   const menus = partnerStore.menus;

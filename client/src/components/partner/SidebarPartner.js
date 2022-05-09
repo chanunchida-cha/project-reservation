@@ -74,7 +74,7 @@ const SidebarPartner = observer(() => {
             </Menu.Item>
 
             <Menu.Item key="4" icon={<ScheduleOutlined />}>
-              <Link to={`/partner/reservation/${partner_id}`}>จัดการรอบการจอง</Link>
+              <Link to={`/partner/table/${partner_id}`}>จัดการโต๊ะอาหาร</Link>
             </Menu.Item>
 
             <SubMenu

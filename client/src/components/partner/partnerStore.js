@@ -9,6 +9,8 @@ class PartnerStore {
   partnerInfo = [];
   menus = [];
   menu = {};
+  tables = [];
+  table = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -195,6 +197,100 @@ class PartnerStore {
           "success"
         );
         this.getMenuByRest(id);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: err.response.data.error,
+        });
+      });
+  }
+
+  async createTable(partner_id, table) {
+    const { table_no, seat, description } = table;
+    await axios
+      .post(`${process.env.REACT_APP_API_PARTNER}/createtable`, {
+        partner_id: partner_id,
+        table_no: table_no,
+        seat: seat,
+        description: description,
+      })
+      .then((response) => {
+        Swal.fire(
+          "เพิ่มข้อมูลโต๊ะเรียบร้อยแล้ว",
+          "create customer success!",
+          "success"
+        );
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "มีข้อผิดพลาด",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
+      });
+  }
+  async getTableByRest(id) {
+    await axios
+      .get(`${process.env.REACT_APP_API_PARTNER}/gettable/${id}`)
+      .then((response) => {
+        this.tables = response.data;
+        console.log(this.tables);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  }
+  async getTableById(id) {
+    await axios
+      .get(`${process.env.REACT_APP_API_PARTNER}/gettablebyid/${id}`)
+      .then((response) => {
+        this.table = response.data;
+        console.log(this.table);
+      })
+      .catch((err) => {
+        console.log(err.response.data.error);
+      });
+  }
+  async updateTable(id, partner_id, table) {
+    const { table_no, seat, description } = table;
+    await axios
+      .put(`${process.env.REACT_APP_API_PARTNER}/updatetable/${id}`, {
+        partner_id: partner_id,
+        table_no: table_no,
+        seat: seat,
+        description: description,
+      })
+      .then((response) => {
+        Swal.fire(
+          "แก้ไขข้อมูลโต๊ะเรียบร้อยแล้ว",
+          "update customer success!",
+          "success"
+        );
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "มีข้อผิดพลาด",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
+      });
+  }
+  async deleteTable(table_id, id) {
+    await axios
+      .delete(`${process.env.REACT_APP_API_PARTNER}/deletetable/${table_id}`)
+      .then((response) => {
+        Swal.fire(
+          "ลบข้อมูลโต๊ะเรียบร้อยแล้ว!",
+          response.data.message,
+          "success"
+        );
+        this.getTableByRest(id);
       })
       .catch((err) => {
         Swal.fire({
