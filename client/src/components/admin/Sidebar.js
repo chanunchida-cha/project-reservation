@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { Link, useHistory } from "react-router-dom";
-
+import { observer } from "mobx-react-lite";
 import {
   TeamOutlined,
   UserOutlined,
@@ -13,15 +13,16 @@ import {
 import ContentAdmin from "./ContentAdmin";
 import { adminStore } from "./adminStore";
 import LoginAdmin from "./LoginAdmin";
-function Sidebar() {
+const Sidebar=observer(()=> {
   const token = sessionStorage.getItem("token");
   console.log(token);
-
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   // const isPartnerVerify = useRouteMatch("/admin/partnerverify");
+  const admin = adminStore.adminlogin;
+  console.log(admin);
   const { SubMenu } = Menu;
-  const { Content, Sider } = Layout;
+  const { Content, Sider, Header } = Layout;
   const onCollapsed = () => {
     setCollapsed(!collapsed);
   };
@@ -86,7 +87,17 @@ function Sidebar() {
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout style={{ padding: "0 24px 24px" }}>
+
+      <Layout>
+        <Header
+          className="site-layout-background"
+          style={{
+            padding: 0,
+            backgroundColor: "#fff",
+          }}
+        >
+          <h3 className="flex text-base p-3 mr-16 justify-end">คุณ{admin.firstname}  {admin.lastname}</h3>
+          </Header>
         <Content
           className="site-layout-background"
           style={{
@@ -100,6 +111,6 @@ function Sidebar() {
       </Layout>
     </Layout>
   );
-}
+})
 
 export default Sidebar;

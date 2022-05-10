@@ -1,119 +1,234 @@
-import React from "react";
-import "./Navbar.css";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { observer } from "mobx-react-lite";
 import { userStore } from "./customer/userStore";
 import { partnerStore } from "./partner/partnerStore";
-import { useHistory } from "react-router-dom";
+
+const navigation = [
+  { name: "Login", href: "/login", current: false },
+  { name: "Sign up", href: "/register", current: false },
+];
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const Navbar = observer(() => {
-  const history = useHistory();
   console.log(userStore.customer.username);
-  console.log(partnerStore.partnerlogin.username);
-
   return (
-    <div className="navbar bg-base-100 pr-10">
-      <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl" href="/">
-          cubeQue
-        </a>
-      </div>
-      <div className="flex-none">
-        <ul className="menu menu-horizontal p-0">
-          {!userStore.customer.username && !partnerStore.partnerlogin.username && (
-            <li>
-              <a href="/login">Log in</a>
-            </li>
-          )}
-          <li>
-            <a href="/register">Sign up</a>
-          </li>
-          <li tabIndex="0">
-            <a>
-              Be our partner
-              <svg
-                className="fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-              </svg>
-            </a>
-            <ul className="p-2 bg-base-100">
-              <li>
-                <a href="/joinpartner">Partner with us</a>
-              </li>
-              {!userStore.customer.username && !partnerStore.partnerlogin.username && (
-                <li>
-                  <a href="/loginpartner">Log in</a>
-                </li>
-              )}
-            </ul>
-          </li>
-          {userStore.customer.username && (
-            <li tabIndex="0">
-              <a>
-                {userStore.customer.username}
-                <svg
-                  className="fill-current"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                </svg>
-              </a>
-
-              <ul className="p-2 bg-base-100">
-                <li>
-                  <button
-                    className="btn btn-active btn-ghost"
-                    onClick={() => userStore.logout()}
+    <Disclosure as="nav" className="bg-white">
+      {({ open }) => (
+        <>
+          <div className="max-w-full  mx-auto px-8 sm:px-10 lg:px-12">
+            <div className="relative flex items-center justify-between h-16">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+              <div className="flex-1 flex items-center justify-start sm:items-stretch sm:justify-start">
+                <div className="flex-shrink-0 flex items-center">
+                  <a
+                    className="btn ml-5 btn-ghost normal-case text-xl"
+                    href="/"
                   >
-                    Log Out
-                  </button>
-                </li>
-              </ul>
-            </li>
-          )}
-        </ul>
-      </div>
-    </div>
+                    cubeQue
+                  </a>
+                </div>
+                <div className="hidden sm:block sm:ml-6">
+                  <div className="flex space-x-4 pt-2">
+                    {navigation.map((item) => (
+                      <>
+                        {item.name === "Login" ? (
+                          !userStore.customer.username &&
+                          !partnerStore.partnerlogin.username && (
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              className={classNames(
+                                item.current
+                                  ? "bg-gray-300 text-black"
+                                  : "text-black hover:bg-gray-300 hover:text-white",
+                                "px-3 py-2 rounded-md text-sm font-medium"
+                              )}
+                              aria-current={item.current ? "page" : undefined}
+                            >
+                              {item.name}
+                            </a>
+                          )
+                        ) : (
+                          <a
+                            key={item.name}
+                            href={item.href}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-300 text-black"
+                                : "text-black hover:bg-gray-300 hover:text-white",
+                              "px-3 py-2 rounded-md text-sm font-medium"
+                            )}
+                            aria-current={item.current ? "page" : undefined}
+                          >
+                            {item.name}
+                          </a>
+                        )}
+                      </>
+                    ))}
+                    <Menu as="div" className="ml-3  relative">
+                      <div>
+                        <Menu.Button className=" flex text-sm  py-2 px-3 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-white">
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block   text-sm text-black"
+                              )}
+                            >
+                              Be our partner
+                            </a>
+                          )}
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="/joinpartner"
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Partner with us
+                              </a>
+                            )}
+                          </Menu.Item>
+                          {!userStore.customer.username &&
+                            !partnerStore.partnerlogin.username && (
+                              <Menu.Item>
+                                {({ active }) => (
+                                  <a
+                                    href="/loginpartner"
+                                    className={classNames(
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    )}
+                                  >
+                                    Login
+                                  </a>
+                                )}
+                              </Menu.Item>
+                            )}
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                {/* Profile dropdown */}
+                {userStore.customer.username && (
+                  <Menu as="div" className="ml-3 relative">
+                    <div>
+                      <Menu.Button className=" flex py-2 px-3 rounded-md hover:bg-gray-300 text-sm mr-10  focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-white">
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block   text-sm text-black"
+                            )}
+                          >
+                            {userStore.customer.username}
+                          </a>
+                        )}
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="origin-top-right  absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Your Profile
+                            </a>
+                          )}
+                        </Menu.Item>
+
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="#"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                              onClick={() => userStore.logout()}
+                            >
+                              Sign out
+                            </a>
+                          )}
+                        </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <Disclosure.Panel className="sm:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navigation.map((item) => (
+                <Disclosure.Button
+                  key={item.name}
+                  as="a"
+                  href={item.href}
+                  className={classNames(
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block px-3 py-2 rounded-md text-base font-medium"
+                  )}
+                  aria-current={item.current ? "page" : undefined}
+                >
+                  {item.name}
+                </Disclosure.Button>
+              ))}
+            </div>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
   );
 });
 export default Navbar;
-
-{
-  /* <nav>
-<ul className="menu">
-  <li className="logo">
-    <Link to="/">cubeQue</Link>
-  </li>
-  <ul className="submenu">
-    {!userStore.username && (
-      <li className="item button ">
-        <Link to="/login">Log in</Link>
-      </li>
-    )}
-    <li className="item button">
-      <Link to="/register">Sign up</Link>
-    </li>
-    <li className="item button secondary">
-      <Link to="/partner">Be our partner</Link>
-    </li>
-    {store.username && (
-      <li className="item button ">
-        <button onClick={() => store.logout()}>Log Out</button>
-      </li>
-    )}
-    {store.username && (
-      <li className="item button " style={{ color: "white" }}>
-        
-      </li>
-    )}
-  </ul>
-</ul> 
-</nav>*/
-}

@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 import { adminStore } from "../adminStore";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
+import SearchText from "../../SearchText/SearchText";
 
 const AdminsData = observer(() => {
   const history = useHistory();
+  const [searchText, setSearchText] = useState("");
   useEffect(() => {
     adminStore.getAdminsData();
   }, []);
@@ -46,12 +47,19 @@ const AdminsData = observer(() => {
               เพิ่มข้อมูลผู้ดูแลระบบ
             </Button>
           </div>
+          <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-3 sm:col-span-3">
+            <SearchText value={searchText} onChangeValue={setSearchText} />
+          </div>
         </div>
-        {admins.map((admin) => {
+        </div>
+        {admins.filter((admin)=>{
+            return admin.firstname.includes(searchText);
+        }).map((admin) => {
           return (
             <div
               key={admin._id}
-              className="bg-white shadow overflow-hidden sm:rounded-lg mb-6"
+              className="bg-white mx-4 shadow overflow-hidden sm:rounded-lg mb-6"
             >
               <div className="grid grid-cols-2 ">
                 <div className="px-4 py-3 sm:px-6   ">

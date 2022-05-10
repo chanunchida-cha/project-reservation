@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { partnerStore } from "../partnerStore";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import SearchText from "../../SearchText/SearchText";
 
 const MenuData = observer(() => {
   const { id } = useParams();
-  console.log(id);
+  const [searchText, setSearchText] = useState("");
   const history = useHistory();
   useEffect(async () => {
     await partnerStore.getMenuByRest(id);
@@ -51,6 +51,11 @@ const MenuData = observer(() => {
               เพิ่มข้อมูลเมนูอาหาร
             </Button>
           </div>
+          <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-3 sm:col-span-3">
+            <SearchText value={searchText} onChangeValue={setSearchText} />
+          </div>
+        </div>
           {isMenu && (
             <div className="mb-2 mt-3  text-red-500">
               ** คุณยังไม่มีเมนูอาหาร กรุณาเพิ่มเมนูอาหาร **
@@ -58,11 +63,13 @@ const MenuData = observer(() => {
           )}
         </div>
 
-        {menus.map((menu) => {
+        {menus.filter((menu) => {
+          return menu.name.includes(searchText);
+        }).map((menu) => {
           return (
             <div
               key={menu._id}
-              className="bg-white shadow overflow-hidden sm:rounded-lg mb-6"
+              className="bg-white mx-4 shadow overflow-hidden sm:rounded-lg mb-6"
             >
               <div className="grid grid-cols-2 ">
                 <div className="px-4 py-3 sm:px-6   ">

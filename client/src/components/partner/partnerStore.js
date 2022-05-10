@@ -134,7 +134,7 @@ class PartnerStore {
       .post(`${process.env.REACT_APP_API_PARTNER}/createmenu`, formData)
       .then((response) => {
         Swal.fire(
-          "บันทึกข้อมูลทั่วไปของร้านเรียบร้อยแล้ว",
+          "บันทึกข้อมูลเมนูอาหารเรียบร้อยแล้ว",
           "create customer success!",
           "success"
         );
@@ -192,7 +192,7 @@ class PartnerStore {
       .delete(`${process.env.REACT_APP_API_PARTNER}/deletemenu/${menu_id}`)
       .then((response) => {
         Swal.fire(
-          "ลบข้อมูลผู้ดูแลระบบเรียบร้อยแล้ว!",
+          "ลบข้อมูลเมนูอาหารเรียบร้อยแล้ว!",
           response.data.message,
           "success"
         );
@@ -332,7 +332,7 @@ class PartnerStore {
       })
       .then((response) => {
         this.partnerlogin = response.data;
-        console.log(this.partnerlogin._id);
+        console.log(this.partnerlogin);
       })
       .catch((err) => {
         console.log(err.response.data.error);

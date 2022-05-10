@@ -1,15 +1,15 @@
-import React from "react";
+import React ,{useState, useEffect }from "react";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 import { adminStore } from "../adminStore";
 import { Link, useHistory } from "react-router-dom";
 import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import SearchText from "../../SearchText/SearchText";
 import Swal from "sweetalert2";
 
 const CustomersData = observer(() => {
   const history = useHistory();
-
+  const [searchText, setSearchText] = useState("");
   useEffect(() => {
     adminStore.getCustomersData();
   }, []);
@@ -34,6 +34,7 @@ const CustomersData = observer(() => {
           <h3 className="text-lg leading-6 font-medium text-gray-900">
             ข้อมูลลูกค้า
           </h3>
+          
           <div className="border-t border-gray-300" />
 
           <div className="mb-2 mt-2 ">
@@ -47,12 +48,19 @@ const CustomersData = observer(() => {
               เพิ่มข้อมูลลูกค้า
             </Button>
           </div>
+          <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-3 sm:col-span-3">
+          <SearchText value={searchText} onChangeValue={setSearchText} />
+          </div>
         </div>
-        {customers.map((customer) => {
+        </div>
+        {customers .filter((customer) => {
+          return customer.firstname.includes(searchText);
+        }).map((customer) => {
           return (
             <div
               key={customer._id}
-              className="bg-white shadow overflow-hidden sm:rounded-lg mb-6"
+              className="bg-white mx-4 shadow overflow-hidden sm:rounded-lg mb-6"
             >
               <div className="grid grid-cols-2 ">
                 <div className="px-4 py-3 sm:px-6   ">

@@ -44,60 +44,66 @@ const TableData = observer(() => {
             history.push(`/partner/createtable/${id}`);
           }}
         >
-          เพิ่มข้อมูลเมนูอาหาร
+          เพิ่มข้อมูลโต๊ะอาหาร
         </Button>
       </div>
       {isTable && (
         <div className="shadow  overflow-hidden sm:rounded-md">
           <div className="px-4 py-4 bg-white sm:p-6">
+            <div className="text-gray-500">
+              **หมายเหตุ สีเขียว = ว่าง , สีแดง = ไม่ว่าง
+            </div>
             <div className="grid grid-cols-1 mt-3 gap-4 sm:grid-cols-2  xl:grid-cols-3  2xl:grid-cols-4 ">
               {partnerStore.tables.map((table) => {
                 return (
-                  <div>
-                    <div class=" inline-flex rounded-lg bg-white shadow-md overflow-hidden">
-                      <div
-                        class={
-                          table.status === "free"
-                            ? "p-4 bg-[#00B5B4] "
-                            : "p-4 bg-[#db3b2d] "
-                        }
+                  <div
+                    key={table._id}
+                    className=" inline-flex rounded-lg bg-white shadow-md overflow-hidden"
+                  >
+                    <div
+                      className={
+                        table.status === "free"
+                          ? "p-4 bg-[#00B5B4] "
+                          : "p-4 bg-[#db3b2d] "
+                      }
+                    >
+                      <div className=" uppercase tracking-wider text-sm">
+                        โต๊ะ
+                      </div>
+                      <div className=" text-lg">{table.table_no}</div>
+                    </div>
+                    <div className="pl-4 py-2 ">
+                      <div className="text-base ">
+                        จำนวนที่นั่ง {table.seat}
+                      </div>
+                      <div className="text-sm text-gray-600 ">
+                        {table.description}
+                      </div>
+                    </div>
+                    <div className="flex justify-end items-end pb-2 pr-5 pl-2">
+                      <Button
+                        className="text-sm  mr-3"
+                        type="primary"
+                        htmlType="submit"
+                        size="small"
+                        onClick={() => {
+                          history.push(`/partner/edittable/${table._id}`);
+                        }}
                       >
-                        <div class=" uppercase tracking-wider text-sm">
-                          โต๊ะ
-                        </div>
-                        <div class=" text-lg">{table.table_no}</div>
-                      </div>
-                      <div class="pl-4 py-2 ">
-                        <div class="text-base ">จำนวนที่นั่ง {table.seat}</div>
-                        <div class="text-sm text-gray-600 ">
-                          {table.description}
-                        </div>
-                      </div>
-                      <div class="flex justify-end items-end pb-2 pr-5 pl-2">
-                        <Button
-                          className="text-sm  mr-3"
-                          type="primary"
-                          htmlType="submit"
-                          size="small"
-                          onClick={() => {
-                            history.push(`/partner/edittable/${table._id}`);
-                          }}
-                        >
-                          {<EditOutlined />}
-                        </Button>
-                        <Button
-                          className="text-sm"
-                          type="primary"
-                          size="small"
-                          danger
-                          htmlType="submit"
-                          onClick={() => {
-                            confirmDelete(table._id, id);
-                          }}
-                        >
-                          {<DeleteOutlined />}
-                        </Button>
-                      </div>
+                        {<EditOutlined />}
+                      </Button>
+                      <Button
+                        className="text-sm"
+                        type="primary"
+                        size="small"
+                        danger
+                        htmlType="submit"
+                        onClick={() => {
+                          confirmDelete(table._id, id);
+                        }}
+                      >
+                        {<DeleteOutlined />}
+                      </Button>
                     </div>
                   </div>
                 );

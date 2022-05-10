@@ -5,10 +5,8 @@ import { Button } from "antd";
 
 const App = observer(() => {
   return (
-    <div className="p-2">
-      {userStore.customer.username}
-      <h1 className="text-3xl font-bold underline">Hello</h1>
-      <Button type="primary">Button</Button>
+    <div>
+   <img className="w-full p-0" src={"/images/1.png"} />
     </div>
   );
 });
