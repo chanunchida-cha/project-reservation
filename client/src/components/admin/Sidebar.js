@@ -93,7 +93,7 @@ const Sidebar=observer(()=> {
           className="site-layout-background"
           style={{
             padding: 0,
-            backgroundColor: "#fff",
+            backgroundColor: "#f9fafb",
           }}
         >
           <h3 className="flex text-base p-3 mr-16 justify-end">คุณ{admin.firstname}  {admin.lastname}</h3>

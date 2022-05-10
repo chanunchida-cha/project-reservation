@@ -18,7 +18,7 @@ import ElementStatus from "./ElementStatus";
 const SidebarPartner = observer(() => {
   const token = sessionStorage.getItem("token");
   const partner_id = partnerStore.partnerlogin._id;
-  const partner = partnerStore.partnerlogin
+  const partner = partnerStore.partnerlogin;
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   const status = partnerStore.partnerlogin.status;
@@ -109,12 +109,11 @@ const SidebarPartner = observer(() => {
               backgroundColor: "#fff",
             }}
           >
-           {
-             partnerStore.partnerlogin &&
-             <h3 className="flex text-base p-3 mr-16 justify-end">
-             ร้าน{partner.restaurantName}
-           </h3>
-           }
+            {partnerStore.partnerlogin && (
+              <h3 className="flex text-base p-3 mr-16 justify-end">
+                ร้าน{partner.restaurantName}
+              </h3>
+            )}
           </Header>
           <Content
             className="site-layout-background"

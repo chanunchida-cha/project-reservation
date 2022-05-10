@@ -21,8 +21,8 @@ const Navbar = observer(() => {
     <Disclosure as="nav" className="bg-white">
       {({ open }) => (
         <>
-          <div className="max-w-full  mx-auto px-8 sm:px-10 lg:px-12">
-            <div className="relative flex items-center justify-between h-16">
+          <div className="bg-gray-50 max-w-full  mx-auto px-8 sm:px-10 lg:px-12">
+            <div className="relative flex items-center justify-between h-20">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-100 ">
