@@ -6,7 +6,7 @@ import { Button } from "antd";
 const App = observer(() => {
   return (
     <div>
-   <img className="w-full p-0" src={"/images/1.png"} />
+   
     </div>
   );
 });

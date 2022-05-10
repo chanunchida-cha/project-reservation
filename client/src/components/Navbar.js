@@ -8,6 +8,7 @@ import { partnerStore } from "./partner/partnerStore";
 const navigation = [
   { name: "Login", href: "/login", current: false },
   { name: "Sign up", href: "/register", current: false },
+  { name: "Be our partner", href: "/register", current: false },
 ];
 
 function classNames(...classes) {
@@ -24,19 +25,19 @@ const Navbar = observer(() => {
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-100 ">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <XIcon className="block h-6 w-6" aria-hidden="true" />
+                    <XIcon className="block h-4 w-4" aria-hidden="true" />
                   ) : (
-                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                    <MenuIcon className="block h-4 w-4" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
               <div className="flex-1 flex items-center justify-start sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
                   <a
-                    className="btn ml-5 btn-ghost normal-case text-xl"
+                    className="btn ml-6 btn-ghost normal-case text-xl"
                     href="/"
                   >
                     cubeQue
@@ -63,6 +64,69 @@ const Navbar = observer(() => {
                               {item.name}
                             </a>
                           )
+                        ) : item.name === "Be our partner" ? (
+                          <Menu as="div" className="ml-3  relative">
+                            <div>
+                              <Menu.Button className=" flex text-sm rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-white">
+                                <a
+                                  key={item.name}
+                                  href={item.href}
+                                  className={classNames(
+                                    item.current
+                                      ? "bg-gray-300 text-black"
+                                      : "text-black hover:bg-gray-300 hover:text-white",
+                                    "px-3 py-2 rounded-md text-sm font-medium"
+                                  )}
+                                  aria-current={
+                                    item.current ? "page" : undefined
+                                  }
+                                >
+                                  {item.name}
+                                </a>
+                              </Menu.Button>
+                            </div>
+                            <Transition
+                              as={Fragment}
+                              enter="transition ease-out duration-100"
+                              enterFrom="transform opacity-0 scale-95"
+                              enterTo="transform opacity-100 scale-100"
+                              leave="transition ease-in duration-75"
+                              leaveFrom="transform opacity-100 scale-100"
+                              leaveTo="transform opacity-0 scale-95"
+                            >
+                              <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Item>
+                                  {({ active }) => (
+                                    <a
+                                      href="/joinpartner"
+                                      className={classNames(
+                                        active ? "bg-gray-100" : "",
+                                        "block px-4 py-2 text-sm text-gray-700"
+                                      )}
+                                    >
+                                      Partner with us
+                                    </a>
+                                  )}
+                                </Menu.Item>
+                                {!userStore.customer.username &&
+                                  !partnerStore.partnerlogin.username && (
+                                    <Menu.Item>
+                                      {({ active }) => (
+                                        <a
+                                          href="/loginpartner"
+                                          className={classNames(
+                                            active ? "bg-gray-100" : "",
+                                            "block px-4 py-2 text-sm text-gray-700"
+                                          )}
+                                        >
+                                          Login
+                                        </a>
+                                      )}
+                                    </Menu.Item>
+                                  )}
+                              </Menu.Items>
+                            </Transition>
+                          </Menu>
                         ) : (
                           <a
                             key={item.name}
@@ -80,64 +144,6 @@ const Navbar = observer(() => {
                         )}
                       </>
                     ))}
-                    <Menu as="div" className="ml-3  relative">
-                      <div>
-                        <Menu.Button className=" flex text-sm  py-2 px-3 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-white">
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block   text-sm text-black"
-                              )}
-                            >
-                              Be our partner
-                            </a>
-                          )}
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="/joinpartner"
-                                className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm text-gray-700"
-                                )}
-                              >
-                                Partner with us
-                              </a>
-                            )}
-                          </Menu.Item>
-                          {!userStore.customer.username &&
-                            !partnerStore.partnerlogin.username && (
-                              <Menu.Item>
-                                {({ active }) => (
-                                  <a
-                                    href="/loginpartner"
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block px-4 py-2 text-sm text-gray-700"
-                                    )}
-                                  >
-                                    Login
-                                  </a>
-                                )}
-                              </Menu.Item>
-                            )}
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
                   </div>
                 </div>
               </div>
