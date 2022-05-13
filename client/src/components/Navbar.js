@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { observer } from "mobx-react-lite";
 import { userStore } from "./customer/userStore";
 import { partnerStore } from "./partner/partnerStore";
@@ -44,7 +44,7 @@ const Navbar = observer(() => {
                   </a>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
-                  <div className="flex space-x-4 pt-2">
+                  <div className="flex  space-x-4 pt-2">
                     {navigation.map((item) => (
                       <>
                         {item.name === "Login" ? (
@@ -65,11 +65,14 @@ const Navbar = observer(() => {
                             </a>
                           )
                         ) : item.name === "Be our partner" ? (
-                          <Menu as="div" className="ml-3  relative">
+                          <Menu
+                            key={item.name}
+                            as="div"
+                            className="ml-3  relative"
+                          >
                             <div>
                               <Menu.Button className=" flex text-sm rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-white">
                                 <a
-                                  key={item.name}
                                   href={item.href}
                                   className={classNames(
                                     item.current

@@ -39,7 +39,6 @@ const CreateAdmin = observer(() => {
   async function createAdmin(event) {
     event.preventDefault();
     await adminStore.createAdmin(admin);
-
     setAdmin({
       username: "",
       firstname: "",
@@ -49,6 +48,7 @@ const CreateAdmin = observer(() => {
       password: "",
       confirmPass: "",
     });
+    adminStore.getAdminsData();
     history.push("/admin/adminsdata");
   }
 

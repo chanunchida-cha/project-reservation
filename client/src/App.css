@@ -1,4 +1,5 @@
 @import '~antd/dist/antd.css';
+
 body{
   @font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
   'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
@@ -32,7 +33,9 @@ li{
 ิbutton{
   font-family:'Prompt', sans-serif ;
 }
-
+.sider{
+  background-color: white;
+}
 .App {
   text-align: center;
 }

@@ -48,7 +48,7 @@ const TableData = observer(() => {
         </Button>
       </div>
       {isTable && (
-        <div className="shadow  overflow-hidden sm:rounded-md">
+        <div className="shadow mt-4  overflow-hidden sm:rounded-md">
           <div className="px-4 py-4 bg-white sm:p-6">
             <div className="text-gray-500">
               **หมายเหตุ สีเขียว = ว่าง , สีแดง = ไม่ว่าง

@@ -5,7 +5,7 @@ import { partnerStore } from "./partnerStore";
 import { observer } from "mobx-react-lite";
 
 import {
-  UserOutlined,
+  LogoutOutlined,
   NotificationOutlined,
   CodepenOutlined,
   FormOutlined,
@@ -41,7 +41,7 @@ const SidebarPartner = observer(() => {
       )}
       <Layout style={{ minHeight: "100vh", fontFamily: "Prompt" }}>
         <Sider
-          style={{ backgroundColor: "#fff" }}
+          className="sider"
           collapsible
           collapsed={collapsed}
           onCollapse={onCollapsed}
@@ -81,12 +81,19 @@ const SidebarPartner = observer(() => {
             <SubMenu
               key="sub3"
               icon={<NotificationOutlined />}
-              title="ผู้ดูแลระบบ"
+              title="จัดการคิวการจอง"
             >
-              <Menu.Item key="7">option9</Menu.Item>
-              <Menu.Item key="8">option10</Menu.Item>
-              <Menu.Item key="9">option11</Menu.Item>
-              <Menu.Item key="10">option12</Menu.Item>
+              <Menu.Item key="7">
+                {" "}
+                <Link to={`/partner/reservation/${partner_id}`}>
+                  ข้อมูลคิวการจอง
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="8">
+                <Link to={`/partner/settingreservation/${partner_id}`}>
+                  ตั้งค่าคิวการจอง
+                </Link>
+              </Menu.Item>
             </SubMenu>
 
             <Menu.Item
@@ -95,6 +102,7 @@ const SidebarPartner = observer(() => {
                 partnerStore.logout();
                 history.push("/");
               }}
+              icon={<LogoutOutlined />}
             >
               Logout
             </Menu.Item>

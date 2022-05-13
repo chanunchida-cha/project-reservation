@@ -17,7 +17,6 @@ class AdminStore {
   constructor() {
     makeAutoObservable(this);
   }
-
   async loginAdmin(login) {
     const { username, password } = login;
     console.log(username, password);
@@ -42,8 +41,8 @@ class AdminStore {
         throw err;
       });
   }
-  getAdmin() {
-    axios
+  async getAdmin() {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/getadmin`, {
         headers: { "x-access-token": getToken() },
       })
@@ -59,8 +58,8 @@ class AdminStore {
     this.adminlogin = {};
     sessionStorage.removeItem("token");
   }
-  getAllPartner() {
-    axios
+  async getAllPartner() {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/allpartner`)
       .then((response) => {
         this.allParner = response.data;
@@ -74,8 +73,8 @@ class AdminStore {
         });
       });
   }
-  getPartnerVarify() {
-    axios
+  async getPartnerVarify() {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/verify`)
       .then((response) => {
         this.partners = response.data;
@@ -89,8 +88,8 @@ class AdminStore {
         });
       });
   }
-  getPartnerApprove() {
-    axios
+  async getPartnerApprove() {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/approve`)
       .then((response) => {
         this.partnersApprove = response.data;
@@ -104,8 +103,8 @@ class AdminStore {
         });
       });
   }
-  getPartnerDisApprove() {
-    axios
+  async getPartnerDisApprove() {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/disapprove`)
       .then((response) => {
         this.partnersDisApprove = response.data;
@@ -150,11 +149,11 @@ class AdminStore {
         });
       });
   }
-  updateStatusPartner(id, status, note) {
+  async updateStatusPartner(id, status, note) {
     console.log(id);
     console.log(status);
     console.log(note);
-    axios
+    await axios
       .put(`${process.env.REACT_APP_API_ADMIN}/updatestatus/${id}`, {
         status: status,
         note: note,
@@ -167,8 +166,8 @@ class AdminStore {
       });
   }
 
-  getCustomersData() {
-    axios
+  async getCustomersData() {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/customersdata`)
       .then((response) => {
         this.customers = response.data;
@@ -182,7 +181,6 @@ class AdminStore {
         });
       });
   }
-
   async createCustomer(info) {
     const {
       username,
@@ -230,8 +228,8 @@ class AdminStore {
       });
   }
 
-  deleteCustomer(id) {
-    axios
+  async deleteCustomer(id) {
+    await axios
       .delete(`${process.env.REACT_APP_API_ADMIN}/deletecustomer/${id}`)
       .then((response) => {
         Swal.fire(
@@ -250,7 +248,7 @@ class AdminStore {
       });
   }
 
-  editCustomer(id, info) {
+  async editCustomer(id, info) {
     const {
       username,
       firstname,
@@ -260,7 +258,7 @@ class AdminStore {
       password,
       confirmPass,
     } = info;
-    axios
+    await axios
       .put(`${process.env.REACT_APP_API_ADMIN}/editcustomer/${id}`, {
         username: username,
         firstname: firstname,
@@ -282,7 +280,6 @@ class AdminStore {
         });
       });
   }
-
   async createPartner(partner) {
     const {
       restaurantName,
@@ -336,7 +333,7 @@ class AdminStore {
       });
   }
 
-  editPartner(id, partner) {
+  async editPartner(id, partner) {
     const {
       restaurantName,
       firstname,
@@ -348,7 +345,7 @@ class AdminStore {
       password,
       confirmPass,
     } = partner;
-    axios
+    await axios
       .put(`${process.env.REACT_APP_API_ADMIN}/editpartner/${id}`, {
         restaurantName: restaurantName,
         firstname: firstname,
@@ -372,8 +369,8 @@ class AdminStore {
         });
       });
   }
-  deletePartner(id) {
-    axios
+  async deletePartner(id) {
+    await axios
       .delete(`${process.env.REACT_APP_API_ADMIN}/deletepartner/${id}`)
       .then((response) => {
         Swal.fire(
@@ -394,8 +391,8 @@ class AdminStore {
       });
   }
 
-  getAdminsData() {
-    axios
+  async getAdminsData() {
+    await axios
       .get(`${process.env.REACT_APP_API_ADMIN}/adminsdata`)
       .then((response) => {
         this.admins = response.data;
@@ -472,7 +469,7 @@ class AdminStore {
       });
   }
 
-  editAdmin(id, admin) {
+  async editAdmin(id, admin) {
     const {
       username,
       firstname,
@@ -482,7 +479,7 @@ class AdminStore {
       password,
       confirmPass,
     } = admin;
-    axios
+    await axios
       .put(`${process.env.REACT_APP_API_ADMIN}/editadmin/${id}`, {
         username: username,
         firstname: firstname,
@@ -504,8 +501,8 @@ class AdminStore {
         });
       });
   }
-  deleteAdmin(id) {
-    axios
+  async deleteAdmin(id) {
+    await axios
       .delete(`${process.env.REACT_APP_API_ADMIN}/deleteadmin/${id}`)
       .then((response) => {
         Swal.fire(
