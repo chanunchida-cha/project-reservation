@@ -35,6 +35,7 @@ const days = [
   },
 ];
 const BuffetReserv = observer((props) => {
+  console.log(props);
   const [inputFields, setInputFields] = useState([
     {
       start: "",
@@ -43,7 +44,8 @@ const BuffetReserv = observer((props) => {
   ]);
   const { id } = useParams();
   console.log(id);
-  const daykey = props.location.state.day.key;
+  const day = props.location.state.day;
+  const daykey = day.key
 
   useEffect(async () => {
     await partnerStore.getInformation(id);
@@ -65,10 +67,11 @@ const BuffetReserv = observer((props) => {
     setInputFields([...inputFields, { start: "", end: "" }]);
   };
 
-  const handleRemoveFields = (index) => {
+  const handleRemoveFields = (index,event) => {
+     event.preventDefault();
     const data = [...inputFields];
-    data.splice(index, 1)
-    setInputFields(data)
+    data.splice(index, 1);
+    setInputFields(data);
   };
 
   const partnerInfos = partnerStore.partnerInfo;
@@ -103,8 +106,6 @@ const BuffetReserv = observer((props) => {
           <div className="px-4 py-4 bg-white sm:p-6">
             <form>
               {inputFields.map((inputField, index) => {
-                // const isLast = ++index == inputFields.length
-                // console.log(isLast);
                 return (
                   <div key={index}>
                     <div className="mt-3">
@@ -156,7 +157,7 @@ const BuffetReserv = observer((props) => {
                         htmlType="submit"
                         danger
                         disabled={inputFields.length === 1}
-                        onClick={()=>handleRemoveFields(index)}
+                        onClick={() => handleRemoveFields(index)}
                       >
                         ลบ
                       </Button>

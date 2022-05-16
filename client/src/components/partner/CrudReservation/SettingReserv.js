@@ -1,5 +1,4 @@
 import React from "react";
-/* This example requires Tailwind CSS v2.0+ */
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
@@ -48,7 +47,7 @@ function SettingReserv() {
                     key={index}
                     className={({ active }) =>
                       classNames(
-                        active ? "text-white bg-[#189bff] " : "text-gray-900",
+                        active ? "text-white bg-[#189bff] " : " text-gray-900",
                         "cursor-default select-none relative py-2 pl-3 pr-9"
                       )
                     }
@@ -84,7 +83,11 @@ function SettingReserv() {
               </Listbox.Options>
             </Transition>
           </div>
-          {selected === "บุฟเฟ่" ? <SettingBuffet /> : <SettingAlacart />}
+          {selected === "บุฟเฟ่" ? (
+            <SettingBuffet buffet={types[0]} />
+          ) : (
+            <SettingAlacart />
+          )}
           <div></div>
         </>
       )}
