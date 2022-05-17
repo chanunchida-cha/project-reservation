@@ -71,7 +71,7 @@ class PartnerStore {
 
     //console.log(partner_id, description, address, contact, openday);
     await axios
-      .post(`${process.env.REACT_APP_API_PARTNER}/createinfo`, formData)
+      .post(`${process.env.REACT_APP_API_PARTNER}/create-info`, formData)
       .then((response) => {
         Swal.fire(
           "บันทึกข้อมูลทั่วไปของร้านเรียบร้อยแล้ว",
@@ -91,7 +91,7 @@ class PartnerStore {
   }
   getAllInformation() {
     axios
-      .get(`${process.env.REACT_APP_API_PARTNER}/getallinfo`)
+      .get(`${process.env.REACT_APP_API_PARTNER}/get-all-info`)
       .then((response) => {
         this.allPartnerInfo = response.data;
         console.log(this.allPartnerInfo);
@@ -103,7 +103,7 @@ class PartnerStore {
 
   async getInformation(id) {
     await axios
-      .get(`${process.env.REACT_APP_API_PARTNER}/getallinfo/${id}`)
+      .get(`${process.env.REACT_APP_API_PARTNER}/get-all-info/${id}`)
       .then((response) => {
         this.partnerInfo = response.data;
         console.log(this.partnerInfo);
@@ -116,7 +116,7 @@ class PartnerStore {
   async updateInformation(id, formData) {
     console.log("formdata", formData);
     await axios
-      .put(`${process.env.REACT_APP_API_PARTNER}/updateinfo/${id}`, formData)
+      .put(`${process.env.REACT_APP_API_PARTNER}/update-info/${id}`, formData)
       .then((response) => {
         Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
       })
@@ -131,7 +131,7 @@ class PartnerStore {
 
     //console.log(partner_id, description, address, contact, openday);
     await axios
-      .post(`${process.env.REACT_APP_API_PARTNER}/createmenu`, formData)
+      .post(`${process.env.REACT_APP_API_PARTNER}/create-menu`, formData)
       .then((response) => {
         Swal.fire(
           "บันทึกข้อมูลเมนูอาหารเรียบร้อยแล้ว",
@@ -152,7 +152,7 @@ class PartnerStore {
 
   async getMenuByRest(id) {
     await axios
-      .get(`${process.env.REACT_APP_API_PARTNER}/getmenu/${id}`)
+      .get(`${process.env.REACT_APP_API_PARTNER}/get-menu/${id}`)
       .then((response) => {
         this.menus = response.data;
         console.log(this.menus);
@@ -164,7 +164,7 @@ class PartnerStore {
 
   async getMenuById(id) {
     await axios
-      .get(`${process.env.REACT_APP_API_PARTNER}/getmenubyid/${id}`)
+      .get(`${process.env.REACT_APP_API_PARTNER}/get-menu-by-id/${id}`)
       .then((response) => {
         this.menu = response.data;
         console.log(this.menu);
@@ -177,7 +177,7 @@ class PartnerStore {
   async updateMenu(id, formData) {
     console.log("formdata", formData);
     await axios
-      .put(`${process.env.REACT_APP_API_PARTNER}/updatemenu/${id}`, formData)
+      .put(`${process.env.REACT_APP_API_PARTNER}/update-menu/${id}`, formData)
       .then((response) => {
         Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
       })
@@ -189,7 +189,7 @@ class PartnerStore {
 
   async deleteMenu(menu_id, id) {
     await axios
-      .delete(`${process.env.REACT_APP_API_PARTNER}/deletemenu/${menu_id}`)
+      .delete(`${process.env.REACT_APP_API_PARTNER}/delete-menu/${menu_id}`)
       .then((response) => {
         Swal.fire(
           "ลบข้อมูลเมนูอาหารเรียบร้อยแล้ว!",
@@ -210,7 +210,7 @@ class PartnerStore {
   async createTable(partner_id, table) {
     const { table_no, seat, description } = table;
     await axios
-      .post(`${process.env.REACT_APP_API_PARTNER}/createtable`, {
+      .post(`${process.env.REACT_APP_API_PARTNER}/create-table`, {
         partner_id: partner_id,
         table_no: table_no,
         seat: seat,
@@ -235,7 +235,7 @@ class PartnerStore {
   }
   async getTableByRest(id) {
     await axios
-      .get(`${process.env.REACT_APP_API_PARTNER}/gettable/${id}`)
+      .get(`${process.env.REACT_APP_API_PARTNER}/get-table/${id}`)
       .then((response) => {
         this.tables = response.data;
         console.log(this.tables);
@@ -246,7 +246,7 @@ class PartnerStore {
   }
   async getTableById(id) {
     await axios
-      .get(`${process.env.REACT_APP_API_PARTNER}/gettablebyid/${id}`)
+      .get(`${process.env.REACT_APP_API_PARTNER}/get-table-by-id/${id}`)
       .then((response) => {
         this.table = response.data;
         console.log(this.table);
@@ -258,7 +258,7 @@ class PartnerStore {
   async updateTable(id, partner_id, table) {
     const { table_no, seat, description } = table;
     await axios
-      .put(`${process.env.REACT_APP_API_PARTNER}/updatetable/${id}`, {
+      .put(`${process.env.REACT_APP_API_PARTNER}/update-table/${id}`, {
         partner_id: partner_id,
         table_no: table_no,
         seat: seat,
@@ -283,7 +283,7 @@ class PartnerStore {
   }
   async deleteTable(table_id, id) {
     await axios
-      .delete(`${process.env.REACT_APP_API_PARTNER}/deletetable/${table_id}`)
+      .delete(`${process.env.REACT_APP_API_PARTNER}/delete-table/${table_id}`)
       .then((response) => {
         Swal.fire(
           "ลบข้อมูลโต๊ะเรียบร้อยแล้ว!",
@@ -305,7 +305,7 @@ class PartnerStore {
     const { username, password } = login;
     console.log(username, password);
     await axios
-      .post(`${process.env.REACT_APP_API_PARTNER}/partnerlogin`, {
+      .post(`${process.env.REACT_APP_API_PARTNER}/partner-login`, {
         username: username,
         password: password,
       })
@@ -327,7 +327,7 @@ class PartnerStore {
   }
   async getPartner() {
     await axios
-      .get(`${process.env.REACT_APP_API_PARTNER}/getpartner`, {
+      .get(`${process.env.REACT_APP_API_PARTNER}/get-partner`, {
         headers: { "x-access-token": getToken() },
       })
       .then((response) => {

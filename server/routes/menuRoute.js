@@ -10,11 +10,11 @@ const {
 const upload = require("../middlewares/upload");
 const router = Router();
 
-router.route("/createmenu").post(upload, createMenu);
-router.route("/updatemenu/:id").put(upload, updateMenu);
-router.route("/getmenu").get(getMenu);
-router.route("/getmenu/:id").get(getMenuByRest);
-router.route("/getmenubyid/:id").get(getMenuById);
-router.route("/deletemenu/:id").delete(deleteMenu);
+router.route("/create-menu").post(upload, createMenu);
+router.route("/update-menu/:id").put(upload, updateMenu);
+router.route("/get-menu").get(getMenu);
+router.route("/get-menu/:id").get(getMenuByRest);
+router.route("/get-menu-by-id/:id").get(getMenuById);
+router.route("/delete-menu/:id").delete(deleteMenu);
 
 module.exports = router;

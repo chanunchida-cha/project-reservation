@@ -3,7 +3,7 @@ const router = Router();
 const { adminLogin, getAdmin } = require("../controllers/adminAuthController");
 const adminAuth = require("../middlewares/adminAuth");
 
-router.post("/adminlogin", adminLogin);
-router.get("/getadmin", adminAuth, getAdmin);
+router.post("/admin-login", adminLogin);
+router.get("/get-admin", adminAuth, getAdmin);
 
 module.exports = router;

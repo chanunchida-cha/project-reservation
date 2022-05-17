@@ -21,24 +21,24 @@ const {
   getAdminById,
   deleteAdmin,
 } = require("../controllers/adminController");
-router.route("/allpartner").get(getPartner);
+router.route("/all-partner").get(getPartner);
 router.route("/verify").get(getPartnerVerify);
-router.route("/customersdata").get(getUsers);
-router.route("/customersdata/:id").get(getUserById);
+router.route("/customers-data").get(getUsers);
+router.route("/customers-data/:id").get(getUserById);
 router.route("/approve").get(getPartnerApprove);
 router.route("/disapprove").get(getPartnerDisApprove);
 router.route("/verify/:id").get(getPartnerById);
-router.route("/updatestatus/:id").put(updateStatusPartner);
-router.route("/createcustomer").post(createCustomer);
-router.route("/deletecustomer/:id").delete(deleteCustomer);
-router.route("/editcustomer/:id").put(editCustomer);
-router.route("/createpartner").post(createPartner);
-router.route("/deletepartner/:id").delete(deletePartner);
-router.route("/editpartner/:id").put(editPartner);
-router.route("/adminsdata").get(getAdmins);
-router.route("/adminsdata/:id").get(getAdminById);
-router.route("/createadmin").post(createAdmin);
-router.route("/editadmin/:id").put(editAdmin);
-router.route("/deleteadmin/:id").delete(deleteAdmin);
+router.route("/update-status/:id").put(updateStatusPartner);
+router.route("/create-customer").post(createCustomer);
+router.route("/delete-customer/:id").delete(deleteCustomer);
+router.route("/edit-customer/:id").put(editCustomer);
+router.route("/create-partner").post(createPartner);
+router.route("/delete-partner/:id").delete(deletePartner);
+router.route("/edit-partner/:id").put(editPartner);
+router.route("/admins-data").get(getAdmins);
+router.route("/admins-data/:id").get(getAdminById);
+router.route("/create-admin").post(createAdmin);
+router.route("/edit-admin/:id").put(editAdmin);
+router.route("/delete-admin/:id").delete(deleteAdmin);
 
 module.exports = router;

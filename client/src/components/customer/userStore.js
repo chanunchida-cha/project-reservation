@@ -78,7 +78,7 @@ class UserStore {
   }
   getUser() {
     axios
-      .get(`${process.env.REACT_APP_API}/getuser`, {
+      .get(`${process.env.REACT_APP_API}/get-user`, {
         headers: { "x-access-token": getToken() },
       })
       .then((response) => {

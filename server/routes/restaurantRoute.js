@@ -9,10 +9,10 @@ const {
 const upload = require("../middlewares/upload");
 const router = Router();
 
-router.route("/createinfo").post(upload, createInfoRestaurant);
-router.route("/updateinfo/:id").put(upload, updateInfoRestaurant);
-router.route("/deleteinfo/:id").delete(deleteInfoRestaurant);
-router.route("/getallinfo").get(getInfoRestaurant);
-router.route("/getallinfo/:id").get(getInfoRestaurantById);
+router.route("/create-info").post(upload, createInfoRestaurant);
+router.route("/update-info/:id").put(upload, updateInfoRestaurant);
+router.route("/delete-info/:id").delete(deleteInfoRestaurant);
+router.route("/get-all-info").get(getInfoRestaurant);
+router.route("/get-all-info/:id").get(getInfoRestaurantById);
 
 module.exports = router;

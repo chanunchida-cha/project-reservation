@@ -21,7 +21,7 @@ class AdminStore {
     const { username, password } = login;
     console.log(username, password);
     await axios
-      .post(`${process.env.REACT_APP_API_ADMIN}/adminlogin`, {
+      .post(`${process.env.REACT_APP_API_ADMIN}/admin-login`, {
         username: username,
         password: password,
       })
@@ -43,7 +43,7 @@ class AdminStore {
   }
   async getAdmin() {
     await axios
-      .get(`${process.env.REACT_APP_API_ADMIN}/getadmin`, {
+      .get(`${process.env.REACT_APP_API_ADMIN}/get-admin`, {
         headers: { "x-access-token": getToken() },
       })
       .then((response) => {
@@ -60,7 +60,7 @@ class AdminStore {
   }
   async getAllPartner() {
     await axios
-      .get(`${process.env.REACT_APP_API_ADMIN}/allpartner`)
+      .get(`${process.env.REACT_APP_API_ADMIN}/all-partner`)
       .then((response) => {
         this.allParner = response.data;
         console.log(this.allParner);
@@ -136,7 +136,7 @@ class AdminStore {
   }
   async getCustomerById(id) {
     await axios
-      .get(`${process.env.REACT_APP_API_ADMIN}/customersdata/${id}`)
+      .get(`${process.env.REACT_APP_API_ADMIN}/customers-data/${id}`)
       .then((response) => {
         this.customer = response.data;
         console.log(this.customer);
@@ -154,7 +154,7 @@ class AdminStore {
     console.log(status);
     console.log(note);
     await axios
-      .put(`${process.env.REACT_APP_API_ADMIN}/updatestatus/${id}`, {
+      .put(`${process.env.REACT_APP_API_ADMIN}/update-status/${id}`, {
         status: status,
         note: note,
       })
@@ -168,7 +168,7 @@ class AdminStore {
 
   async getCustomersData() {
     await axios
-      .get(`${process.env.REACT_APP_API_ADMIN}/customersdata`)
+      .get(`${process.env.REACT_APP_API_ADMIN}/customers-data`)
       .then((response) => {
         this.customers = response.data;
         console.log(this.customers);
@@ -201,7 +201,7 @@ class AdminStore {
       confirmPass
     );
     await axios
-      .post(`${process.env.REACT_APP_API_ADMIN}/createcustomer`, {
+      .post(`${process.env.REACT_APP_API_ADMIN}/create-customer`, {
         username: username,
         firstname: firstname,
         lastname: lastname,
@@ -230,7 +230,7 @@ class AdminStore {
 
   async deleteCustomer(id) {
     await axios
-      .delete(`${process.env.REACT_APP_API_ADMIN}/deletecustomer/${id}`)
+      .delete(`${process.env.REACT_APP_API_ADMIN}/delete-customer/${id}`)
       .then((response) => {
         Swal.fire(
           "ลบข้อมูลลูกค้าเรียบร้อยแล้ว!",
@@ -259,7 +259,7 @@ class AdminStore {
       confirmPass,
     } = info;
     await axios
-      .put(`${process.env.REACT_APP_API_ADMIN}/editcustomer/${id}`, {
+      .put(`${process.env.REACT_APP_API_ADMIN}/edit-customer/${id}`, {
         username: username,
         firstname: firstname,
         lastname: lastname,
@@ -304,7 +304,7 @@ class AdminStore {
       confirmPass
     );
     await axios
-      .post(`${process.env.REACT_APP_API_ADMIN}/createpartner`, {
+      .post(`${process.env.REACT_APP_API_ADMIN}/create-partner`, {
         restaurantName: restaurantName,
         firstname: firstname,
         lastname: lastname,
@@ -346,7 +346,7 @@ class AdminStore {
       confirmPass,
     } = partner;
     await axios
-      .put(`${process.env.REACT_APP_API_ADMIN}/editpartner/${id}`, {
+      .put(`${process.env.REACT_APP_API_ADMIN}/edit-partner/${id}`, {
         restaurantName: restaurantName,
         firstname: firstname,
         lastname: lastname,
@@ -371,7 +371,7 @@ class AdminStore {
   }
   async deletePartner(id) {
     await axios
-      .delete(`${process.env.REACT_APP_API_ADMIN}/deletepartner/${id}`)
+      .delete(`${process.env.REACT_APP_API_ADMIN}/delete-partner/${id}`)
       .then((response) => {
         Swal.fire(
           "ลบข้อมูลร้านอาหารเรียบร้อยแล้ว!",
@@ -393,7 +393,7 @@ class AdminStore {
 
   async getAdminsData() {
     await axios
-      .get(`${process.env.REACT_APP_API_ADMIN}/adminsdata`)
+      .get(`${process.env.REACT_APP_API_ADMIN}/admins-data`)
       .then((response) => {
         this.admins = response.data;
         console.log(this.admins);
@@ -408,7 +408,7 @@ class AdminStore {
   }
   async getAdminById(id) {
     await axios
-      .get(`${process.env.REACT_APP_API_ADMIN}/adminsdata/${id}`)
+      .get(`${process.env.REACT_APP_API_ADMIN}/admins-data/${id}`)
       .then((response) => {
         this.admin = response.data;
         console.log(this.admin);
@@ -442,7 +442,7 @@ class AdminStore {
       confirmPass
     );
     await axios
-      .post(`${process.env.REACT_APP_API_ADMIN}/createadmin`, {
+      .post(`${process.env.REACT_APP_API_ADMIN}/create-admin`, {
         username: username,
         firstname: firstname,
         lastname: lastname,
@@ -480,7 +480,7 @@ class AdminStore {
       confirmPass,
     } = admin;
     await axios
-      .put(`${process.env.REACT_APP_API_ADMIN}/editadmin/${id}`, {
+      .put(`${process.env.REACT_APP_API_ADMIN}/edit-admin/${id}`, {
         username: username,
         firstname: firstname,
         lastname: lastname,
@@ -503,7 +503,7 @@ class AdminStore {
   }
   async deleteAdmin(id) {
     await axios
-      .delete(`${process.env.REACT_APP_API_ADMIN}/deleteadmin/${id}`)
+      .delete(`${process.env.REACT_APP_API_ADMIN}/delete-admin/${id}`)
       .then((response) => {
         Swal.fire(
           "ลบข้อมูลผู้ดูแลระบบเรียบร้อยแล้ว!",
