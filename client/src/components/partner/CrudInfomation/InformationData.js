@@ -76,7 +76,7 @@ const InformationData = observer(() => {
               </div>
               <div className="border-t border-gray-200">
                 <dl>
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-900">
                       รายละเอียดร้าน
                     </dt>
@@ -84,7 +84,7 @@ const InformationData = observer(() => {
                       {partnerInfo.description}
                     </dd>
                   </div>
-                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-900">
                       ที่ตั้งร้านอาหาร
                     </dt>
@@ -92,7 +92,7 @@ const InformationData = observer(() => {
                       {partnerInfo.address}
                     </dd>
                   </div>
-                  <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-900">
                       ข้อมูลติดต่อ
                     </dt>
@@ -100,7 +100,7 @@ const InformationData = observer(() => {
                       {partnerInfo.contact}
                     </dd>
                   </div>
-                  <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-900">
                       ประเภทร้านอาหาร
                     </dt>
@@ -112,7 +112,7 @@ const InformationData = observer(() => {
                   </div>
                   {partnerInfo.type_rest === "rounds" ? (
                     <>
-                      <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-900">
                           วันเปิด-ปิดร้านอาหาร
                         </dt>
@@ -129,7 +129,7 @@ const InformationData = observer(() => {
                           })}
                         </dd>
                       </div>
-                      <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-900">
                           รอบเวลาที่เปิด
                         </dt>
@@ -147,7 +147,17 @@ const InformationData = observer(() => {
                       </div>
                     </>
                   ) : (
-                    <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <>
+                     <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-900">
+                      ระยะเวลาขั้นต่ำ/รอบการจอง
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {partnerInfo.time_length}  นาที
+                    </dd>
+                  </div>
+                    
+                    <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-900">
                         เวลาเปิด-ปิดร้านอาหาร
                       </dt>
@@ -174,6 +184,7 @@ const InformationData = observer(() => {
                         })}
                       </dd>
                     </div>
+                    </>
                   )}
                   <div className=" bg-gray-50 px-4 py-3 sm:px-6  align-middle  ">
                     <dt className="text-sm font-medium text-gray-900">
