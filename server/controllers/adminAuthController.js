@@ -18,7 +18,7 @@ const adminLogin = async (req, res) => {
         { admin_id: admin._id, username },
         process.env.JWT_SECRET,
         {
-          expiresIn: "2h",
+          expiresIn: "5h",
         }
       );
       admin.token = token;

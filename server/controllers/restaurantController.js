@@ -4,7 +4,16 @@ const mongoose = require("mongoose");
 
 const createInfoRestaurant = async (req, res) => {
   try {
-    const { partner_id, description, contact, address, openday } = req.body;
+    const {
+      partner_id,
+      description,
+      contact,
+      address,
+      type_rest,
+      time_length,
+      openday,
+      rounds,
+    } = req.body;
     const partnerId = mongoose.Types.ObjectId(partner_id);
     const image = req.file.originalname;
 
@@ -13,7 +22,10 @@ const createInfoRestaurant = async (req, res) => {
       description: description,
       contact: contact,
       address: address,
+      type_rest: type_rest,
+      time_length: time_length,
       openday: openday,
+      rounds: rounds,
       image: image,
     });
 
@@ -25,11 +37,16 @@ const createInfoRestaurant = async (req, res) => {
 
 const updateInfoRestaurant = (req, res) => {
   const { id } = req.params;
-  const { partner_id, description, contact, address, openday } = req.body;
-  // const partnerId = mongoose.Types.ObjectId(partner_id);
-  // if (!(partnerId && description && image && contact && address && openday)) {
-  //   res.status(400).json({ error: "All input is requires" });
-  // }
+  const {
+    description,
+    contact,
+    address,
+    type_rest,
+    time_length,
+    openday,
+    rounds,
+  } = req.body;
+
   if (req.file) {
     const image = req.file.filename;
     restaurants.findByIdAndUpdate(
@@ -39,7 +56,10 @@ const updateInfoRestaurant = (req, res) => {
           description: description,
           contact: contact,
           address: address,
+          type_rest: type_rest,
+          time_length: time_length,
           openday: openday,
+          rounds: rounds,
           image: image,
         },
       },
@@ -59,7 +79,10 @@ const updateInfoRestaurant = (req, res) => {
           description: description,
           contact: contact,
           address: address,
+          type_rest: type_rest,
+          time_length: time_length,
           openday: openday,
+          rounds: rounds,
         },
       },
       (err, restaurant) => {

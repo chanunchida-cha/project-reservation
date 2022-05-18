@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const info = {
+const info_openday = {
   type: {
     type: String,
   },
@@ -34,15 +34,23 @@ const restaurants = mongoose.Schema({
     required: true,
     trim: true,
   },
-
+  type_rest: {
+    type: String,
+  },
+  time_length: {
+    type: String,
+  },
+  rounds: {
+    type: Array,
+  },
   openday: {
-    monday: info,
-    tuesday: info,
-    wednesday: info,
-    thursday: info,
-    friday: info,
-    saturday: info,
-    sunday: info,
+    monday: info_openday,
+    tuesday: info_openday,
+    wednesday: info_openday,
+    thursday: info_openday,
+    friday: info_openday,
+    saturday: info_openday,
+    sunday: info_openday,
   },
 });
 

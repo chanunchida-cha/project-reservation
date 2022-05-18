@@ -42,6 +42,7 @@ function classNames(...classes) {
 }
 
 const SettingBuffet = observer(({ buffet }) => {
+  console.log(buffet);
   const [selected, setSelected] = useState(days[0]);
   const [inputFields, setInputFields] = useState([
     {
@@ -83,6 +84,7 @@ const SettingBuffet = observer(({ buffet }) => {
   };
 
   console.log(selected);
+  console.log(days[0].key);
   const partnerInfos = partnerStore.partnerInfo;
   return (
     <div>

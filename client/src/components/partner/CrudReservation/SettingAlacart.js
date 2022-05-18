@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button } from "antd";
 import { useParams } from "react-router-dom";
 
-function SettingAlacart() {
+function SettingAlacart({alacart}) {
+  console.log(alacart);
   const [reservLength, setReservLength] = useState();
   return (
     <div className="shadow mt-4  overflow-hidden sm:rounded-md">

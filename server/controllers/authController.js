@@ -18,7 +18,7 @@ const login = async (req, res) => {
         { user_id: user._id, username },
         process.env.JWT_SECRET,
         {
-          expiresIn: "2h",
+          expiresIn: "5h",
         }
       );
       user.token = token;

@@ -5,7 +5,16 @@ import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import SettingBuffet from "./SettingBuffet";
 import SettingAlacart from "./SettingAlacart";
 
-const types = ["บุฟเฟ่", "อาลาคาร์ท"];
+const types = [
+  {
+    key: "buffet",
+    i18n: "บุฟเฟ่",
+  },
+  {
+    key: "alacart",
+    i18n: "อลาคาร์ท",
+  },
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -24,7 +33,7 @@ function SettingReserv() {
           <div className="mt-1 relative">
             <Listbox.Button className="relative w-80 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
               <span className="flex items-center">
-                <span className="ml-3 block truncate">{selected}</span>
+                <span className="ml-3 block truncate">{selected.i18n}</span>
               </span>
               <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
@@ -62,7 +71,7 @@ function SettingReserv() {
                               "ml-3 block truncate"
                             )}
                           >
-                            {type}
+                            {type.i18n}
                           </span>
                         </div>
 
@@ -83,10 +92,10 @@ function SettingReserv() {
               </Listbox.Options>
             </Transition>
           </div>
-          {selected === "บุฟเฟ่" ? (
-            <SettingBuffet buffet={types[0]} />
+          {selected.key === "buffet" ? (
+            <SettingBuffet buffet={types[0].key} />
           ) : (
-            <SettingAlacart />
+            <SettingAlacart alacart={types[1].key} />
           )}
           <div></div>
         </>

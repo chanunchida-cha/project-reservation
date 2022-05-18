@@ -18,7 +18,7 @@ const partnerLogin = async (req, res) => {
         { partner_id: partner._id, username },
         process.env.JWT_SECRET,
         {
-          expiresIn: "2h",
+          expiresIn: "5h",
         }
       );
 
