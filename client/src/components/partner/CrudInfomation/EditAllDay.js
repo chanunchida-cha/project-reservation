@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Radio } from "antd";
 import TextField from "@mui/material/TextField";
 
-function SettingAllDay({
+function EditAllDay({
   days,
   openDay,
   onChangeValue,
   timeLength,
   onTimeLengthChange,
 }) {
+  console.log("days", days);
+  console.log("timelength", timeLength);
+  console.log("openday", openDay);
   return (
     <div className="grid grid-cols-6 gap-6">
       <div className="col-span-1 sm:col-span-1 ">
@@ -23,8 +26,8 @@ function SettingAllDay({
           name="timeLength"
           id="timeLength"
           value={timeLength}
-          onChange={(e) => {
-            onTimeLengthChange(e.target.value);
+          onChange={(event) => {
+            onTimeLengthChange(event.target.value);
           }}
           autoComplete="timeLength"
           className="p-2  mt-1 shadow-md w-80 lg:text-sm border-gray-500 rounded-md"
@@ -136,4 +139,4 @@ function SettingAllDay({
   );
 }
 
-export default SettingAllDay;
+export default EditAllDay;

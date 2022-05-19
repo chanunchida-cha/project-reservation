@@ -63,9 +63,10 @@ const CreateInfomation = observer(() => {
     },
   ]);
   const [timeLength, setTimeLength] = useState();
-  const [image, setimage] = useState(null);
+  const [image, setimage] = useState();
   const [preview, setPreview] = useState();
   const [selected, setSelected] = useState(types[0]);
+  console.log(timeLength);
   console.log(selected);
   console.log(timeLength);
   console.log(inputFields);

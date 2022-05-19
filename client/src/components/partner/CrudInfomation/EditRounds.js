@@ -1,36 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Radio } from "antd";
 import TextField from "@mui/material/TextField";
+import { Button } from "antd";
 
-function SettingAllDay({
-  days,
-  openDay,
-  onChangeValue,
-  timeLength,
-  onTimeLengthChange,
-}) {
+function EditRounds({
+    days,
+    openDay,
+    onChangeValue,
+    inputFields,
+    handleChangeInput,
+    handleAddFields,
+    handleRemoveFields,
+  }) {
   return (
-    <div className="grid grid-cols-6 gap-6">
-      <div className="col-span-1 sm:col-span-1 ">
-        <label
-          htmlFor="email-address"
-          className=" text-sm font-medium text-gray-700"
-        >
-          ระยะเวลาขั้นต่ำ/รอบการจอง
-        </label>
-        <input
-          type="text"
-          name="timeLength"
-          id="timeLength"
-          value={timeLength}
-          onChange={(e) => {
-            onTimeLengthChange(e.target.value);
-          }}
-          autoComplete="timeLength"
-          className="p-2  mt-1 shadow-md w-80 lg:text-sm border-gray-500 rounded-md"
-        />
-      </div>
-
+    <div>
       <div className="col-span-6 sm:col-span-6">
         <label
           htmlFor="openDay"
@@ -56,8 +39,6 @@ function SettingAllDay({
                         ...openDay,
                         [day.key]: {
                           type: e.target.value,
-                          start: "",
-                          end: "",
                         },
                       });
                     } else {
@@ -74,25 +55,25 @@ function SettingAllDay({
                   <Radio value={"open"}>เปิด</Radio>
                   <Radio value={"close"}>ไม่เปิด</Radio>
                 </Radio.Group>
+              </div>
+            );
+          })}
 
-                {openDay[day.key].type === "open" && (
+          <div className="">
+            เพิ่มรอบเวลา
+            {inputFields.map((inputField, index) => {
+              return (
+                <div key={index}>
                   <div className="mt-3">
                     <TextField
                       name="start"
-                      id="time"
-                      label="เวลาเปิด"
-                      type="time"
-                      onChange={(e) => {
-                        onChangeValue({
-                          ...openDay,
-                          [day.key]: {
-                            ...openDay[day.key],
-                            start: e.target.value,
-                            end: openDay[day.key].end,
-                          },
-                        });
+                      value={inputField.start}
+                      onChange={(event) => {
+                        handleChangeInput(index, event);
                       }}
-                      value={openDay[day.key].start}
+                      id="time"
+                      label="เริ่มต้น"
+                      type="time"
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -103,20 +84,13 @@ function SettingAllDay({
                     />
                     <TextField
                       name="end"
-                      id="time"
-                      label="เวลาปิด"
-                      type="time"
-                      onChange={(e) => {
-                        onChangeValue({
-                          ...openDay,
-                          [day.key]: {
-                            ...openDay[day.key],
-                            start: openDay[day.key].start,
-                            end: e.target.value,
-                          },
-                        });
+                      value={inputField.end}
+                      onChange={(event) => {
+                        handleChangeInput(index, event);
                       }}
-                      value={openDay[day.key].end}
+                      id="time"
+                      label="หมดเวลา"
+                      type="time"
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -125,15 +99,33 @@ function SettingAllDay({
                       }}
                       sx={{ width: 150 }}
                     />
+                    <Button
+                      className="text-base ml-2 mt-2 px-2"
+                      type="primary"
+                      htmlType="submit"
+                      onClick={handleAddFields}
+                    >
+                      เพิ่มรอบการจอง
+                    </Button>
+                    <Button
+                      className="text-base ml-2 mt-2 px-2"
+                      type="primary"
+                      htmlType="submit"
+                      danger
+                      disabled={inputFields.length === 1}
+                      onClick={() => handleRemoveFields(index)}
+                    >
+                      ลบ
+                    </Button>
                   </div>
-                )}
-              </div>
-            );
-          })}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default SettingAllDay;
+export default EditRounds

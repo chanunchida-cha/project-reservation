@@ -139,7 +139,7 @@ const InformationData = observer(() => {
                               <div className="mb-3" key={index}>
                                 {`รอบที่ ${index + 1} เวลา ${round.start} - ${
                                   round.end
-                                }`}
+                                } น.`}
                               </div>
                             );
                           })}

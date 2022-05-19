@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Radio } from "antd";
-import TextField from "@mui/material/TextField";
 import { Button } from "antd";
 import { partnerStore } from "../partnerStore";
 import { useParams, useHistory } from "react-router-dom";
+import EditTypeRest from "./EditTypeRest";
+import EditAllDay from "./EditAllDay";
+import EditRounds from "./EditRounds";
 
 const days = [
   {
@@ -37,6 +38,17 @@ const days = [
   },
 ];
 
+const types = [
+  {
+    key: "allDay",
+    i18n: "เปิดทั้งวัน",
+  },
+  {
+    key: "rounds",
+    i18n: "เปิดเป็นรอบเวลา",
+  },
+];
+
 const EditInformation = observer(() => {
   const history = useHistory();
   const { id } = useParams();
@@ -48,8 +60,18 @@ const EditInformation = observer(() => {
     contact: "",
   });
   const [image, setimage] = useState(null);
+  const [timeLength, setTimeLength] = useState("");
   const [preview, setPreview] = useState(null);
   const [imageChange, setImageChange] = useState(false);
+  const [selected, setSelected] = useState();
+  console.log(selected);
+  console.log(timeLength);
+  const [inputFields, setInputFields] = useState([
+    {
+      start: "",
+      end: "",
+    },
+  ]);
   const [openDay, setOpenDay] = useState({
     monday: {
       type: "",
@@ -73,7 +95,7 @@ const EditInformation = observer(() => {
       type: "",
     },
   });
-
+  console.log(openDay);
   useEffect(async () => {
     await partnerStore.getInformation(id);
     partnerStore.partnerInfo.map((info) => {
@@ -83,8 +105,18 @@ const EditInformation = observer(() => {
           address: info.address,
           contact: info.contact,
         }),
+        setSelected(info.type_rest),
         setimage(info.image),
         setInfoId(info._id.toString()),
+        setInputFields(
+          info.rounds.map((round) => {
+            return {
+              start: round.start,
+              end: round.end,
+            };
+          })
+        ),
+        setTimeLength(info.time_length),
         setOpenDay({
           monday: {
             type: info.openday.monday.type,
@@ -125,6 +157,8 @@ const EditInformation = observer(() => {
       );
     });
   }, []);
+  console.log(inputFields);
+  console.log("selested", selected);
 
   const onChangeInfo = (event) => {
     const { name, value } = event.target;
@@ -152,6 +186,29 @@ const EditInformation = observer(() => {
   console.log(partnerStore.partnerInfo);
   console.log(infoId);
 
+  const handleChangeInput = (index, event) => {
+    const newInputFields = inputFields.map((inputField, id) => {
+      if (index === id) {
+        inputField[event.target.name] = event.target.value;
+      }
+      return inputField;
+    });
+
+    setInputFields(newInputFields);
+    console.log(inputFields);
+  };
+
+  const handleAddFields = (event) => {
+    event.preventDefault();
+    setInputFields([...inputFields, { start: "", end: "" }]);
+  };
+
+  const handleRemoveFields = (index) => {
+    const data = [...inputFields];
+    data.splice(index, 1);
+    setInputFields(data);
+  };
+
   const updateInformation = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -160,14 +217,27 @@ const EditInformation = observer(() => {
     formData.append("address", info.address);
     formData.append("contact", info.contact);
     formData.append("image", image);
-    for (const day of days) {
-      console.log(`openday[${day.key}][type]`);
-      formData.append(`openday[${day.key}][type]`, openDay[day.key].type);
-      if (openDay[day.key].type === "open") {
-        formData.append(`openday[${day.key}][start]`, openDay[day.key].start);
-        formData.append(`openday[${day.key}][end]`, openDay[day.key].end);
+    formData.append("type_rest", selected);
+    if (selected === "allDay") {
+      formData.append("time_length", timeLength);
+      for (const day of days) {
+        console.log(`openday[${day.key}][type]`);
+        formData.append(`openday[${day.key}][type]`, openDay[day.key].type);
+        if (openDay[day.key].type === "open") {
+          formData.append(`openday[${day.key}][start]`, openDay[day.key].start);
+          formData.append(`openday[${day.key}][end]`, openDay[day.key].end);
+        }
+        console.log(openDay[day.key].type);
       }
-      console.log(openDay[day.key].type);
+    } else if (selected === "rounds") {
+      for (const day of days) {
+        console.log(`openday[${day.key}][type]`);
+        formData.append(`openday[${day.key}][type]`, openDay[day.key].type);
+      }
+      for (const index in inputFields) {
+        formData.append(`rounds[${index}][start]`, inputFields[index].start);
+        formData.append(`rounds[${index}][end]`, inputFields[index].end);
+      }
     }
 
     await partnerStore.updateInformation(infoId, formData);
@@ -294,108 +364,34 @@ const EditInformation = observer(() => {
                     </div>
                   </div>
                 </div>
-
-                <div className="col-span-6 sm:col-span-6">
-                  <label
-                    htmlFor="email-address"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    เวลาเปิด-ปิดร้าน
-                  </label>
-                  <div className="mt-2 bg-white shadow-sm border-gray-300 rounded-md p-3 ">
-                    {days.map((day) => {
-                      return (
-                        <div key={day.key} className="mt-3 mb-2">
-                          <label
-                            htmlFor={day.key}
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            {day.i18n}
-                          </label>
-                          <Radio.Group
-                            name="type"
-                            onChange={(e) => {
-                              if (e.target.value === "open") {
-                                setOpenDay({
-                                  ...openDay,
-                                  [day.key]: {
-                                    type: e.target.value,
-                                    start: "",
-                                    end: "",
-                                  },
-                                });
-                              } else {
-                                setOpenDay({
-                                  ...openDay,
-                                  [day.key]: {
-                                    type: e.target.value,
-                                  },
-                                });
-                              }
-                            }}
-                            value={openDay[day.key].type}
-                          >
-                            <Radio value={"open"}>เปิด</Radio>
-                            <Radio value={"close"}>ไม่เปิด</Radio>
-                          </Radio.Group>
-
-                          {openDay[day.key].type === "open" && (
-                            <div className="mt-3">
-                              <TextField
-                                name="start"
-                                id="time"
-                                label="เวลาเปิด"
-                                type="time"
-                                onChange={(e) => {
-                                  setOpenDay({
-                                    ...openDay,
-                                    [day.key]: {
-                                      ...openDay[day.key],
-                                      start: e.target.value,
-                                      end: openDay[day.key].end,
-                                    },
-                                  });
-                                }}
-                                value={openDay[day.key].start}
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                inputProps={{
-                                  step: 300, // 5 min
-                                }}
-                                sx={{ width: 150, marginRight: 2 }}
-                              />
-                              <TextField
-                                name="end"
-                                id="time"
-                                label="เวลาปิด"
-                                type="time"
-                                onChange={(e) => {
-                                  setOpenDay({
-                                    ...openDay,
-                                    [day.key]: {
-                                      ...openDay[day.key],
-                                      start: openDay[day.key].start,
-                                      end: e.target.value,
-                                    },
-                                  });
-                                }}
-                                value={openDay[day.key].end}
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                inputProps={{
-                                  step: 300, // 5 min
-                                }}
-                                sx={{ width: 150 }}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
+                <div>
+                  <EditTypeRest
+                    types={types}
+                    value={selected}
+                    onChangeValue={setSelected}
+                  />
                 </div>
+              </div>
+              <div className="mt-3">
+                {selected === "allDay" ? (
+                  <EditAllDay
+                    days={days}
+                    openDay={openDay}
+                    onChangeValue={setOpenDay}
+                    timeLength={timeLength}
+                    onTimeLengthChange={setTimeLength}
+                  />
+                ) : (
+                  <EditRounds
+                    days={days}
+                    openDay={openDay}
+                    onChangeValue={setOpenDay}
+                    inputFields={inputFields}
+                    handleChangeInput={handleChangeInput}
+                    handleAddFields={handleAddFields}
+                    handleRemoveFields={handleRemoveFields}
+                  />
+                )}
               </div>
             </div>
 
