@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useHistory } from "react-router-dom";
 import { partnerStore } from "../partnerStore";
@@ -39,6 +39,7 @@ const days = [
 const InformationData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
+  const [end, setEnd] = useState("");
   console.log(id);
 
   useEffect(() => {
@@ -46,6 +47,37 @@ const InformationData = observer(() => {
   }, []);
 
   const partnerInfos = partnerStore.partnerInfo;
+  const convertTime = (t, tLength) => {
+    const time = t.split(":");
+    const num = tLength;
+    const hours = num / 60;
+    const rhours = Math.floor(hours);
+    const minutes = (hours - rhours) * 60;
+    const rminutes = Math.round(minutes);
+    const hoursEnd = Number(time[0]) + rhours;
+    const minutesEnd = Number(time[1]) + rminutes;
+
+    if (minutesEnd >= 60) {
+      const rmin = Math.floor(minutesEnd / 60);
+      const timeEnd = hoursEnd + rmin;
+      const minEnd = Math.round((hours - rhours) * 60) - Number(time[1]);
+
+      return (
+        <div>
+          {timeEnd}:{minEnd}
+        </div>
+      );
+    } else {
+      const timeEnd = hoursEnd;
+
+      return (
+        <div>
+          {timeEnd}:{minutesEnd}
+        </div>
+      );
+    }
+  };
+
   return (
     <div>
       {partnerInfos.map((partnerInfo) => {
@@ -148,42 +180,48 @@ const InformationData = observer(() => {
                     </>
                   ) : (
                     <>
-                     <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-900">
-                      ระยะเวลาขั้นต่ำ/รอบการจอง
-                    </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {partnerInfo.time_length}  นาที
-                    </dd>
-                  </div>
-                    
-                    <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-900">
-                        เวลาเปิด-ปิดร้านอาหาร
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {days.map((day) => {
-                          return (
-                            <div className="mb-3" key={day.key}>
-                              {day.i18n}:
-                              {partnerInfo.openday[day.key].type === "open"
-                                ? "  เปิด"
-                                : "  ปิด"}
-                              <div>
-                                {partnerInfo.openday[day.key].type ===
-                                "open" ? (
-                                  <>
-                                    {" "}
-                                    เวลา {partnerInfo.openday[day.key].start} น.
-                                    - {partnerInfo.openday[day.key].end} น.{" "}
-                                  </>
-                                ) : null}
+                      <div className="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-900">
+                          ระยะเวลาขั้นต่ำ/รอบการจอง
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {partnerInfo.time_length} นาที
+                        </dd>
+                      </div>
+
+                      <div className="bg-white px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-900">
+                          เวลาเปิด-ปิดร้านอาหาร
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {days.map((day) => {
+                            return (
+                              <div className="mb-3" key={day.key}>
+                                {day.i18n}:
+                                {partnerInfo.openday[day.key].type === "open"
+                                  ? "  เปิด"
+                                  : "  ปิด"}
+                                <div>
+                                  {partnerInfo.openday[day.key].type ===
+                                  "open" ? (
+                                    <>
+                                      {" "}
+                                      เวลา {
+                                        partnerInfo.openday[day.key].start
+                                      }{" "}
+                                      น. - {partnerInfo.openday[day.key].end} น.{" "}
+                                      {/* {convertTime(
+                                        partnerInfo.openday[day.key].start,
+                                        partnerInfo.time_length
+                                      )} */}
+                                    </>
+                                  ) : null}
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
-                      </dd>
-                    </div>
+                            );
+                          })}
+                        </dd>
+                      </div>
                     </>
                   )}
                   <div className=" bg-gray-50 px-4 py-3 sm:px-6  align-middle  ">

@@ -6,9 +6,9 @@ import { userStore } from "./customer/userStore";
 import { partnerStore } from "./partner/partnerStore";
 
 const navigation = [
-  { name: "Login", href: "/login", current: false },
-  { name: "Sign up", href: "/register", current: false },
-  { name: "Be our partner", href: "/register", current: false },
+  { name: "เข้าสู่ระบบ", href: "/login", current: false },
+  { name: "สมัครสมาชิก", href: "/register", current: false },
+  { name: "ต้องการเป็นพาร์ทเนอร์", href: "/register", current: false },
 ];
 
 function classNames(...classes) {
@@ -22,10 +22,10 @@ const Navbar = observer(() => {
       {({ open }) => (
         <>
           <div className="bg-gray-50 max-w-full  mx-auto px-8 sm:px-10 lg:px-12">
-            <div className="relative flex items-center justify-between h-20">
+            <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-100 ">
+                <Disclosure.Button className="inline-flex items-center justify-center  p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-100 ">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XIcon className="block h-4 w-4" aria-hidden="true" />
@@ -37,17 +37,17 @@ const Navbar = observer(() => {
               <div className="flex-1 flex items-center justify-start sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
                   <a
-                    className="btn ml-6 btn-ghost normal-case text-xl"
+                    className="btn ml-6 btn-ghost normal-case text-2xl"
                     href="/"
                   >
                     cubeQue
                   </a>
                 </div>
-                <div className="hidden sm:block sm:ml-6">
+                <div className="hidden  sm:block sm:ml-6">
                   <div className="flex  space-x-4 pt-2">
                     {navigation.map((item) => (
                       <>
-                        {item.name === "Login" ? (
+                        {item.name === "เข้าสู่ระบบ" || item.name === "สมัครสมาชิก" ? (
                           !userStore.customer.username &&
                           !partnerStore.partnerlogin.username && (
                             <a
@@ -64,14 +64,14 @@ const Navbar = observer(() => {
                               {item.name}
                             </a>
                           )
-                        ) : item.name === "Be our partner" ? (
+                        ) : item.name === "ต้องการเป็นพาร์ทเนอร์" ? (
                           <Menu
                             key={item.name}
                             as="div"
                             className="ml-3  relative"
                           >
                             <div>
-                              <Menu.Button className=" flex text-sm rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-white">
+                              <Menu.Button className=" flex text-lg rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2  ">
                                 <a
                                   href={item.href}
                                   className={classNames(
@@ -107,7 +107,7 @@ const Navbar = observer(() => {
                                         "block px-4 py-2 text-sm text-gray-700"
                                       )}
                                     >
-                                      Partner with us
+                                      สมัครเป็นพาร์ทเนอร์
                                     </a>
                                   )}
                                 </Menu.Item>
@@ -122,7 +122,7 @@ const Navbar = observer(() => {
                                             "block px-4 py-2 text-sm text-gray-700"
                                           )}
                                         >
-                                          Login
+                                          เข้าสู่ระบบ
                                         </a>
                                       )}
                                     </Menu.Item>
@@ -155,7 +155,7 @@ const Navbar = observer(() => {
                 {userStore.customer.username && (
                   <Menu as="div" className="ml-3 relative">
                     <div>
-                      <Menu.Button className=" flex py-2 px-3 rounded-md hover:bg-gray-300 text-sm mr-10  focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-white">
+                      <Menu.Button className=" flex py-2 px-3 rounded-md hover:bg-gray-300 text-sm mr-10    ">
                         {({ active }) => (
                           <a
                             href="#"
@@ -188,7 +188,7 @@ const Navbar = observer(() => {
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Your Profile
+                              โปรไฟล์ของคุณ
                             </a>
                           )}
                         </Menu.Item>
@@ -203,7 +203,7 @@ const Navbar = observer(() => {
                               )}
                               onClick={() => userStore.logout()}
                             >
-                              Sign out
+                              ออกจากระบบ
                             </a>
                           )}
                         </Menu.Item>

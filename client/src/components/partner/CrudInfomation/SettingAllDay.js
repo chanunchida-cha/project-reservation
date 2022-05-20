@@ -59,6 +59,7 @@ function SettingAllDay({
                           start: "",
                           end: "",
                         },
+                        
                       });
                     } else {
                       onChangeValue({
@@ -68,7 +69,10 @@ function SettingAllDay({
                         },
                       });
                     }
-                  }}
+                    
+                  }
+                  
+                }
                   value={openDay[day.key].type}
                 >
                   <Radio value={"open"}>เปิด</Radio>

@@ -4,7 +4,7 @@ import { adminStore } from "./adminStore";
 import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 
-function LoginAdmin() {
+const LoginAdmin = observer(() => {
   const history = useHistory();
   const [login, setLogin] = useState({
     username: "",
@@ -93,6 +93,5 @@ function LoginAdmin() {
       </div>
     </div>
   );
-}
-
+});
 export default LoginAdmin;

@@ -85,13 +85,8 @@ const SidebarPartner = observer(() => {
             >
               <Menu.Item key="7">
                 {" "}
-                <Link to={`/partner/reservation/${partner_id}`}>
+                <Link to={`/partner/reservationdata/${partner_id}`}>
                   ข้อมูลคิวการจอง
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="8">
-                <Link to={`/partner/settingreservation/${partner_id}`}>
-                  ตั้งค่าคิวการจอง
                 </Link>
               </Menu.Item>
             </SubMenu>
@@ -104,7 +99,7 @@ const SidebarPartner = observer(() => {
               }}
               icon={<LogoutOutlined />}
             >
-              Logout
+              ออกจากระบบ
             </Menu.Item>
           </Menu>
         </Sider>

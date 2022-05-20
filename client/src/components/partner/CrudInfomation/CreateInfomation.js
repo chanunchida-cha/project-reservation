@@ -58,8 +58,8 @@ const CreateInfomation = observer(() => {
   });
   const [inputFields, setInputFields] = useState([
     {
-      start: "",
-      end: "",
+      start: null,
+      end: null,
     },
   ]);
   const [timeLength, setTimeLength] = useState();
@@ -116,7 +116,7 @@ const CreateInfomation = observer(() => {
     }
   };
 
-  console.log(openDay);
+  console.log(openDay.monday.start);
 
   const createInformation = async (event) => {
     event.preventDefault();
