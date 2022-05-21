@@ -57,7 +57,7 @@ const CreatePartner = observer(() => {
 
   return (
     <div>
-      <div className="mt-5 md:mt-0 md:col-span-2">
+      <div className="mt-3 md:mt-0 md:col-span-2">
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
           เพิ่มข้อมูลร้านอาหาร
         </h3>
