@@ -1,5 +1,5 @@
 @import '~antd/dist/antd.css';
-@import url('https://fonts.googleapis.com/css?family=Prompt');
+@import url('https://fonts.googleapis.com/css?family=Prompt')
 
 body{
   font-family:'Prompt', sans-serif;
