@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { partnerStore } from "../partnerStore";
+import { partnerStore } from "../../Store/partnerStore";
 import { useParams, useHistory } from "react-router-dom";
-import { Button } from "antd";
+
 
 const EditTable = observer(() => {
   const history = useHistory();
@@ -104,9 +104,12 @@ const EditTable = observer(() => {
                 />
               </div>
               <div>
-                <Button className="text-base" type="primary" htmlType="submit">
+                <button
+                  type="submit"
+                  className="  py-2 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+                >
                   บันทึกข้อมูล
-                </Button>
+                </button>
               </div>
             </div>
           </div>

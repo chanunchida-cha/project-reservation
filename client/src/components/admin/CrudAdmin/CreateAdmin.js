@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "antd";
-import { adminStore } from "../adminStore";
+import { adminStore } from "../../Store/adminStore";
 import { useHistory } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
@@ -190,9 +189,12 @@ const CreateAdmin = observer(() => {
               </div>
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <Button className="text-base" type="primary" htmlType="submit">
+              <button
+                type="submit"
+                className="group relative  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+              >
                 เพิ่มข้อมูลผู้ดูแลระบบ
-              </Button>
+              </button>
             </div>
           </div>
         </form>

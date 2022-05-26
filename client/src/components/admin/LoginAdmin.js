@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { adminStore } from "./adminStore";
+import { adminStore } from "../Store/adminStore";
 import { useHistory } from "react-router-dom";
-import Swal from "sweetalert2";
 
 const LoginAdmin = observer(() => {
   const history = useHistory();

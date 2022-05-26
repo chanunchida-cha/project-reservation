@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { adminStore } from "../adminStore";
+import { adminStore } from "../../Store/adminStore";
 import { Link, useHistory } from "react-router-dom";
-import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import SearchText from "../../SearchText/SearchText";
@@ -37,7 +36,7 @@ const PartnerApprove = observer(() => {
         </h3>
         <div className="grid grid-cols-12 gap-6">
           <div className="col-span-3 sm:col-span-3">
-         <SearchText value={searchText} onChangeValue={setSearchText} />
+            <SearchText value={searchText} onChangeValue={setSearchText} />
           </div>
         </div>
       </div>
@@ -60,27 +59,22 @@ const PartnerApprove = observer(() => {
                   </h3>
                 </div>
                 <div className="px-4 py-3 text-right">
-                  <Button
-                    className="text-base  mr-3"
-                    type="primary"
-                    htmlType="submit"
+                  <button
                     onClick={() => {
                       history.push(`/admin/editpartner/${partner._id}`);
                     }}
+                    className=" py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
                   >
                     {<EditOutlined />}
-                  </Button>
-                  <Button
-                    className="text-base"
-                    type="primary"
-                    danger
-                    htmlType="submit"
+                  </button>
+                  <button
                     onClick={() => {
                       confirmDelete(partner._id);
                     }}
+                    className=" py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#FF4D4F] hover:bg-[#f76d6f] "
                   >
                     {<DeleteOutlined />}
-                  </Button>
+                  </button>
                 </div>
               </div>
               <div className="border-t border-gray-200">

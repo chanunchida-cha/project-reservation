@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Button } from "antd";
-import { partnerStore } from "../partnerStore";
+import { partnerStore } from "../../Store/partnerStore";
 import { useParams, useHistory } from "react-router-dom";
 import EditTypeRest from "./EditTypeRest";
 import EditAllDay from "./EditAllDay";
@@ -99,6 +98,57 @@ const EditInformation = observer(() => {
   useEffect(async () => {
     await partnerStore.getInformation(id);
     partnerStore.partnerInfo.map((info) => {
+      if (info.rounds.length <= 0) {
+        return (
+          setInfo({
+            description: info.description,
+            address: info.address,
+            contact: info.contact,
+          }),
+          setSelected(info.type_rest),
+          setimage(info.image),
+          setInfoId(info._id.toString()),
+          setInputFields(inputFields),
+          setTimeLength(info.time_length),
+          setOpenDay({
+            monday: {
+              type: info.openday.monday.type,
+              start: info.openday.monday.start,
+              end: info.openday.monday.end,
+            },
+            tuesday: {
+              type: info.openday.tuesday.type,
+              start: info.openday.tuesday.start,
+              end: info.openday.tuesday.end,
+            },
+            wednesday: {
+              type: info.openday.wednesday.type,
+              start: info.openday.wednesday.start,
+              end: info.openday.wednesday.end,
+            },
+            thursday: {
+              type: info.openday.thursday.type,
+              start: info.openday.thursday.start,
+              end: info.openday.thursday.end,
+            },
+            friday: {
+              type: info.openday.friday.type,
+              start: info.openday.friday.start,
+              end: info.openday.friday.end,
+            },
+            saturday: {
+              type: info.openday.saturday.type,
+              start: info.openday.saturday.start,
+              end: info.openday.saturday.end,
+            },
+            sunday: {
+              type: info.openday.sunday.type,
+              start: info.openday.sunday.start,
+              end: info.openday.sunday.end,
+            },
+          })
+        );
+      }
       return (
         setInfo({
           description: info.description,
@@ -396,9 +446,12 @@ const EditInformation = observer(() => {
             </div>
 
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <Button className="text-base" type="primary" htmlType="submit">
+              <button
+                type="submit"
+                className="group relative  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+              >
                 บันทึกข้อมูล
-              </Button>
+              </button>
             </div>
           </div>
         </form>

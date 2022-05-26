@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { partnerStore } from "./partnerStore";
+import { partnerStore } from "../Store/partnerStore";
 
 
 const PartnerRegis = observer(() => {

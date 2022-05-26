@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { adminStore } from "../adminStore";
+import { adminStore } from "../../Store/adminStore";
 import { useParams, useHistory } from "react-router-dom";
 import { Radio, Button } from "antd";
 

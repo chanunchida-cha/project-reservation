@@ -1,9 +1,10 @@
 @import '~antd/dist/antd.css';
-@import url('https://fonts.googleapis.com/css?family=Prompt')
 
-body{
-  font-family:'Prompt', sans-serif;
+
+ิbody{
+  font-family:'Prompt', sans-serif ;
 }
+
 h4{
  font-family:'Prompt', sans-serif ;
 

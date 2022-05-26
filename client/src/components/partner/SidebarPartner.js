@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { Link, useHistory } from "react-router-dom";
-import { partnerStore } from "./partnerStore";
+import { partnerStore } from "../Store/partnerStore";
 import { observer } from "mobx-react-lite";
 
 import {
@@ -87,6 +87,12 @@ const SidebarPartner = observer(() => {
                 {" "}
                 <Link to={`/partner/reservationdata/${partner_id}`}>
                   ข้อมูลคิวการจอง
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="8">
+                {" "}
+                <Link to={`/partner/createreservation/${partner_id}`}>
+                  เพิ่มคิวการจอง
                 </Link>
               </Menu.Item>
             </SubMenu>

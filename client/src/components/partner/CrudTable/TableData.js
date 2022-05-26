@@ -1,10 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Button } from "antd";
+import { useHistory } from "react-router-dom";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { partnerStore } from "../partnerStore";
+import { partnerStore } from "../../Store/partnerStore";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
@@ -37,15 +36,14 @@ const TableData = observer(() => {
       </h3>
       <div className="border-t border-gray-300" />
       <div className="mb-2 mt-2">
-        <Button
-          className="text-base rounded-md"
-          type="primary"
+        <button
           onClick={() => {
             history.push(`/partner/createtable/${id}`);
           }}
+          className="group relative  flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
         >
           เพิ่มข้อมูลโต๊ะอาหาร
-        </Button>
+        </button>
       </div>
       {isTable && (
         <div className="shadow mt-4  overflow-hidden sm:rounded-md">
@@ -60,13 +58,7 @@ const TableData = observer(() => {
                     key={table._id}
                     className=" inline-flex rounded-lg bg-white shadow-md overflow-hidden"
                   >
-                    <div
-                      className={
-                        table.status === "free"
-                          ? "p-4 bg-[#00B5B4] "
-                          : "p-4 bg-[#db3b2d] "
-                      }
-                    >
+                    <div className={"p-4 bg-[#00B5B4] "}>
                       <div className=" uppercase tracking-wider text-sm">
                         โต๊ะ
                       </div>
@@ -76,34 +68,24 @@ const TableData = observer(() => {
                       <div className="text-base ">
                         จำนวนที่นั่ง {table.seat}
                       </div>
-                      <div className="text-sm text-gray-600 ">
-                        {table.description}
-                      </div>
                     </div>
-                    <div className="flex justify-end items-end pb-2 pr-5 pl-2">
-                      <Button
-                        className="text-sm  mr-3"
-                        type="primary"
-                        htmlType="submit"
-                        size="small"
+                    <div className="flex justify-end items-end pb-2 pr-5 pl-5">
+                      <button
                         onClick={() => {
                           history.push(`/partner/edittable/${table._id}`);
                         }}
+                        className=" p-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
                       >
                         {<EditOutlined />}
-                      </Button>
-                      <Button
-                        className="text-sm"
-                        type="primary"
-                        size="small"
-                        danger
-                        htmlType="submit"
+                      </button>
+                      <button
                         onClick={() => {
                           confirmDelete(table._id, id);
                         }}
+                        className=" p-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#FF4D4F] hover:bg-[#f76d6f] "
                       >
                         {<DeleteOutlined />}
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 );

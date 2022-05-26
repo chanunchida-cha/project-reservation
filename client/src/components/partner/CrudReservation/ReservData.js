@@ -2,7 +2,7 @@ import React from 'react'
 
 function ReservData() {
   return (
-    <div>Reserv</div>
+    <div>ReservData</div>
   )
 }
 
