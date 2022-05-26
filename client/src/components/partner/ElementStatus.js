@@ -1,7 +1,7 @@
 import React from "react";
-import { partnerStore } from "./partnerStore";
+import { partnerStore } from "../Store/partnerStore";
 import { observer } from "mobx-react-lite";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const ElementStatus = observer(() => {
   const history = useHistory();

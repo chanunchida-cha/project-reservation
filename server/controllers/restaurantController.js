@@ -15,7 +15,7 @@ const createInfoRestaurant = async (req, res) => {
       rounds,
     } = req.body;
     const partnerId = mongoose.Types.ObjectId(partner_id);
-    const image = req.file.originalname;
+    const image = req.file.filename;
 
     const restaurant = await restaurants.create({
       partner_id: partnerId,

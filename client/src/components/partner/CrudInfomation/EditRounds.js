@@ -1,17 +1,16 @@
-import React, { useState, Fragment } from "react";
+import React from "react";
 import { Radio } from "antd";
 import TextField from "@mui/material/TextField";
-import { Button } from "antd";
-
 function EditRounds({
-    days,
-    openDay,
-    onChangeValue,
-    inputFields,
-    handleChangeInput,
-    handleAddFields,
-    handleRemoveFields,
-  }) {
+  days,
+  openDay,
+  onChangeValue,
+  inputFields,
+  handleChangeInput,
+  handleAddFields,
+  handleRemoveFields,
+}) {
+  console.log(inputFields);
   return (
     <div>
       <div className="col-span-6 sm:col-span-6">
@@ -99,24 +98,19 @@ function EditRounds({
                       }}
                       sx={{ width: 150 }}
                     />
-                    <Button
-                      className="text-base ml-2 mt-2 px-2"
-                      type="primary"
-                      htmlType="submit"
+                    <button
                       onClick={handleAddFields}
+                      className=" py-2 px-3 border ml-2 mt-2 border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
                     >
                       เพิ่มรอบการจอง
-                    </Button>
-                    <Button
-                      className="text-base ml-2 mt-2 px-2"
-                      type="primary"
-                      htmlType="submit"
-                      danger
+                    </button>
+                    <button
                       disabled={inputFields.length === 1}
                       onClick={() => handleRemoveFields(index)}
+                      className=" py-2 px-3 border ml-2 mt-2 border-transparent text-sm font-medium rounded-md text-white bg-[#FF4D4F] hover:bg-[#f76d6f] "
                     >
                       ลบ
-                    </Button>
+                    </button>
                   </div>
                 </div>
               );
@@ -125,7 +119,7 @@ function EditRounds({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default EditRounds
+export default EditRounds;

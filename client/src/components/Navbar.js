@@ -2,8 +2,8 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { observer } from "mobx-react-lite";
-import { userStore } from "./customer/userStore";
-import { partnerStore } from "./partner/partnerStore";
+import { userStore } from "./Store/userStore";
+import { partnerStore } from "./Store/partnerStore";
 
 const navigation = [
   { name: "เข้าสู่ระบบ", href: "/login", current: false },

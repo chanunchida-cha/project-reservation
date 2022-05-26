@@ -10,6 +10,7 @@ import TableData from "./CrudTable/TableData";
 import CreateTable from "./CrudTable/CreateTable";
 import EditTable from "./CrudTable/EditTable";
 import ReservData from "./CrudReservation/ReservData";
+import CreateReservation from "./CrudReservation/CreateReservation";
 
 function ContentPartner() {
   return (
@@ -36,7 +37,16 @@ function ContentPartner() {
           component={CreateTable}
         />
         <Route path={"/partner/edittable/:id"} exact component={EditTable} />
-        <Route path={"/partner/reservationdata/:id"} exact component={ReservData} />
+        <Route
+          path={"/partner/reservationdata/:id"}
+          exact
+          component={ReservData}
+        />
+        <Route
+          path={"/partner/createreservation/:id"}
+          exact
+          component={CreateReservation}
+        />
       </Switch>
     </div>
   );

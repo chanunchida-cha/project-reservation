@@ -208,13 +208,12 @@ class PartnerStore {
   }
 
   async createTable(partner_id, table) {
-    const { table_no, seat, description } = table;
+    const { table_no, seat } = table;
     await axios
       .post(`${process.env.REACT_APP_API_PARTNER}/create-table`, {
         partner_id: partner_id,
         table_no: table_no,
         seat: seat,
-        description: description,
       })
       .then((response) => {
         Swal.fire(

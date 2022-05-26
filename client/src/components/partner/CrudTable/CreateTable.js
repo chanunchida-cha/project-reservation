@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { partnerStore } from "../partnerStore";
+import { partnerStore } from "../../Store/partnerStore";
 import { useParams, useHistory } from "react-router-dom";
-import { Button } from "antd";
 
 const CreateTable = observer(() => {
   const history = useHistory();
@@ -73,27 +72,15 @@ const CreateTable = observer(() => {
                   className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                 />
               </div>
-              <div className="col-span-2 sm:col-span-2">
-                <label
-                  htmlFor="email-address"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  คำอธิบายเพิ่มเติม
-                </label>
-                <input
-                  type="text"
-                  name="description"
-                  id="description"
-                  autoComplete="description"
-                  value={table.description}
-                  onChange={onChange}
-                  className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
-                />
-              </div>
+              <div className="col-span-2 sm:col-span-2"></div>
+
               <div>
-                <Button className="text-base" type="primary" htmlType="submit">
+                <button
+                  type="submit"
+                  className="  py-2 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+                >
                   บันทึกข้อมูล
-                </Button>
+                </button>
               </div>
             </div>
           </div>

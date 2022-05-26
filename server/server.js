@@ -12,7 +12,7 @@ const adminAuthRoute = require("./routes/adminAuthRoute");
 const restaurantRoute = require("./routes/restaurantRoute");
 const menuRoute = require("./routes/menuRoute");
 const tableRoute = require("./routes/tableRoute");
-
+const reservRoute = require("./routes/reservRoute");
 const app = express();
 
 //connect DB
@@ -43,6 +43,7 @@ app.use("/partner", menuRoute);
 app.use("/partner", tableRoute);
 app.use("/admin", adminRoute);
 app.use("/admin", adminAuthRoute);
+app.use("/reservation", reservRoute);
 app.use("/uploads", express.static("uploads"));
 
 const port = process.env.PORT || 8080;

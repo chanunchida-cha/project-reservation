@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useHistory } from "react-router-dom";
-import { partnerStore } from "../partnerStore";
+import { partnerStore } from "../../Store/partnerStore";
 import InformationData from "./InformationData";
 
 import CreateInfomation from "./CreateInfomation";

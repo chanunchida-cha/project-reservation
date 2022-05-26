@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Radio } from "antd";
 import TextField from "@mui/material/TextField";
 
@@ -59,7 +59,6 @@ function SettingAllDay({
                           start: "",
                           end: "",
                         },
-                        
                       });
                     } else {
                       onChangeValue({
@@ -69,10 +68,7 @@ function SettingAllDay({
                         },
                       });
                     }
-                    
-                  }
-                  
-                }
+                  }}
                   value={openDay[day.key].type}
                 >
                   <Radio value={"open"}>เปิด</Radio>

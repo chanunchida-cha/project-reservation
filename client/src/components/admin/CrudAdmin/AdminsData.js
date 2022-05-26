@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { adminStore } from "../adminStore";
+import { adminStore } from "../../Store/adminStore";
 import { Link, useHistory } from "react-router-dom";
-import { Button } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Swal from "sweetalert2";
 import SearchText from "../../SearchText/SearchText";
@@ -37,15 +36,14 @@ const AdminsData = observer(() => {
           <div className="border-t border-gray-300" />
 
           <div className="mb-2 mt-2 ">
-            <Button
-              className="text-base"
-              type="primary"
+            <button
               onClick={() => {
                 history.push("/admin/createadmin");
               }}
+              className="group relative  flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
             >
               เพิ่มข้อมูลผู้ดูแลระบบ
-            </Button>
+            </button>
           </div>
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-3 sm:col-span-3">
@@ -72,27 +70,22 @@ const AdminsData = observer(() => {
                     </h3>
                   </div>
                   <div className="px-4 py-3 text-right">
-                    <Button
-                      className="text-base  mr-3"
-                      type="primary"
-                      htmlType="submit"
+                    <button
                       onClick={() => {
                         history.push(`/admin/editadmin/${admin._id}`);
                       }}
+                      className=" py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
                     >
                       {<EditOutlined />}
-                    </Button>
-                    <Button
-                      className="text-base"
-                      type="primary"
-                      danger
-                      htmlType="submit"
+                    </button>
+                    <button
                       onClick={() => {
                         confirmDelete(admin._id);
                       }}
+                      className=" py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#FF4D4F] hover:bg-[#f76d6f] "
                     >
                       {<DeleteOutlined />}
-                    </Button>
+                    </button>
                   </div>
                 </div>
                 <div className="border-t border-gray-200">

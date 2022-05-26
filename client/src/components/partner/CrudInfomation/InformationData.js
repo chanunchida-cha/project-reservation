@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useHistory } from "react-router-dom";
-import { partnerStore } from "../partnerStore";
-import { Button } from "antd";
+import { partnerStore } from "../../Store/partnerStore";
 import { EditOutlined } from "@ant-design/icons";
 
 const days = [
@@ -39,7 +38,6 @@ const days = [
 const InformationData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
-  const [end, setEnd] = useState("");
   console.log(id);
 
   useEffect(() => {
@@ -94,16 +92,14 @@ const InformationData = observer(() => {
                   </h3>
                 </div>
                 <div className="px-4 py-3 text-right">
-                  <Button
-                    className="text-base  mr-3"
-                    type="primary"
-                    htmlType="submit"
+                  <button
                     onClick={() => {
                       history.push(`/partner/editinformation/${id}`);
                     }}
+                    className=" py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
                   >
                     {<EditOutlined />}
-                  </Button>
+                  </button>
                 </div>
               </div>
               <div className="border-t border-gray-200">

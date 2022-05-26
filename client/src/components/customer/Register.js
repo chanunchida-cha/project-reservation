@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { userStore } from "./userStore";
-import Navbar from "../Navbar";
-import Swal from "sweetalert2";
+import { userStore } from "../Store/userStore";
+
 
 const Register = observer(() => {
   const [info, setInfo] = useState({

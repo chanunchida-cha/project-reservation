@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../Navbar";
 import { observer } from "mobx-react-lite";
-import { partnerStore } from "./partnerStore";
+import { partnerStore } from "../Store/partnerStore";
 import { useHistory } from "react-router-dom";
 
 const HomePartner = observer(() => {

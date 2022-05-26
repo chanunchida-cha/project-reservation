@@ -1,15 +1,15 @@
 const tables = require("../models/tableDB");
 const partners = require("../models/partnerDB");
+
 const mongoose = require("mongoose");
 const createTable = async (req, res) => {
   try {
-    const { partner_id, table_no, seat, description } = req.body;
+    const { partner_id, table_no, seat } = req.body;
     const partnerId = mongoose.Types.ObjectId(partner_id);
     const table = await tables.create({
       partner_id: partnerId,
       table_no: table_no,
       seat: seat,
-      description: description,
     });
     res.status(200).json(table);
   } catch (err) {
@@ -69,7 +69,7 @@ const getTableById = (req, res) => {
 
 const updateTable = async (req, res) => {
   const { id } = req.params;
-  const { partner_id, table_no, seat, description } = req.body;
+  const { partner_id, table_no, seat } = req.body;
   const partnerId = mongoose.Types.ObjectId(partner_id);
 
   tables.findByIdAndUpdate(
@@ -79,7 +79,6 @@ const updateTable = async (req, res) => {
         partner_id: partnerId,
         table_no: table_no,
         seat: seat,
-        description: description,
       },
     },
     (err, menu) => {
@@ -111,5 +110,5 @@ module.exports = {
   updateTable,
   deleteTable,
   getTable,
-  getTableById
+  getTableById,
 };

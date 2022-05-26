@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { adminStore } from "../adminStore";
-import { useHistory, useParams } from "react-router-dom";
-import { Button } from "antd";
+import { adminStore } from "../../Store/adminStore";
+import { useParams } from "react-router-dom";
 
 const EditCustomer = observer(() => {
   const { id } = useParams();
@@ -196,9 +195,12 @@ const EditCustomer = observer(() => {
               </div>
             </div>
             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <Button className="text-base" type="primary" htmlType="submit">
+              <button
+                type="submit"
+                className="group relative  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+              >
                 แก้ไขข้อมูลลูกค้า
-              </Button>
+              </button>
             </div>
           </div>
         </form>
