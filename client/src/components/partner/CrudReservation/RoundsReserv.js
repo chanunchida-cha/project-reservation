@@ -6,6 +6,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
+import { reservStore } from "../../Store/reservStore";
 
 const RoundsReserv = observer(({ partnerInfo }) => {
   const [selfReserv, setSelfReserv] = useState({
@@ -37,6 +38,17 @@ const RoundsReserv = observer(({ partnerInfo }) => {
   const onChangeAmount = (event) => {
     setAmount(event.target.value);
   };
+  const createReserv = async (event) => {
+    event.preventDefault();
+    await reservStore.selfRoundReserv(
+      id,
+      selfReserv,
+      amount,
+      date,
+      timeRound.start,
+      timeRound.end
+    );
+  };
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">
@@ -44,7 +56,7 @@ const RoundsReserv = observer(({ partnerInfo }) => {
           เพิ่มคิวการจอง
         </h3>
         <div className="border-t border-gray-300" />
-        <form>
+        <form onSubmit={createReserv}>
           <div className="mt-3 shadow overflow-hidden sm:rounded-md">
             <div className="px-4 py-5 bg-white sm:p-6">
               <div className="grid grid-cols-12 gap-6">

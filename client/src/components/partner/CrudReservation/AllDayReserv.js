@@ -42,14 +42,7 @@ const AllDayReserv = observer(({ partnerInfo }) => {
 
   const createReserv = async (event) => {
     event.preventDefault();
-    await reservStore.selfAllDayReserv(
-      id,
-      selfReserv,
-      amount,
-      date,
-      startTime,
-      partnerInfo.time_length
-    );
+    await reservStore.selfAllDayReserv(id, selfReserv, amount, date, startTime);
   };
   return (
     <div>
@@ -178,7 +171,7 @@ const AllDayReserv = observer(({ partnerInfo }) => {
                       inputProps={{
                         step: 300, // 5 min
                       }}
-                      sx={{ width: 800, marginRight: 2 }}
+                      sx={{ width: 600, marginRight: 2 }}
                     />
                   </div>
                 </div>

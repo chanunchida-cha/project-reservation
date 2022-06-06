@@ -9,7 +9,7 @@ const roundsReservs = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
   },
   day: {
-    type: Date,
+    type: String,
     required: true,
   },
   start: {
@@ -24,9 +24,7 @@ const roundsReservs = mongoose.Schema({
     type: String,
     required: true,
   },
-  table: {
-    type: String,
-  },
+  table: [],
   self_reserv: {
     firstname: {
       type: String,

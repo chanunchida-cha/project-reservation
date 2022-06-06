@@ -12,13 +12,11 @@ import {
 
 import ContentAdmin from "./ContentAdmin";
 import { adminStore } from "../Store/adminStore";
-import LoginAdmin from "./LoginAdmin";
-const Sidebar=observer(()=> {
+const Sidebar = observer(() => {
   const token = sessionStorage.getItem("token");
   console.log(token);
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
-  // const isPartnerVerify = useRouteMatch("/admin/partnerverify");
   const admin = adminStore.adminlogin;
   console.log(admin);
   const { SubMenu } = Menu;
@@ -28,7 +26,7 @@ const Sidebar=observer(()=> {
   };
 
   if (!token) {
-    return <LoginAdmin />;
+    history.push("/loginadmin");
   }
 
   return (
@@ -96,8 +94,10 @@ const Sidebar=observer(()=> {
             backgroundColor: "#f9fafb",
           }}
         >
-          <h3 className="flex text-base p-3 mr-16 justify-end">คุณ{admin.firstname}  {admin.lastname}</h3>
-          </Header>
+          <h3 className="flex text-base p-3 mr-16 justify-end">
+            คุณ{admin.firstname} {admin.lastname}
+          </h3>
+        </Header>
         <Content
           className="site-layout-background"
           style={{
@@ -111,6 +111,6 @@ const Sidebar=observer(()=> {
       </Layout>
     </Layout>
   );
-})
+});
 
 export default Sidebar;

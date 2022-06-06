@@ -21,9 +21,6 @@ const allDayReservs = mongoose.Schema({
     type: String,
     required: true,
   },
-  table: {
-    type: String,
-  },
   customer_id: {
     type: mongoose.Schema.Types.ObjectId,
   },
