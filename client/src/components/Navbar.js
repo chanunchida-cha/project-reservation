@@ -4,6 +4,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { observer } from "mobx-react-lite";
 import { userStore } from "./Store/userStore";
 import { partnerStore } from "./Store/partnerStore";
+import { useParams, useHistory } from "react-router-dom";
 
 const navigation = [
   { name: "เข้าสู่ระบบ", href: "/login", current: false },
@@ -16,7 +17,8 @@ function classNames(...classes) {
 }
 
 const Navbar = observer(() => {
-  console.log(userStore.customer.username);
+  console.log(userStore.customer);
+  const history = useHistory();
   return (
     <Disclosure as="nav" className="bg-white">
       {({ open }) => (
@@ -47,7 +49,8 @@ const Navbar = observer(() => {
                   <div className="flex  space-x-4 pt-2">
                     {navigation.map((item) => (
                       <>
-                        {item.name === "เข้าสู่ระบบ" || item.name === "สมัครสมาชิก" ? (
+                        {item.name === "เข้าสู่ระบบ" ||
+                        item.name === "สมัครสมาชิก" ? (
                           !userStore.customer.username &&
                           !partnerStore.partnerlogin.username && (
                             <a
@@ -182,13 +185,26 @@ const Navbar = observer(() => {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="#"
+                              href="/myprofile"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              โปรไฟล์ของคุณ
+                              โปรไฟล์
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <a
+                              href="/myprofile"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              การจอง
                             </a>
                           )}
                         </Menu.Item>
@@ -196,12 +212,14 @@ const Navbar = observer(() => {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="#"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
-                              onClick={() => userStore.logout()}
+                              onClick={() => {
+                                userStore.logout();
+                                history.push("/");
+                              }}
                             >
                               ออกจากระบบ
                             </a>

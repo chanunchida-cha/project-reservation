@@ -177,7 +177,11 @@ const RoundsReserv = observer(({ partnerInfo }) => {
                               end: round.end,
                             });
                           }}
-                          className=" py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+                          className={
+                            timeRound.start === round.start
+                              ? " py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+                              : "py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-[#ffffff] hover:bg-[#d5d5d5] "
+                          }
                         >
                           {`${round.start} - ${round.end} น.`}
                         </button>

@@ -147,8 +147,8 @@ const getInfoRestaurantById = (req, res) => {
         },
       },
     ])
-    .then((responce) => {
-      res.json(responce);
+    .then((response) => {
+      res.json(response);
     })
     .catch((err) => {
       console.log(err);

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { userStore } from "../Store/userStore";
 
-const Register = observer(() => {
+const EditProfile = observer(() => {
   const [info, setInfo] = useState({
     username: "",
     firstname: "",
@@ -31,30 +31,26 @@ const Register = observer(() => {
       };
     });
   }
-
-  async function registerSubmit(event) {
-    event.preventDefault();
-    await userStore.createUser(info);
-
+  useEffect(async () => {
+    await userStore.getUser();
     setInfo({
-      username: "",
-      firstname: "",
-      lastname: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      confirmPass: "",
+      username: userStore.customer.username,
+      firstname: userStore.customer.firstname,
+      lastname: userStore.customer.lastname,
+      phoneNumber: userStore.customer.phoneNumber,
+      email: userStore.customer.email,
+      password: userStore.customer.password,
     });
-  }
+  }, []);
 
   return (
     <div className="m-5 flex justify-center">
       <div className=" bg-[#FAFAFA] pt-5 sm:p-5 xl:p-10 xl:px-20 w-full sm:w-full xl:w-3/5 rounded-md">
         <div className="grid place-items-center">
           <div>
-            <h4 className="font-medium text-xl">สมัครสมาชิก</h4>
+            <h4 className="font-medium text-xl">แก้ไขโปรไฟล์</h4>
           </div>
-          <form onSubmit={registerSubmit}>
+          <form>
             <div className="form-group">
               <div className="row">
                 <div className="col">
@@ -105,6 +101,7 @@ const Register = observer(() => {
                 name="email"
                 value={email}
                 onChange={onChangeInput}
+                disabled
                 required
               />
             </div>
@@ -121,35 +118,14 @@ const Register = observer(() => {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="password">รหัสผ่าน:</label>
-              <input
-                type="password"
-                className="appearance-none border-2 border-[#ececec] rounded w-full h-12 px-3 py-2 text-gray-900 placeholder-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-[#f7b9ba]"
-                placeholder="รหัสผ่าน"
-                name="password"
-                value={password}
-                onChange={onChangeInput}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirmPassword">ยืนยันรหัสผ่าย:</label>
-              <input
-                type="password"
-                className="appearance-none border-2 border-[#ececec] rounded w-full h-12 px-3 py-2 text-gray-900 placeholder-gray-500 leading-tight focus:outline-none focus:bg-white focus:border-[#f7b9ba]"
-                placeholder="ยืนยันรหัสผ่าน"
-                name="confirmPass"
-                value={confirmPass}
-                onChange={onChangeInput}
-                required
-              />
-            </div>
             <br />
+            <div className=" flex justify-center text-[#89a5c0]">
+              <a>เปลี่ยนรหัสผ่าน</a>
+            </div>
             <div className="mt-3">
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 สมัครสมาชิก
               </button>
@@ -161,4 +137,4 @@ const Register = observer(() => {
   );
 });
 
-export default Register;
+export default EditProfile;

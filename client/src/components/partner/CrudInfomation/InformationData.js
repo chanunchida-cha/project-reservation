@@ -38,7 +38,7 @@ const days = [
 const InformationData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
-  console.log(id);
+  console.log( id);
 
   useEffect(() => {
     partnerStore.getInformation(id);

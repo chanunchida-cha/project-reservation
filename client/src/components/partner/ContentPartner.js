@@ -11,6 +11,8 @@ import CreateTable from "./CrudTable/CreateTable";
 import EditTable from "./CrudTable/EditTable";
 import ReservData from "./CrudReservation/ReservData";
 import CreateReservation from "./CrudReservation/CreateReservation";
+import EditReservAllDay from "./CrudReservation/EditReservAllDay";
+import EditReservRound from "./CrudReservation/EditReservRound";
 
 function ContentPartner() {
   return (
@@ -46,6 +48,16 @@ function ContentPartner() {
           path={"/partner/createreservation/:id"}
           exact
           component={CreateReservation}
+        />
+        <Route
+          path={"/partner/reservationdata/allday/edit/:partnerId/:id"}
+          exact
+          component={EditReservAllDay}
+        />
+        <Route
+          path={"/partner/reservationdata/round/edit/:partnerId/:id"}
+          exact
+          component={EditReservRound}
         />
       </Switch>
     </div>

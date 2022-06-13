@@ -9,6 +9,8 @@ import PartnerLogin from "./components/partner/PartnerLogin";
 
 import Layout from "./components/Layout";
 import LoginAdmin from "./components/admin/LoginAdmin";
+import MyProfile from "./components/customer/MyProfile";
+import EditProfile from "./components/customer/EditProfile";
 
 function MyRoute() {
   return (
@@ -21,6 +23,8 @@ function MyRoute() {
         <Route path={"/registerpartner"} exact component={PartnerRegis} />
         <Route path={"/loginpartner"} exact component={PartnerLogin} />
         <Route path={"/loginadmin"} exact component={LoginAdmin} />
+        <Route path={"/myprofile"} exact component={MyProfile} />
+        <Route path={"/myprofile/edit"} exact component={EditProfile} />
       </Switch>
     </Layout>
   );
