@@ -100,9 +100,9 @@ const ReservRoundTodayData = observer(() => {
                           </td>
                           <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {reserv.table.map((table) => {
-                                return `${table} `;
-                              })}
+                            {reserv.table.map((table) => {
+                                  return table;
+                                }).join(', ')}
                             </p>
                           </td>
                           {reserv.self_reserv && (

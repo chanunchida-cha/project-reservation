@@ -7,6 +7,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import { reservStore } from "../../Store/reservStore";
+import { partnerStore } from "../../Store/partnerStore";
+import { Fragment } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const EditReservAllDay = observer(() => {
   const history = useHistory();
@@ -22,12 +30,14 @@ const EditReservAllDay = observer(() => {
   const [start, setStart] = useState("");
   const [table, setTable] = useState([]);
   const [customerId, setCustomerId] = useState("");
+
   console.log(table);
   const dateTime = new Date(date);
   const startTime = `${dateTime.getFullYear()}  ${
     dateTime.getMonth() + 1
   } ${dateTime.getDate()} ${start} GMT+0700 (Indochina Time)`;
   useEffect(async () => {
+    await partnerStore.getTableByRest(partnerId);
     await reservStore.getAlldayById(id);
     reservStore.allDayReservById.map((reserv) => {
       if (reserv.customer_id) {
@@ -119,7 +129,9 @@ const EditReservAllDay = observer(() => {
   console.log(startTime);
   console.log(dateTime);
   console.log(customerId);
-  console.log(table);
+  console.log("table", table);
+  console.log(partnerStore.tables_no);
+
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">
@@ -129,7 +141,7 @@ const EditReservAllDay = observer(() => {
         <div className="border-t border-gray-300" />
         <form onSubmit={editAllDayReserv}>
           <div className="mt-3 shadow overflow-hidden sm:rounded-md">
-            <div className="px-4 py-5 bg-white sm:p-6">
+            <div className="px-4 py-5  bg-white sm:p-6">
               <div className="grid grid-cols-12 gap-6">
                 <div className="col-span-6 sm:col-span-6">
                   <label
@@ -262,7 +274,89 @@ const EditReservAllDay = observer(() => {
                   >
                     โต๊ะ
                   </label>
-                  <input
+                  <Listbox value={table} onChange={setTable} multiple>
+                    {({ open }) => (
+                      <>
+                        <Listbox.Label className="block text-sm font-medium text-gray-700">
+                          เลือกประเภทร้านอาหาร
+                        </Listbox.Label>
+                        <div className="mt-1 relative">
+                          <Listbox.Button className="relative w-80 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <span className="flex items-center">
+                              <span className="ml-3 block truncate">
+                                {table.map((theTable) => theTable).join(",")}
+                              </span>
+                            </span>
+                            <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                              <SelectorIcon
+                                className="h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </Listbox.Button>
+
+                          <Transition
+                            show={open}
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <Listbox.Options className="absolute z-10 mt-1 w-80 bg-white shadow-lg max-h-20 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                              {partnerStore.tables.map((table, index) => (
+                                <Listbox.Option
+                                  key={index}
+                                  className={({ active }) =>
+                                    classNames(
+                                      active
+                                        ? "text-white bg-[#189bff] "
+                                        : " text-gray-900",
+                                      "cursor-default select-none relative py-2 pl-3 pr-9"
+                                    )
+                                  }
+                                  value={table.table_no}
+                                >
+                                  {({ selected, active }) => (
+                                    <>
+                                      <div className="flex items-center">
+                                        <span
+                                          className={classNames(
+                                            selected
+                                              ? "font-semibold"
+                                              : "font-normal",
+                                            "ml-3 block truncate"
+                                          )}
+                                        >
+                                          {table.table_no}
+                                        </span>
+                                      </div>
+
+                                      {selected ? (
+                                        <span
+                                          className={classNames(
+                                            active
+                                              ? "text-white"
+                                              : "text--[#189bff] ",
+                                            "absolute inset-y-0 right-0 flex items-center pr-4"
+                                          )}
+                                        >
+                                          <CheckIcon
+                                            className="h-5 w-5"
+                                            aria-hidden="true"
+                                          />
+                                        </span>
+                                      ) : null}
+                                    </>
+                                  )}
+                                </Listbox.Option>
+                              ))}
+                            </Listbox.Options>
+                          </Transition>
+                        </div>
+                      </>
+                    )}
+                  </Listbox>
+                  {/* <input
                     type="text"
                     name="table"
                     id="table"
@@ -270,7 +364,7 @@ const EditReservAllDay = observer(() => {
                     onChange={onChangeTable}
                     autoComplete="family-name"
                     className="p-2 mt-1 w-full focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm lg:text-sm border-gray-300 rounded-md"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

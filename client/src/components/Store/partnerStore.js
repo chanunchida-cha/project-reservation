@@ -11,6 +11,7 @@ class PartnerStore {
   menu = {};
   tables = [];
   table = {};
+  tables_no = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -89,8 +90,8 @@ class PartnerStore {
         throw err;
       });
   }
-async  getAllInformation() {
-  await  axios
+  async getAllInformation() {
+    await axios
       .get(`${process.env.REACT_APP_API_PARTNER}/get-all-info`)
       .then((response) => {
         this.allPartnerInfo = response.data;
