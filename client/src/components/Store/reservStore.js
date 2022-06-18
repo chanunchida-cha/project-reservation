@@ -184,6 +184,41 @@ class ReservStore {
         throw err;
       });
   }
+  async customerAllDayUpdate(
+    id,
+    partnerId,
+    customer_id,
+    amount,
+    date,
+    start,
+    table
+  ) {
+    await axios
+      .put(
+        `${process.env.REACT_APP_API_RESERV}/partner/update-self-all-day-reserv/${id}`,
+        {
+          partner_id: partnerId,
+          customer_id: customer_id,
+          day: date,
+          start: start,
+          amount: amount,
+          table: table,
+        }
+      )
+      .then(() => {
+        Swal.fire("แก้ไขข้อมูลเรียบร้อยแล้ว", "update success!", "success");
+        this.getAllday(partnerId);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Sorry",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
+      });
+  }
 
   async selfRoundUpdate(
     id,
@@ -268,7 +303,7 @@ class ReservStore {
       )
       .then((response) => {
         Swal.fire(
-          "ลบข้อมูลเมนูอาหารเรียบร้อยแล้ว!",
+          "ลบคิวการจองเรียบร้อยแล้ว!",
           response.data.message,
           "success"
         );
@@ -291,7 +326,7 @@ class ReservStore {
       )
       .then((response) => {
         Swal.fire(
-          "ลบข้อมูลเมนูอาหารเรียบร้อยแล้ว!",
+          "ลบคิวการจองเรียบร้อยแล้ว!",
           response.data.message,
           "success"
         );
@@ -304,6 +339,53 @@ class ReservStore {
           title: "Oops...",
           text: err.response.data.error,
         });
+      });
+  }
+
+  async updateStatusAllDay(id, partnerId, status) {
+    await axios
+      .put(
+        `${process.env.REACT_APP_API_RESERV}/partner/update-status-all-day-reserv/${id}`,
+        {
+          status: status,
+        }
+      )
+      .then(() => {
+        Swal.fire("แก้ไขสถานะเรียบร้อยแล้ว", "update success!", "success");
+        this.getAllday(partnerId);
+        this.getAlldayToday(partnerId);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Sorry",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
+      });
+  }
+  async updateStatusRound(id, partnerId, status) {
+    await axios
+      .put(
+        `${process.env.REACT_APP_API_RESERV}/partner/update-status-round-reserv/${id}`,
+        {
+          status: status,
+        }
+      )
+      .then(() => {
+        Swal.fire("แก้ไขสถานะเรียบร้อยแล้ว", "update success!", "success");
+        this.getRound(partnerId);
+        this.getRoundToday(partnerId);
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "error",
+          title: "Sorry",
+          text: err.response.data.error,
+        });
+        console.log(err);
+        throw err;
       });
   }
 }

@@ -49,6 +49,7 @@ const RoundsReserv = observer(({ partnerInfo }) => {
       timeRound.end
     );
   };
+  console.log(date);
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">

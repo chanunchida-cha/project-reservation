@@ -16,6 +16,8 @@ const {
   updateCustomerRoundReserv,
   allDayDelete,
   roundDelete,
+  updateStatusAllDay,
+  updateStatusRound,
 } = require("../controllers/reservController");
 const router = Router();
 
@@ -44,7 +46,11 @@ router
   .put(updateCustomerRoundReserv);
 
 router.route("/partner/delete-all-day-reserv/:id").delete(allDayDelete);
-
 router.route("/partner/delete-round-reserv/:id").delete(roundDelete);
+
+router
+  .route("/partner/update-status-all-day-reserv/:id")
+  .put(updateStatusAllDay);
+router.route("/partner/update-status-round-reserv/:id").put(updateStatusRound);
 
 module.exports = router;

@@ -89,8 +89,8 @@ class PartnerStore {
         throw err;
       });
   }
-  getAllInformation() {
-    axios
+async  getAllInformation() {
+  await  axios
       .get(`${process.env.REACT_APP_API_PARTNER}/get-all-info`)
       .then((response) => {
         this.allPartnerInfo = response.data;

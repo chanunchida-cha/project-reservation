@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const allDayReservs = mongoose.Schema({
+  reservNumber: {
+    type: String,
+    required: true,
+  },
   partner_id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -36,6 +40,10 @@ const allDayReservs = mongoose.Schema({
     },
   },
   table: [],
+  status: {
+    type: String,
+    default: "pending",
+  },
 });
 
 module.exports = mongoose.model("allDayReservs", allDayReservs);

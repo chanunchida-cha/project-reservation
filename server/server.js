@@ -13,6 +13,7 @@ const restaurantRoute = require("./routes/restaurantRoute");
 const menuRoute = require("./routes/menuRoute");
 const tableRoute = require("./routes/tableRoute");
 const reservRoute = require("./routes/reservRoute");
+const customerRoute = require("./routes/customerRoute");
 const app = express();
 
 //connect DB
@@ -36,6 +37,7 @@ app.use(morgan());
 //route
 app.use("/user", registerRoute);
 app.use("/user", authRoute);
+app.use("/user", customerRoute);
 app.use("/partner", partnerRegisRoute);
 app.use("/partner", partnerAuthRoute);
 app.use("/partner", restaurantRoute);

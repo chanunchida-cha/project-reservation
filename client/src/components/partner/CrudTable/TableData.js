@@ -26,7 +26,7 @@ const TableData = observer(() => {
       }
     });
   };
-  console.log(partnerStore.tables);
+  console.log(...partnerStore.tables);
   const isTable = partnerStore.tables.length > 0;
 
   return (

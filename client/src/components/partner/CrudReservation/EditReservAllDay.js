@@ -115,6 +115,11 @@ const EditReservAllDay = observer(() => {
       );
     }
   };
+
+  console.log(startTime);
+  console.log(dateTime);
+  console.log(customerId);
+  console.log(table);
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">
@@ -137,7 +142,7 @@ const EditReservAllDay = observer(() => {
                     type="text"
                     name="firstname"
                     id="firstname"
-                    disabled={customerId ? true:false}
+                    disabled={customerId ? true : false}
                     value={selfReserv.firstname}
                     onChange={onChangeValue}
                     autoComplete="given-name"
@@ -157,7 +162,7 @@ const EditReservAllDay = observer(() => {
                     name="lastname"
                     id="lastname"
                     value={selfReserv.lastname}
-                    disabled={customerId ? true:false}
+                    disabled={customerId ? true : false}
                     onChange={onChangeValue}
                     autoComplete="family-name"
                     className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"

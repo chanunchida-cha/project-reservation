@@ -4,11 +4,13 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { reservStore } from "../../Store/reservStore";
 import Swal from "sweetalert2";
 
+const initialStatus = ["pending", "arrived", "check out", "cancel"];
 const ReservAllDayTodayData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
-  useEffect(() => {
-    reservStore.getAlldayToday(id);
+
+  useEffect(async () => {
+    await reservStore.getAlldayToday(id);
   }, []);
 
   const confirmDelete = (reserv_id, partner_id) => {
@@ -23,7 +25,22 @@ const ReservAllDayTodayData = observer(() => {
     });
   };
 
-  console.log(reservStore.allDayReservToday);
+  const confirmUpdateStatus = (reserv_id, partner_id, status) => {
+    console.log(reserv_id);
+    console.log(status);
+    Swal.fire({
+      title: "ยืนยันการแก้ไขสถานะ",
+      icon: "warning",
+      showCancelButton: true,
+    }).then((resualt) => {
+      if (resualt.isConfirmed) {
+        reservStore.updateStatusAllDay(reserv_id, partner_id, status);
+      }
+    });
+  };
+
+  // console.log(reservStore.allDayReservToday);
+
   return (
     <div>
       <div className="px-4 py-3 sm:px-6">
@@ -34,63 +51,70 @@ const ReservAllDayTodayData = observer(() => {
                 <table className="min-w-full leading-normal">
                   <thead>
                     <tr>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-white text-left text-md font-semibold text-gray-700 uppercase tracking-wider">
+                    <th className="px-1 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
+                        หมายเลขการจอง
+                      </th>
+                      <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                         วัน/เดือน/ปี
                       </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-white text-left text-md font-semibold text-gray-700 uppercase tracking-wider">
+                      <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                         เวลา
                       </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-white text-left text-md font-semibold text-gray-700 uppercase tracking-wider">
+                      <th className="px-2 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                         จำนวนคน
                       </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-white text-left text-md font-semibold text-gray-700 uppercase tracking-wider">
+                      <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                         โต๊ะ
                       </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-white text-left text-md font-semibold text-gray-700 uppercase tracking-wider">
+                      <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                         ชื่อ-นามสกุล
                       </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-white"></th>
+                      <th className="px-2 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
+                        สถานะ
+                      </th>
+                      <th className="px-2 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {reservStore.allDayReservToday.map((reserv, index) => {
                       return (
                         <tr key={index}>
-                          <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
-                            <div className="flex">
-                              <div className="ml-3">
-                                <p className="text-gray-900 whitespace-no-wrap">
-                                  {new Date(reserv.day).toLocaleDateString(
-                                    "en-GB"
-                                  )}
-                                </p>
-                              </div>
-                            </div>
+                            <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
+                            <p className="text-gray-900 whitespace-no-wrap">
+                              {reserv.reservNumber}
+                            </p>
                           </td>
-                          <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+                          <td className="px-3 py-2 border-b border-gray-200 bg-white text-sm text-center">
+                            <p className="text-gray-900 whitespace-no-wrap ">
+                              {new Date(reserv.day).toLocaleDateString("en-GB")}
+                            </p>
+                          </td>
+                          <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {`${reserv.start} - ${reserv.end}`}
                             </p>
                           </td>
-                          <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+                          <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm text-center">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {reserv.amount}
                             </p>
                           </td>
-                          <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+                          <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {reserv.table}
+                              {reserv.table.map((table) => {
+                                return `${table} `;
+                              })}
                             </p>
                           </td>
                           {reserv.self_reserv && (
-                            <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {`${reserv.self_reserv.firstname}  ${reserv.self_reserv.lastname}`}
                               </p>
                             </td>
                           )}
                           {reserv.customer.length > 0 && (
-                            <td className="px-5 py-3 border-b border-gray-200 bg-white text-sm">
+                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {reserv.customer.map((customer) => {
                                   return `${customer.firstname}  ${customer.lastname} `;
@@ -98,7 +122,36 @@ const ReservAllDayTodayData = observer(() => {
                               </p>
                             </td>
                           )}
-                          <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm ">
+                          <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm text-center ">
+                            {initialStatus.map((initialStatus, index) => {
+                              return (
+                                <button
+                                  key={index}
+                                  name={initialStatus}
+                                  value={initialStatus}
+                                  id={reserv._id}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    // setStatus(initialStatus);
+
+                                    confirmUpdateStatus(
+                                      reserv._id,
+                                      id,
+                                      initialStatus
+                                    );
+                                  }}
+                                  className={
+                                    initialStatus === reserv.status
+                                      ? "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]"
+                                      : "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-black bg-[#ffffff] hover:bg-[#d5d5d5] "
+                                  }
+                                >
+                                  {initialStatus}
+                                </button>
+                              );
+                            })}
+                          </td>
+                          <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm ">
                             <button
                               className="py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]"
                               onClick={() => {

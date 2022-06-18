@@ -76,8 +76,32 @@ class UserStore {
         throw err;
       });
   }
-  getUser() {
-    axios
+
+  async editCustomer(id, info) {
+    const { username, firstname, lastname, email, phoneNumber } = info;
+    await axios
+      .put(`${process.env.REACT_APP_API}/profile/update/${id}`, {
+        username: username,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phoneNumber: phoneNumber,
+      })
+      .then((response) => {
+        Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
+        this.getCustomersData();
+      })
+      .catch((err) => {
+        Swal.fire({
+          icon: "มีบางอย่างผิดพลาด",
+          title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+          text: err.response.data.error,
+        });
+      });
+  }
+
+  async getUser() {
+    await axios
       .get(`${process.env.REACT_APP_API}/get-user`, {
         headers: { "x-access-token": getToken() },
       })

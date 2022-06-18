@@ -24,10 +24,10 @@ function ReservAllDayData() {
   return (
     <div>
       <div className="px-3">
-      <h3 className="text-lg leading-6 font-medium text-gray-900">
-        ข้อมูลคิวการจอง
-      </h3>
-      <div className="border-t border-gray-300"></div>
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
+          ข้อมูลคิวการจอง
+        </h3>
+        <div className="border-t border-gray-300"></div>
       </div>
       <div className="w-96 px-3 mt-3">
         <Listbox value={selected} onChange={setSelected}>

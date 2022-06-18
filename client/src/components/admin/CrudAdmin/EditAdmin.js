@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { adminStore } from "../../Store/adminStore";
 import { useParams } from "react-router-dom";
-function EditAdmin() {
+import { observer } from "mobx-react-lite";
+const EditAdmin = observer(() => {
   const { id } = useParams();
   const [admin, setAdmin] = useState({
     username: "",
@@ -204,6 +205,5 @@ function EditAdmin() {
       </div>
     </div>
   );
-}
-
+});
 export default EditAdmin;

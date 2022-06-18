@@ -32,7 +32,7 @@ const login = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await Users.findById(req.user.user_id).select("-password");
+    const user = await Users.findById(req.user.user_id);
     if (!user) throw Error("User does not exist");
     res.json(user);
   } catch (e) {

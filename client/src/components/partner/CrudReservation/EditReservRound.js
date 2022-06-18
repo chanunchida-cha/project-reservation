@@ -32,7 +32,7 @@ const EditReservRound = observer(() => {
     await partnerStore.getInformation(partnerId);
     await reservStore.getRoundById(id);
     reservStore.roundReservById.map((reserv) => {
-      if (reserv.customer.length > 0) {
+      if (reserv.customer_id) {
         reserv.customer.map((customer) => {
           return (
             setSelfReserv({
@@ -93,9 +93,13 @@ const EditReservRound = observer(() => {
     setTable(tables);
   }
 
+  console.log(partnerId);
+  console.log("dateTime", dateTime);
+  console.log("startTime", timeRound.start);
+  console.log("selfReserv", timeRound.end);
+  console.log("amount", amount);
+  console.log("table", table);
   console.log(customerId);
-  console.log(dateTime);
-  console.log(timeRound);
 
   const editRoundReserv = async (event) => {
     event.preventDefault();

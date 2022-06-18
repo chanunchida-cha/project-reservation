@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const roundsReservs = mongoose.Schema({
+  reservNumber: {
+    type: String,
+    required: true,
+  },
   partner_id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -35,6 +39,10 @@ const roundsReservs = mongoose.Schema({
     phoneNumber: {
       type: String,
     },
+  },
+  status: {
+    type: String,
+    default: "pending",
   },
 });
 

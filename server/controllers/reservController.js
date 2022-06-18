@@ -19,12 +19,17 @@ const customerRoundReserv = async (req, res) => {
     const dayOfWeekName = new Date(day).toLocaleString("default", {
       weekday: "long",
     });
+
+    const reservtotal = await roundsReservs.find();
     const reservs = await roundsReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString("") },
+        { day: new Date(day).toLocaleDateString() },
         { start: start },
         { end: end },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
       ],
     });
     const reserved_tables = [];
@@ -60,6 +65,7 @@ const customerRoundReserv = async (req, res) => {
         (prev, cur) => Number(cur.seat) + Number(prev.seat),
         0
       );
+
       if (n <= 0) {
         return res.status(400).json({ error: "กรุณากรอกจำนวนคนใหม่" });
       } else if (n > total_reamining_n) {
@@ -98,6 +104,7 @@ const customerRoundReserv = async (req, res) => {
         return reservedTable(seatAmount, remain_n);
       }
     };
+
     if (
       partnerInfo.openday[dayOfWeekName.toLocaleLowerCase()].type === "close"
     ) {
@@ -110,6 +117,7 @@ const customerRoundReserv = async (req, res) => {
     reservedTable(seatAmount, remaining_tables);
 
     const roundsReserv = await roundsReservs.create({
+      reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       customer_id: customerId,
       day: new Date(day).toLocaleDateString(),
@@ -138,10 +146,12 @@ const customerAllDayReserv = async (req, res) => {
     const dayOfWeekName = new Date(day).toLocaleString("default", {
       weekday: "long",
     });
+
+    const reservtotal = allDayReservs.find();
     const reservs = await allDayReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString("") },
+        { day: new Date(day).toLocaleDateString() },
         {
           $or: [
             { start: { $gte: new Date(start).toLocaleTimeString("it-IT") } },
@@ -160,6 +170,9 @@ const customerAllDayReserv = async (req, res) => {
               end: { $lte: end },
             },
           ],
+        },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
         },
       ],
     });
@@ -267,10 +280,11 @@ const customerAllDayReserv = async (req, res) => {
     reservedTable(seatAmount, remaining_tables);
 
     const allDayReserv = await allDayReservs.create({
+      reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       customer_id: customerId,
       day: new Date(day).toLocaleDateString(),
-      start: new Date(start).toLocaleTimeString(),
+      start: new Date(start).toLocaleTimeString("it-IT"),
       end: end,
       amount: amount,
       table: table,
@@ -295,14 +309,20 @@ const selfRoundReserv = async (req, res) => {
     const dayOfWeekName = new Date(day).toLocaleString("default", {
       weekday: "long",
     });
+
+    const reservtotal = await roundsReservs.find();
     const reservs = await roundsReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString("en-GB") },
+        { day: new Date(day).toLocaleDateString() },
         { start: start },
         { end: end },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
       ],
     });
+
     const reserved_tables = [];
     const allTable = [];
     const table = [];
@@ -386,6 +406,7 @@ const selfRoundReserv = async (req, res) => {
     reservedTable(seatAmount, remaining_tables);
 
     const roundsReserv = await roundsReservs.create({
+      reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       self_reserv: self_reserv,
       day: new Date(day).toLocaleDateString(),
@@ -416,6 +437,8 @@ const selfAllDayReserv = async (req, res) => {
       weekday: "long",
     });
 
+    const reservtotal = await allDayReservs.find();
+
     const reservs = await allDayReservs.find({
       $and: [
         { partner_id: partnerId },
@@ -438,6 +461,9 @@ const selfAllDayReserv = async (req, res) => {
               end: { $lte: end },
             },
           ],
+        },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
         },
       ],
     });
@@ -546,6 +572,7 @@ const selfAllDayReserv = async (req, res) => {
     reservedTable(seatAmount, remaining_tables);
 
     const allDayReserv = await allDayReservs.create({
+      reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       self_reserv: self_reserv,
       day: new Date(day).toLocaleDateString(),
@@ -764,6 +791,9 @@ const updateSelfAllDayReserv = async (req, res) => {
             },
           ],
         },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
       ],
     });
     const myReservTables = await allDayReservs.aggregate([
@@ -777,6 +807,7 @@ const updateSelfAllDayReserv = async (req, res) => {
       partner_id: partnerId,
     });
     const reserved_tables = [];
+
     const remain_n = [];
     const myReservTable = [];
 
@@ -815,6 +846,12 @@ const updateSelfAllDayReserv = async (req, res) => {
         dupArrs.forEach((dupArr) => {
           isReservTable.push(dupArr);
         });
+      } else if (myDay.day === new Date(day).toLocaleDateString()) {
+        if (myDay.start !== new Date(start).toLocaleTimeString("it-IT")) {
+          dupArrs.forEach((dupArr) => {
+            isReservTable.push(dupArr);
+          });
+        }
       }
     }
     //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
@@ -841,6 +878,22 @@ const updateSelfAllDayReserv = async (req, res) => {
       }
       return found;
     });
+
+    // if (reservs) {
+    //   return res.status(400).json(reservs);
+    // }
+    // if (remain_n) {
+    //   return res.status(400).json(remain_n);
+    // }
+    // if (dupArrs) {
+    //   return res.status(400).json(dupArrs);
+    // }
+    // if (myReservTables) {
+    //   return res.status(400).json(myReservTables);
+    // }
+    // if (isReservTable) {
+    //   return res.status(400).json(isReservTable);
+    // }
 
     if (
       partnerInfo.openday[dayOfWeekName.toLocaleLowerCase()].type === "close"
@@ -933,6 +986,9 @@ const updateCustomerAllDayReserv = async (req, res) => {
             },
           ],
         },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
       ],
     });
     const myReservTables = await allDayReservs.aggregate([
@@ -969,6 +1025,7 @@ const updateCustomerAllDayReserv = async (req, res) => {
     });
 
     //เอาโต๊ะของรอบจองนี้ออก
+
     let isReservTable = reserved_tables.filter((reservedTable) => {
       let found = false;
       for (const myTable of myReservTable) {
@@ -984,6 +1041,12 @@ const updateCustomerAllDayReserv = async (req, res) => {
         dupArrs.forEach((dupArr) => {
           isReservTable.push(dupArr);
         });
+      } else if (myDay.day === new Date(day).toLocaleDateString()) {
+        if (myDay.start !== new Date(start).toLocaleTimeString("it-IT")) {
+          dupArrs.forEach((dupArr) => {
+            isReservTable.push(dupArr);
+          });
+        }
       }
     }
     //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
@@ -1000,6 +1063,10 @@ const updateCustomerAllDayReserv = async (req, res) => {
     remaining_tables.forEach((remaining_table) => {
       remain_n.push(remaining_table.table_no);
     });
+
+    // if(remain_n){
+    //   return res.status(400).json(remain_n);
+    // }
 
     const duplicateTable = isReservTable.filter((remain) => {
       let found = false;
@@ -1080,6 +1147,9 @@ const updateSelfRoundReserv = async (req, res) => {
         { day: new Date(day).toLocaleDateString() },
         { start: start },
         { end: end },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
       ],
     });
     const myReservTables = await roundsReservs.aggregate([
@@ -1131,6 +1201,12 @@ const updateSelfRoundReserv = async (req, res) => {
         dupArrs.forEach((dupArr) => {
           isReservTable.push(dupArr);
         });
+      } else if (myDay.day === new Date(day).toLocaleDateString()) {
+        if (myDay.start !== start) {
+          dupArrs.forEach((dupArr) => {
+            isReservTable.push(dupArr);
+          });
+        }
       }
     }
     //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
@@ -1158,8 +1234,8 @@ const updateSelfRoundReserv = async (req, res) => {
       return found;
     });
 
-    // if (remain_n) {
-    //   return res.status(400).json(remain_n );
+    // if (isReservTable) {
+    //   return res.status(400).json(isReservTable);
     // }
 
     if (
@@ -1219,6 +1295,9 @@ const updateCustomerRoundReserv = async (req, res) => {
         { day: new Date(day).toLocaleDateString() },
         { start: start },
         { end: end },
+        {
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
       ],
     });
     const myReservTables = await roundsReservs.aggregate([
@@ -1270,6 +1349,12 @@ const updateCustomerRoundReserv = async (req, res) => {
         dupArrs.forEach((dupArr) => {
           isReservTable.push(dupArr);
         });
+      } else if (myDay.day === new Date(day).toLocaleDateString()) {
+        if (myDay.start !== start) {
+          dupArrs.forEach((dupArr) => {
+            isReservTable.push(dupArr);
+          });
+        }
       }
     }
     //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
@@ -1364,6 +1449,38 @@ const roundDelete = (req, res) => {
     }
   });
 };
+const updateStatusAllDay = (req, res) => {
+  const { id } = req.params;
+  allDayReservs.findByIdAndUpdate(
+    id,
+    {
+      $set: req.body,
+    },
+    (err, partner) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(partner);
+      }
+    }
+  );
+};
+const updateStatusRound = (req, res) => {
+  const { id } = req.params;
+  roundsReservs.findByIdAndUpdate(
+    id,
+    {
+      $set: req.body,
+    },
+    (err, partner) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(partner);
+      }
+    }
+  );
+};
 module.exports = {
   customerRoundReserv,
   customerAllDayReserv,
@@ -1381,4 +1498,6 @@ module.exports = {
   updateCustomerRoundReserv,
   allDayDelete,
   roundDelete,
+  updateStatusAllDay,
+  updateStatusRound,
 };

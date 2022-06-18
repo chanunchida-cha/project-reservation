@@ -9,18 +9,21 @@ const EditProfile = observer(() => {
     lastname: "",
     email: "",
     phoneNumber: "",
-    password: "",
-    confirmPass: "",
   });
-  const {
-    username,
-    firstname,
-    lastname,
-    email,
-    phoneNumber,
-    password,
-    confirmPass,
-  } = info;
+  const [customeId, setCustomeId] = useState("");
+  const { username, firstname, lastname, email, phoneNumber } = info;
+  console.log(userStore.customer);
+  useEffect(async () => {
+    await userStore.getUser();
+    setInfo({
+      username: userStore.customer.username,
+      firstname: userStore.customer.firstname,
+      lastname: userStore.customer.lastname,
+      email: userStore.customer.email,
+      phoneNumber: userStore.customer.phoneNumber,
+    });
+    setCustomeId(userStore.customer._id);
+  }, []);
 
   function onChangeInput(event) {
     const { name, value } = event.target;
@@ -31,17 +34,11 @@ const EditProfile = observer(() => {
       };
     });
   }
-  useEffect(async () => {
-    await userStore.getUser();
-    setInfo({
-      username: userStore.customer.username,
-      firstname: userStore.customer.firstname,
-      lastname: userStore.customer.lastname,
-      phoneNumber: userStore.customer.phoneNumber,
-      email: userStore.customer.email,
-      password: userStore.customer.password,
-    });
-  }, []);
+
+  const updateProfile = (e) => {
+    e.preventDefault();
+    userStore.editCustomer(customeId, info);
+  };
 
   return (
     <div className="m-5 flex justify-center">
@@ -50,7 +47,7 @@ const EditProfile = observer(() => {
           <div>
             <h4 className="font-medium text-xl">แก้ไขโปรไฟล์</h4>
           </div>
-          <form>
+          <form onSubmit={updateProfile}>
             <div className="form-group">
               <div className="row">
                 <div className="col">
@@ -127,7 +124,7 @@ const EditProfile = observer(() => {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                สมัครสมาชิก
+                บันทึก
               </button>
             </div>
           </form>
