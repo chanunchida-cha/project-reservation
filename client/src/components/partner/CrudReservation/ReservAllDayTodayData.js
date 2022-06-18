@@ -51,7 +51,7 @@ const ReservAllDayTodayData = observer(() => {
                 <table className="min-w-full leading-normal">
                   <thead>
                     <tr>
-                    <th className="px-1 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
+                      <th className="px-1 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                         หมายเลขการจอง
                       </th>
                       <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
@@ -79,9 +79,11 @@ const ReservAllDayTodayData = observer(() => {
                     {reservStore.allDayReservToday.map((reserv, index) => {
                       return (
                         <tr key={index}>
-                            <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
+                          <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {reserv.reservNumber}
+                              <Link to={`/partner/reserv/allday/${reserv._id}`}>
+                                {reserv.reservNumber}
+                              </Link>
                             </p>
                           </td>
                           <td className="px-3 py-2 border-b border-gray-200 bg-white text-sm text-center">

@@ -13,6 +13,8 @@ import ReservData from "./CrudReservation/ReservData";
 import CreateReservation from "./CrudReservation/CreateReservation";
 import EditReservAllDay from "./CrudReservation/EditReservAllDay";
 import EditReservRound from "./CrudReservation/EditReservRound";
+import SingleAllDayReserv from "./CrudReservation/SingleAllDayReserv";
+import SingleRoundReserv from "./CrudReservation/SingleRoundReserv";
 
 function ContentPartner() {
   return (
@@ -58,6 +60,16 @@ function ContentPartner() {
           path={"/partner/reservationdata/round/edit/:partnerId/:id"}
           exact
           component={EditReservRound}
+        />
+        <Route
+          path={"/partner/reserv/allday/:id"}
+          exact
+          component={SingleAllDayReserv}
+        />
+        <Route
+          path={"/partner/reserv/round/:id"}
+          exact
+          component={SingleRoundReserv}
         />
       </Switch>
     </div>

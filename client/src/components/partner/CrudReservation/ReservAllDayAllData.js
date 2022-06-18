@@ -3,11 +3,13 @@ import { observer } from "mobx-react-lite";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { reservStore } from "../../Store/reservStore";
 import Swal from "sweetalert2";
+import SearchText from "../../SearchText/SearchText";
 
 const initialStatus = ["pending", "arrived", "check out", "cancel"];
 const ReservAllDayAllData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
+  const [searchText, setSearchText] = useState("");
 
   useEffect(async () => {
     await reservStore.getAllday(id);
@@ -44,6 +46,9 @@ const ReservAllDayAllData = observer(() => {
         <div className="">
           <div>
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+              <div className="mb-2 w-1/5">
+                <SearchText value={searchText} onChangeValue={setSearchText} />
+              </div>
               <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
                 <table className="min-w-full leading-normal ">
                   <thead>
@@ -73,105 +78,113 @@ const ReservAllDayAllData = observer(() => {
                     </tr>
                   </thead>
                   <tbody>
-                    {reservStore.allDayReserv.map((reserv, index) => {
-                      return (
-                        <tr key={index}>
-                          <td className="px-1 py-2 border-b  border-gray-200 bg-white hover:bg-slate-500 text-sm text-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              <Link to={`/partner/reserv/${reserv._id}`}>
-                                {" "}
-                                {reserv.reservNumber}
-                              </Link>
-                            </p>
-                          </td>
-                          <td className="px-3 py-2 border-b border-gray-200 bg-white text-sm text-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {new Date(reserv.day).toLocaleDateString("en-GB")}
-                            </p>
-                          </td>
-                          <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {`${reserv.start} - ${reserv.end}`}
-                            </p>
-                          </td>
-                          <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm text-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {reserv.amount}
-                            </p>
-                          </td>
-                          <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {reserv.table}
-                            </p>
-                          </td>
-                          {reserv.self_reserv && (
-                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
+                    {reservStore.allDayReserv
+                      .filter((reserv) => {
+                        return reserv.reservNumber.includes(searchText);
+                      })
+                      .map((reserv, index) => {
+                        return (
+                          <tr key={index}>
+                            <td className="px-1 py-2 border-b  border-gray-200 bg-white hover:bg-slate-500 text-sm text-center">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {`${reserv.self_reserv.firstname}  ${reserv.self_reserv.lastname}`}
-                              </p>
-                            </td>
-                          )}
-                          {reserv.customer.length > 0 && (
-                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
-                              <p className="text-gray-900 whitespace-no-wrap">
-                                {reserv.customer.map((customer) => {
-                                  return `${customer.firstname}  ${customer.lastname} `;
-                                })}
-                              </p>
-                            </td>
-                          )}
-                          <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm text-center ">
-                            {initialStatus.map((initialStatus, index) => {
-                              return (
-                                <button
-                                  key={index}
-                                  name={initialStatus}
-                                  value={initialStatus}
-                                  id={reserv._id}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    // setStatus(initialStatus);
-
-                                    confirmUpdateStatus(
-                                      reserv._id,
-                                      id,
-                                      initialStatus
-                                    );
-                                  }}
-                                  className={
-                                    initialStatus === reserv.status
-                                      ? "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]"
-                                      : "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-black bg-[#ffffff] hover:bg-[#d5d5d5] "
-                                  }
+                                <Link
+                                  to={`/partner/reserv/allday/${reserv._id}`}
                                 >
-                                  {initialStatus}
-                                </button>
-                              );
-                            })}
-                          </td>
-                          <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm ">
-                            <button
-                              className="py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]"
-                              onClick={() => {
-                                history.push(
-                                  `/partner/reservationdata/allday/edit/${id}/${reserv._id}`
+                                  {" "}
+                                  {reserv.reservNumber}
+                                </Link>
+                              </p>
+                            </td>
+                            <td className="px-3 py-2 border-b border-gray-200 bg-white text-sm text-center">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {new Date(reserv.day).toLocaleDateString(
+                                  "en-GB"
+                                )}
+                              </p>
+                            </td>
+                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {`${reserv.start} - ${reserv.end}`}
+                              </p>
+                            </td>
+                            <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm text-center">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {reserv.amount}
+                              </p>
+                            </td>
+                            <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
+                              <p className="text-gray-900 whitespace-no-wrap">
+                                {reserv.table}
+                              </p>
+                            </td>
+                            {reserv.self_reserv && (
+                              <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                  {`${reserv.self_reserv.firstname}  ${reserv.self_reserv.lastname}`}
+                                </p>
+                              </td>
+                            )}
+                            {reserv.customer.length > 0 && (
+                              <td className="px-3 py-3 border-b border-gray-200 bg-white text-sm text-center">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                  {reserv.customer.map((customer) => {
+                                    return `${customer.firstname}  ${customer.lastname} `;
+                                  })}
+                                </p>
+                              </td>
+                            )}
+                            <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm text-center ">
+                              {initialStatus.map((initialStatus, index) => {
+                                return (
+                                  <button
+                                    key={index}
+                                    name={initialStatus}
+                                    value={initialStatus}
+                                    id={reserv._id}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      // setStatus(initialStatus);
+
+                                      confirmUpdateStatus(
+                                        reserv._id,
+                                        id,
+                                        initialStatus
+                                      );
+                                    }}
+                                    className={
+                                      initialStatus === reserv.status
+                                        ? "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]"
+                                        : "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-black bg-[#ffffff] hover:bg-[#d5d5d5] "
+                                    }
+                                  >
+                                    {initialStatus}
+                                  </button>
                                 );
-                              }}
-                            >
-                              แก้ไข
-                            </button>
-                            <button
-                              className="py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#FF4D4F] hover:bg-[#f76d6f]"
-                              onClick={() => {
-                                confirmDelete(reserv._id, id);
-                              }}
-                            >
-                              ลบ
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                              })}
+                            </td>
+                            <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm ">
+                              <button
+                                className="py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]"
+                                onClick={() => {
+                                  history.push(
+                                    `/partner/reservationdata/allday/edit/${id}/${reserv._id}`
+                                  );
+                                }}
+                              >
+                                แก้ไข
+                              </button>
+                              <button
+                                className="py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#FF4D4F] hover:bg-[#f76d6f]"
+                                onClick={() => {
+                                  confirmDelete(reserv._id, id);
+                                }}
+                              >
+                                ลบ
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>

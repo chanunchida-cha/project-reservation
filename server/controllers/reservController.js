@@ -147,7 +147,7 @@ const customerAllDayReserv = async (req, res) => {
       weekday: "long",
     });
 
-    const reservtotal = allDayReservs.find();
+    const reservtotal = await allDayReservs.find();
     const reservs = await allDayReservs.find({
       $and: [
         { partner_id: partnerId },
