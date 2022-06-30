@@ -8,7 +8,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
 import { reservStore } from "../../Store/reservStore";
 
-const AllDayReserv = observer(({ partnerInfo }) => {
+const AllDayReserv = observer(() => {
   const { id } = useParams();
   const [selfReserv, setSelfReserv] = useState({
     firstname: "",
@@ -43,6 +43,14 @@ const AllDayReserv = observer(({ partnerInfo }) => {
   const createReserv = async (event) => {
     event.preventDefault();
     await reservStore.selfAllDayReserv(id, selfReserv, amount, date, startTime);
+    setSelfReserv({
+      firstname: "",
+      lastname: "",
+      phoneNumber: "",
+    });
+    setAmount("");
+    setStart("");
+    setDate(new Date());
   };
   console.log(date);
   console.log(startTime);
@@ -159,22 +167,23 @@ const AllDayReserv = observer(({ partnerInfo }) => {
                     เวลาที่ต้องการจอง
                   </label>
                   <div>
-                    <TextField
-                      name="start"
-                      id="time"
-                      type="time"
-                      value={start}
-                      onChange={(e) => {
-                        setStart(e.target.value);
-                      }}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      inputProps={{
-                        step: 300, // 5 min
-                      }}
-                      sx={{ width: 600, marginRight: 2 }}
-                    />
+                    <Stack>
+                      <TextField
+                        name="start"
+                        id="time"
+                        type="time"
+                        value={start}
+                        onChange={(e) => {
+                          setStart(e.target.value);
+                        }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        inputProps={{
+                          step: 300, // 5 min
+                        }}
+                      />
+                    </Stack>
                   </div>
                 </div>
               </div>

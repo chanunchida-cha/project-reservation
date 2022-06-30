@@ -5,28 +5,30 @@ import { partnerStore } from "../../Store/partnerStore";
 import ReservAllDayData from "./ReservAllDayData";
 import ReservRoundData from "./ReservRoundData";
 
-const ReservData=observer(() =>{
+const ReservData = observer(() => {
   const { id } = useParams();
-  useEffect(async () => {
-    await partnerStore.getInformation(id);
+  useEffect(() => {
+    const getInfo = async () => {
+      await partnerStore.getInformation(id);
+    };
+    getInfo();
   }, []);
   const partnerInfos = partnerStore.partnerInfo;
 
   return (
     <div>
-       {partnerInfos.map((partnerInfo) => {
+      {partnerInfos.map((partnerInfo) => {
         return (
           <div key={partnerInfo._id}>
             {partnerInfo.type_rest && partnerInfo.type_rest === "allDay" ? (
-              <ReservAllDayData/>
+              <ReservAllDayData />
             ) : (
-              <ReservRoundData/>
+              <ReservRoundData />
             )}
           </div>
         );
       })}
     </div>
   );
-}
-)
+});
 export default ReservData;

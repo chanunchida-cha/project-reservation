@@ -48,6 +48,17 @@ const RoundsReserv = observer(({ partnerInfo }) => {
       timeRound.start,
       timeRound.end
     );
+    setSelfReserv({
+      firstname: "",
+      lastname: "",
+      phoneNumber: "",
+    });
+    setAmount("");
+    setTimeRound({
+      start: "",
+      end: "",
+    });
+    setDate(new Date());
   };
   console.log(date);
   return (

@@ -9,7 +9,6 @@ const CreateTable = observer(() => {
   const [table, setTable] = useState({
     table_no: "",
     seat: "",
-    description: "",
   });
 
   const onChange = (event) => {

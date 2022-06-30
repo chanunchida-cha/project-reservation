@@ -1481,6 +1481,63 @@ const updateStatusRound = (req, res) => {
     }
   );
 };
+
+const getRoundReservByCustomerPending = async (req, res) => {
+  const { id } = req.params;
+
+  roundsReservs
+    .aggregate([
+      {
+        $match: {
+          customer_id: mongoose.Types.ObjectId(id),
+          day: new Date().toLocaleDateString(),
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "customer_id",
+          foreignField: "_id",
+          as: "customer",
+        },
+      },
+    ])
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getAlldayReservByCustomerPending = async (req, res) => {
+  const { id } = req.params;
+
+  allDayReservs
+    .aggregate([
+      {
+        $match: {
+          customer_id: mongoose.Types.ObjectId(id),
+          day: new Date().toLocaleDateString(),
+          $or: [{ status: "pending" }, { status: "arrived" }],
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "customer_id",
+          foreignField: "_id",
+          as: "customer",
+        },
+      },
+    ])
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 module.exports = {
   customerRoundReserv,
   customerAllDayReserv,
@@ -1500,4 +1557,6 @@ module.exports = {
   roundDelete,
   updateStatusAllDay,
   updateStatusRound,
+  getRoundReservByCustomerPending,
+  getAlldayReservByCustomerPending
 };

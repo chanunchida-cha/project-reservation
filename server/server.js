@@ -38,6 +38,7 @@ app.use(morgan());
 app.use("/user", registerRoute);
 app.use("/user", authRoute);
 app.use("/user", customerRoute);
+app.use("/user", restaurantRoute);
 app.use("/partner", partnerRegisRoute);
 app.use("/partner", partnerAuthRoute);
 app.use("/partner", restaurantRoute);

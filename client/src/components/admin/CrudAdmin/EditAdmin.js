@@ -24,17 +24,20 @@ const EditAdmin = observer(() => {
     confirmPass,
   } = admin;
 
-  useEffect(async () => {
-    await adminStore.getAdminById(id);
-    setAdmin({
-      username: adminStore.admin.username,
-      firstname: adminStore.admin.firstname,
-      lastname: adminStore.admin.lastname,
-      email: adminStore.admin.email,
-      phoneNumber: adminStore.admin.phoneNumber,
-      password: adminStore.admin.password,
-      confirmPass: adminStore.admin.confirmPass,
-    });
+  useEffect(() => {
+    const getAdmins = async () => {
+      await adminStore.getAdminById(id);
+      setAdmin({
+        username: adminStore.admin.username,
+        firstname: adminStore.admin.firstname,
+        lastname: adminStore.admin.lastname,
+        email: adminStore.admin.email,
+        phoneNumber: adminStore.admin.phoneNumber,
+        password: adminStore.admin.password,
+        confirmPass: adminStore.admin.confirmPass,
+      });
+    };
+    getAdmins()
   }, []);
 
   function onChangeInput(event) {
@@ -47,9 +50,9 @@ const EditAdmin = observer(() => {
     });
   }
 
-  function editAdminSubmit(e) {
+  async function editAdminSubmit(e) {
     e.preventDefault();
-    adminStore.editAdmin(id, admin);
+    await adminStore.editAdmin(id, admin);
   }
 
   return (
@@ -76,7 +79,7 @@ const EditAdmin = observer(() => {
                     value={firstname}
                     onChange={onChangeInput}
                     autoComplete="given-name"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                     required
                   />
                 </div>
@@ -95,7 +98,7 @@ const EditAdmin = observer(() => {
                     onChange={onChangeInput}
                     id="lastname"
                     autoComplete="family-name"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-6">
@@ -112,7 +115,7 @@ const EditAdmin = observer(() => {
                     autoComplete="username"
                     value={username}
                     onChange={onChangeInput}
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                     disabled
                   />
                 </div>
@@ -131,7 +134,7 @@ const EditAdmin = observer(() => {
                     onChange={onChangeInput}
                     id="email"
                     autoComplete="email"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -149,7 +152,7 @@ const EditAdmin = observer(() => {
                     onChange={onChangeInput}
                     id="phoneNumber"
                     autoComplete="phonenumber"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -167,7 +170,7 @@ const EditAdmin = observer(() => {
                     onChange={onChangeInput}
                     id="password"
                     autoComplete="password"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                     disabled
                   />
                 </div>
@@ -186,7 +189,7 @@ const EditAdmin = observer(() => {
                     onChange={onChangeInput}
                     id="confirmPass"
                     autoComplete="confirmPass"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                     disabled
                   />
                 </div>

@@ -7,7 +7,10 @@ const SingleAdminData = observer(() => {
   const { id } = useParams();
 
   useEffect(() => {
-    adminStore.getAdminById(id);
+    const getSingleAdmin = async () => {
+      await adminStore.getAdminById(id);
+    };
+    getSingleAdmin();
   }, []);
 
   const { _id, username, firstname, lastname, email, phoneNumber } =

@@ -1,15 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { reservStore } from "../../Store/reservStore";
 import Swal from "sweetalert2";
+import SearchText from "../../SearchText/SearchText";
+import { Listbox, Transition } from "@headlessui/react";
+import { SelectorIcon } from "@heroicons/react/solid";
 
 const initialStatus = ["pending", "arrived", "check out", "cancel"];
 const ReservRoundAllData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
+  const [selected, setSelected] = useState();
   useEffect(() => {
-    reservStore.getRound(id);
+    const getRound = async () => {
+      await reservStore.getRound(id);
+    };
+    getRound();
   }, []);
 
   const confirmDelete = (reserv_id, partner_id) => {
@@ -37,6 +44,10 @@ const ReservRoundAllData = observer(() => {
       }
     });
   };
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
   return (
     <div>
       <div className="px-4 py-3 sm:px-6">
@@ -124,33 +135,71 @@ const ReservRoundAllData = observer(() => {
                             </td>
                           )}
                           <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm text-center ">
-                            {initialStatus.map((initialStatus, index) => {
-                              return (
-                                <button
-                                  key={index}
-                                  name={initialStatus}
-                                  value={initialStatus}
-                                  id={reserv._id}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    // setStatus(initialStatus);
+                            <Listbox value={selected} onChange={setSelected}>
+                              {({ open }) => (
+                                <>
+                                  <div className="mt-1 ">
+                                    <Listbox.Button className="relative w-40 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                      <span className="flex items-center">
+                                        {reserv.status}
+                                      </span>
+                                      <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <SelectorIcon
+                                          className="h-5 w-5 text-gray-400"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    </Listbox.Button>
 
-                                    confirmUpdateStatus(
-                                      reserv._id,
-                                      id,
-                                      initialStatus
-                                    );
-                                  }}
-                                  className={
-                                    initialStatus === reserv.status
-                                      ? "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff]"
-                                      : "py-1 px-2 border border-transparent text-sm font-medium rounded-md text-black bg-[#ffffff] hover:bg-[#d5d5d5] "
-                                  }
-                                >
-                                  {initialStatus}
-                                </button>
-                              );
-                            })}
+                                    <Transition
+                                      show={open}
+                                      as={Fragment}
+                                      leave="transition ease-in duration-100"
+                                      leaveFrom="opacity-100"
+                                      leaveTo="opacity-0"
+                                    >
+                                      <Listbox.Options className="absolute z-10 mt-1 w-80 bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                        {initialStatus.map((type, index) => (
+                                          <Listbox.Option
+                                            onClick={() => {
+                                              confirmUpdateStatus(
+                                                reserv._id,
+                                                id,
+                                                type
+                                              );
+                                            }}
+                                            key={index}
+                                            className={
+                                              "cursor-default hover:bg-[#c2c2c2] select-none relative py-2 pl-3 pr-9"
+                                            }
+                                            value={type}
+                                          >
+                                            <>
+                                              <div className="flex items-center">
+                                                <span
+                                                  className={classNames(
+                                                    "ml-3 block truncate"
+                                                  )}
+                                                >
+                                                  {type}
+                                                </span>
+                                              </div>
+                                              <>
+                                                <span
+                                                  className={classNames(
+                                                    "absolute inset-y-0 right-0 flex items-center pr-4"
+                                                  )}
+                                                ></span>
+                                              </>
+                                            </>
+                                          </Listbox.Option>
+                                        ))}
+                                      </Listbox.Options>
+                                    </Transition>
+                                  </div>
+                                </>
+                              )}
+                            </Listbox>
                           </td>
                           <td className="px-2 py-3 border-b border-gray-200 bg-white text-sm ">
                             <button

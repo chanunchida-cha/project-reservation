@@ -22,7 +22,10 @@ const SinglePartner = observer(() => {
   };
 
   useEffect(() => {
-    adminStore.getPartnerVarifyById(id);
+   const getSinglePartner = async()=>{
+    await  adminStore.getPartnerVarifyById(id);
+   }
+   getSinglePartner()
   }, []);
 
   const {

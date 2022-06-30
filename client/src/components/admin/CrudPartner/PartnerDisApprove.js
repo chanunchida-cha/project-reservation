@@ -10,7 +10,10 @@ const PartnerDisApprove = observer(() => {
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   useEffect(() => {
-    adminStore.getPartnerDisApprove();
+    const getPartnerDisapprove = async()=>{
+      await adminStore.getPartnerDisApprove();
+    }
+    getPartnerDisapprove()
   }, []);
 
   const partnerDisApprove = adminStore.partnersDisApprove;

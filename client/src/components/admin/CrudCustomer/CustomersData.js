@@ -10,7 +10,10 @@ const CustomersData = observer(() => {
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   useEffect(() => {
-    adminStore.getCustomersData();
+   const getCustomers = async()=>{
+    await adminStore.getCustomersData();
+   }
+   getCustomers()
   }, []);
   const customers = adminStore.customers;
 

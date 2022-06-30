@@ -11,6 +11,8 @@ import Layout from "./components/Layout";
 import LoginAdmin from "./components/admin/LoginAdmin";
 import MyProfile from "./components/customer/MyProfile";
 import EditProfile from "./components/customer/EditProfile";
+import SingleRestaurant from "./components/indexPage/SingleRestaurant";
+import MyReservation from "./components/indexPage/MyReservation";
 
 function MyRoute() {
   return (
@@ -25,6 +27,12 @@ function MyRoute() {
         <Route path={"/loginadmin"} exact component={LoginAdmin} />
         <Route path={"/myprofile"} exact component={MyProfile} />
         <Route path={"/myprofile/edit"} exact component={EditProfile} />
+        <Route path={"/restaurant/:id"} exact component={SingleRestaurant} />
+        <Route
+          path={"/myreservation/:type/:typecustomer/:id"}
+          exact
+          component={MyReservation}
+        />
       </Switch>
     </Layout>
   );

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { observer } from "mobx-react-lite";
@@ -17,17 +17,37 @@ function classNames(...classes) {
 }
 
 const Navbar = observer(() => {
+  const [navbar, setNavbar] = useState(true);
   console.log(userStore.customer);
   const history = useHistory();
+  const scrollNav = () => {
+    if (window.scrollY > 60) {
+      setNavbar(false);
+    } else {
+      setNavbar(true);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", scrollNav);
+    return () => {
+      window.removeEventListener("scroll", scrollNav);
+    };
+  }, []);
+
   return (
-    <Disclosure as="nav" className="bg-white">
+    <Disclosure
+      as="nav"
+      className={`${
+        navbar && "fixed top-0 w-full z-50 bg-white ease-in duration-500"
+      }`}
+    >
       {({ open }) => (
         <>
           <div className="bg-gray-50 max-w-full  mx-auto px-8 sm:px-10 lg:px-12">
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center  p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-100 ">
+                <Disclosure.Button className="inline-flex items-center justify-center  p-2 rounded-md text-black hover:text-white hover:bg-gray-100 ">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XIcon className="block h-4 w-4" aria-hidden="true" />
@@ -158,7 +178,7 @@ const Navbar = observer(() => {
                 {userStore.customer.username && (
                   <Menu as="div" className="ml-3 relative">
                     <div>
-                      <Menu.Button className=" flex py-2 px-3 rounded-md hover:bg-gray-300 text-sm mr-10    ">
+                      <Menu.Button className=" flex py-2 px-4 rounded-md hover:bg-gray-300 text-sm sm:mr-10 lg:mr-16   ">
                         {({ active }) => (
                           <a
                             href="#"
@@ -198,7 +218,7 @@ const Navbar = observer(() => {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="/myprofile"
+                              href="/myreservation"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
@@ -242,8 +262,8 @@ const Navbar = observer(() => {
                   href={item.href}
                   className={classNames(
                     item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      ? "bg-gray-900 text-black"
+                      : "text-black hover:bg-gray-700 hover:text-white",
                     "block px-3 py-2 rounded-md text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}

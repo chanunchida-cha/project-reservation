@@ -11,7 +11,7 @@ const CreateMenu = observer(() => {
     description: "",
     price: 0,
   });
-  const [image, setimage] = useState(null);
+  const [image, setimage] = useState();
   const [preview, setPreview] = useState(null);
 
   const onChangeMenu = (event) => {
@@ -46,7 +46,7 @@ const CreateMenu = observer(() => {
     formData.append("image", image);
 
     await partnerStore.createMenu(formData);
-    partnerStore.getMenuById(id);
+    await partnerStore.getMenuById(id);
     history.push(`/partner/menu/${id}`);
   };
 

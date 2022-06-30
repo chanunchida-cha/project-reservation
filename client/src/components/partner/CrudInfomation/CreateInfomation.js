@@ -150,7 +150,7 @@ const CreateInfomation = observer(() => {
     }
 
     await partnerStore.createInformation(formData);
-    partnerStore.getInformation(id);
+    await partnerStore.getInformation(id);
   };
 
   const handleChangeInput = (index, event) => {
@@ -286,6 +286,7 @@ const CreateInfomation = observer(() => {
                             filename="image"
                             className="sr-only"
                             onChange={showPreview}
+                            required
                           />
                         </label>
                       </div>

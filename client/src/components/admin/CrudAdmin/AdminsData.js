@@ -10,7 +10,10 @@ const AdminsData = observer(() => {
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   useEffect(() => {
-    adminStore.getAdminsData();
+    const getAdmins = async()=>{
+      await adminStore.getAdminsData();
+    }
+    getAdmins()
   }, []);
   const admins = adminStore.admins;
 

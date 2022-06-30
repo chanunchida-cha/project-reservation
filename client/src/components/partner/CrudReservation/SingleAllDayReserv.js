@@ -1,12 +1,15 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { reservStore } from "../../Store/reservStore";
 
 const SingleAllDayReserv = observer(() => {
   const { id } = useParams();
-  useEffect(async () => {
-    await reservStore.getAlldayById(id);
+  useEffect(() => {
+    const getSingleAllday = async () => {
+      await reservStore.getAlldayById(id);
+    };
+    getSingleAllday();
   }, []);
   return (
     <>

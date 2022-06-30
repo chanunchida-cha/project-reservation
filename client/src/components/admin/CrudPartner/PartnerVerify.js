@@ -10,7 +10,10 @@ const PartnerVerify = observer(() => {
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   useEffect(() => {
-    adminStore.getPartnerVarify();
+    const getPartnerVerify = async () => {
+      await adminStore.getPartnerVarify();
+    };
+    getPartnerVerify();
   }, []);
 
   const partners = adminStore.partners;

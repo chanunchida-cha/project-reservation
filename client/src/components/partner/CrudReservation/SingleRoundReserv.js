@@ -5,8 +5,11 @@ import { reservStore } from "../../Store/reservStore";
 
 const SingleRoundReserv = observer(() => {
   const { id } = useParams();
-  useEffect(async () => {
-    await reservStore.getRoundById(id);
+  useEffect(() => {
+    const getRoundById = async () => {
+      await reservStore.getRoundById(id);
+    };
+    getRoundById();
   }, []);
   return (
     <>

@@ -95,10 +95,61 @@ const EditInformation = observer(() => {
     },
   });
   console.log(openDay);
-  useEffect(async () => {
-    await partnerStore.getInformation(id);
-    partnerStore.partnerInfo.map((info) => {
-      if (info.rounds.length <= 0) {
+  useEffect(() => {
+    const getPartnerInfo = async () => {
+      await partnerStore.getInformation(id);
+      partnerStore.partnerInfo.map((info) => {
+        if (info.rounds.length <= 0) {
+          return (
+            setInfo({
+              description: info.description,
+              address: info.address,
+              contact: info.contact,
+            }),
+            setSelected(info.type_rest),
+            setimage(info.image),
+            setInfoId(info._id.toString()),
+            setInputFields(inputFields),
+            setTimeLength(info.time_length),
+            setOpenDay({
+              monday: {
+                type: info.openday.monday.type,
+                start: info.openday.monday.start,
+                end: info.openday.monday.end,
+              },
+              tuesday: {
+                type: info.openday.tuesday.type,
+                start: info.openday.tuesday.start,
+                end: info.openday.tuesday.end,
+              },
+              wednesday: {
+                type: info.openday.wednesday.type,
+                start: info.openday.wednesday.start,
+                end: info.openday.wednesday.end,
+              },
+              thursday: {
+                type: info.openday.thursday.type,
+                start: info.openday.thursday.start,
+                end: info.openday.thursday.end,
+              },
+              friday: {
+                type: info.openday.friday.type,
+                start: info.openday.friday.start,
+                end: info.openday.friday.end,
+              },
+              saturday: {
+                type: info.openday.saturday.type,
+                start: info.openday.saturday.start,
+                end: info.openday.saturday.end,
+              },
+              sunday: {
+                type: info.openday.sunday.type,
+                start: info.openday.sunday.start,
+                end: info.openday.sunday.end,
+              },
+            })
+          );
+        }
         return (
           setInfo({
             description: info.description,
@@ -108,8 +159,14 @@ const EditInformation = observer(() => {
           setSelected(info.type_rest),
           setimage(info.image),
           setInfoId(info._id.toString()),
-          setInputFields(inputFields),
-          setTimeLength(info.time_length),
+          setInputFields(
+            info.rounds.map((round) => {
+              return {
+                start: round.start,
+                end: round.end,
+              };
+            })
+          ),
           setOpenDay({
             monday: {
               type: info.openday.monday.type,
@@ -148,64 +205,9 @@ const EditInformation = observer(() => {
             },
           })
         );
-      }
-      return (
-        setInfo({
-          description: info.description,
-          address: info.address,
-          contact: info.contact,
-        }),
-        setSelected(info.type_rest),
-        setimage(info.image),
-        setInfoId(info._id.toString()),
-        setInputFields(
-          info.rounds.map((round) => {
-            return {
-              start: round.start,
-              end: round.end,
-            };
-          })
-        ),
-        setTimeLength(info.time_length),
-        setOpenDay({
-          monday: {
-            type: info.openday.monday.type,
-            start: info.openday.monday.start,
-            end: info.openday.monday.end,
-          },
-          tuesday: {
-            type: info.openday.tuesday.type,
-            start: info.openday.tuesday.start,
-            end: info.openday.tuesday.end,
-          },
-          wednesday: {
-            type: info.openday.wednesday.type,
-            start: info.openday.wednesday.start,
-            end: info.openday.wednesday.end,
-          },
-          thursday: {
-            type: info.openday.thursday.type,
-            start: info.openday.thursday.start,
-            end: info.openday.thursday.end,
-          },
-          friday: {
-            type: info.openday.friday.type,
-            start: info.openday.friday.start,
-            end: info.openday.friday.end,
-          },
-          saturday: {
-            type: info.openday.saturday.type,
-            start: info.openday.saturday.start,
-            end: info.openday.saturday.end,
-          },
-          sunday: {
-            type: info.openday.sunday.type,
-            start: info.openday.sunday.start,
-            end: info.openday.sunday.end,
-          },
-        })
-      );
-    });
+      });
+    };
+    getPartnerInfo();
   }, []);
   console.log(inputFields);
   console.log("selested", selected);

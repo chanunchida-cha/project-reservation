@@ -12,7 +12,10 @@ const Information = observer(() => {
   console.log(id);
 
   useEffect(() => {
-    partnerStore.getInformation(id);
+    const getInformation = async()=>{
+     await partnerStore.getInformation(id);
+    }
+    getInformation()
   }, []);
 
   const partnerInfo = partnerStore.partnerInfo.length;

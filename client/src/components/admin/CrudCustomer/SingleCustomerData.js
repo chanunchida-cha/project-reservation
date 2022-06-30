@@ -7,7 +7,10 @@ const SingleCustomerData = observer(() => {
   const { id } = useParams();
 
   useEffect(() => {
-    adminStore.getCustomerById(id);
+    const getSingleCustomer = async ()=>{
+    await  adminStore.getCustomerById(id);
+    }
+    getSingleCustomer()
   }, []);
   console.log(adminStore.customer);
   const { _id, username, firstname, lastname, email, phoneNumber } =

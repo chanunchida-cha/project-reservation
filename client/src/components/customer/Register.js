@@ -32,7 +32,7 @@ const Register = observer(() => {
     });
   }
 
-  async function registerSubmit(event) {
+  const registerSubmit=async(event) =>{
     event.preventDefault();
     await userStore.createUser(info);
 

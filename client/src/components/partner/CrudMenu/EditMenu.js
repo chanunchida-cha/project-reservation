@@ -17,17 +17,20 @@ const EditMenu = observer(() => {
   const [preview, setPreview] = useState(null);
   const [imageChange, setImageChange] = useState(false);
 
-  useEffect(async () => {
-    await partnerStore.getMenuById(id);
-    return (
-      setMenu({
-        name: partnerStore.menu.name,
-        description: partnerStore.menu.description,
-        price: partnerStore.menu.price,
-      }),
-      setPartnerId(partnerStore.menu.partner_id),
-      setimage(partnerStore.menu.image)
-    );
+  useEffect(() => {
+    const getMenus = async () => {
+      await partnerStore.getMenuById(id);
+      return (
+        setMenu({
+          name: partnerStore.menu.name,
+          description: partnerStore.menu.description,
+          price: partnerStore.menu.price,
+        }),
+        setPartnerId(partnerStore.menu.partner_id),
+        setimage(partnerStore.menu.image)
+      );
+    };
+    getMenus();
   }, []);
 
   console.log(partnerId);

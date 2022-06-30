@@ -11,8 +11,11 @@ const TableData = observer(() => {
   const { id } = useParams();
   const history = useHistory();
 
-  useEffect(async () => {
-    await partnerStore.getTableByRest(id);
+  useEffect(() => {
+    const getTables = async () => {
+      await partnerStore.getTableByRest(id);
+    };
+    getTables();
   }, []);
 
   const confirmDelete = (table_id, id) => {

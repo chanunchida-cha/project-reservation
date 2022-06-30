@@ -36,39 +36,42 @@ const EditReservAllDay = observer(() => {
   const startTime = `${dateTime.getFullYear()}  ${
     dateTime.getMonth() + 1
   } ${dateTime.getDate()} ${start} GMT+0700 (Indochina Time)`;
-  useEffect(async () => {
-    await partnerStore.getTableByRest(partnerId);
-    await reservStore.getAlldayById(id);
-    reservStore.allDayReservById.map((reserv) => {
-      if (reserv.customer_id) {
-        reserv.customer.map((customer) => {
+  useEffect(() => {
+    const getReservs = async () => {
+      await partnerStore.getTableByRest(partnerId);
+      await reservStore.getAlldayById(id);
+      reservStore.allDayReservById.map((reserv) => {
+        if (reserv.customer_id) {
+          reserv.customer.map((customer) => {
+            return (
+              setSelfReserv({
+                firstname: customer.firstname,
+                lastname: customer.lastname,
+                phoneNumber: customer.phoneNumber,
+              }),
+              setAmount(reserv.amount),
+              setDate(new Date(reserv.day).toLocaleString()),
+              setStart(reserv.start),
+              setTable(reserv.table),
+              setCustomerId(reserv.customer_id)
+            );
+          });
+        } else if (selfReserv) {
           return (
             setSelfReserv({
-              firstname: customer.firstname,
-              lastname: customer.lastname,
-              phoneNumber: customer.phoneNumber,
+              firstname: reserv.self_reserv.firstname,
+              lastname: reserv.self_reserv.lastname,
+              phoneNumber: reserv.self_reserv.phoneNumber,
             }),
             setAmount(reserv.amount),
             setDate(new Date(reserv.day).toLocaleString()),
             setStart(reserv.start),
-            setTable(reserv.table),
-            setCustomerId(reserv.customer_id)
+            setTable(reserv.table)
           );
-        });
-      } else if (selfReserv) {
-        return (
-          setSelfReserv({
-            firstname: reserv.self_reserv.firstname,
-            lastname: reserv.self_reserv.lastname,
-            phoneNumber: reserv.self_reserv.phoneNumber,
-          }),
-          setAmount(reserv.amount),
-          setDate(new Date(reserv.day).toLocaleString()),
-          setStart(reserv.start),
-          setTable(reserv.table)
-        );
-      }
-    });
+        }
+      });
+    };
+    getReservs();
   }, []);
   const handleChange = (newDate) => {
     setDate(newDate);
@@ -281,7 +284,7 @@ const EditReservAllDay = observer(() => {
                           เลือกประเภทร้านอาหาร
                         </Listbox.Label>
                         <div className="mt-1 relative">
-                          <Listbox.Button className="relative w-80 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                          <Listbox.Button className="relative w-80 h-10 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             <span className="flex items-center">
                               <span className="ml-3 block truncate">
                                 {table.map((theTable) => theTable).join(",")}

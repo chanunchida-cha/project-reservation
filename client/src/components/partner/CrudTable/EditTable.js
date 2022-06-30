@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { partnerStore } from "../../Store/partnerStore";
 import { useParams, useHistory } from "react-router-dom";
 
-
 const EditTable = observer(() => {
   const history = useHistory();
   const { id } = useParams();
@@ -11,18 +10,19 @@ const EditTable = observer(() => {
   const [table, setTable] = useState({
     table_no: "",
     seat: "",
-    description: "",
   });
-  useEffect(async () => {
-    await partnerStore.getTableById(id);
-    return (
-      setPartnerId(partnerStore.table.partner_id),
-      setTable({
-        table_no: partnerStore.table.table_no,
-        seat: partnerStore.table.seat,
-        description: partnerStore.table.description,
-      })
-    );
+  useEffect(() => {
+    const getTables = async () => {
+      await partnerStore.getTableById(id);
+      return (
+        setPartnerId(partnerStore.table.partner_id),
+        setTable({
+          table_no: partnerStore.table.table_no,
+          seat: partnerStore.table.seat,
+        })
+      );
+    };
+    getTables();
   }, []);
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -86,27 +86,11 @@ const EditTable = observer(() => {
                   className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                 />
               </div>
-              <div className="col-span-2 sm:col-span-2">
-                <label
-                  htmlFor="email-address"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  คำอธิบายเพิ่มเติม
-                </label>
-                <input
-                  type="text"
-                  name="description"
-                  id="description"
-                  autoComplete="description"
-                  value={table.description}
-                  onChange={onChange}
-                  className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
-                />
-              </div>
+
               <div>
                 <button
                   type="submit"
-                  className="  py-2 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+                  className="  py-2 px-3 mt-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
                 >
                   บันทึกข้อมูล
                 </button>

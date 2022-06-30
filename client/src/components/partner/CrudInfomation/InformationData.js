@@ -38,43 +38,46 @@ const days = [
 const InformationData = observer(() => {
   const history = useHistory();
   const { id } = useParams();
-  console.log( id);
+  console.log(id);
 
   useEffect(() => {
-    partnerStore.getInformation(id);
+    const getInfoData = async () => {
+      await partnerStore.getInformation(id);
+    };
+    getInfoData();
   }, []);
 
   const partnerInfos = partnerStore.partnerInfo;
-  const convertTime = (t, tLength) => {
-    const time = t.split(":");
-    const num = tLength;
-    const hours = num / 60;
-    const rhours = Math.floor(hours);
-    const minutes = (hours - rhours) * 60;
-    const rminutes = Math.round(minutes);
-    const hoursEnd = Number(time[0]) + rhours;
-    const minutesEnd = Number(time[1]) + rminutes;
+  // const convertTime = (t, tLength) => {
+  //   const time = t.split(":");
+  //   const num = tLength;
+  //   const hours = num / 60;
+  //   const rhours = Math.floor(hours);
+  //   const minutes = (hours - rhours) * 60;
+  //   const rminutes = Math.round(minutes);
+  //   const hoursEnd = Number(time[0]) + rhours;
+  //   const minutesEnd = Number(time[1]) + rminutes;
 
-    if (minutesEnd >= 60) {
-      const rmin = Math.floor(minutesEnd / 60);
-      const timeEnd = hoursEnd + rmin;
-      const minEnd = Math.round((hours - rhours) * 60) - Number(time[1]);
+  //   if (minutesEnd >= 60) {
+  //     const rmin = Math.floor(minutesEnd / 60);
+  //     const timeEnd = hoursEnd + rmin;
+  //     const minEnd = Math.round((hours - rhours) * 60) - Number(time[1]);
 
-      return (
-        <div>
-          {timeEnd}:{minEnd}
-        </div>
-      );
-    } else {
-      const timeEnd = hoursEnd;
+  //     return (
+  //       <div>
+  //         {timeEnd}:{minEnd}
+  //       </div>
+  //     );
+  //   } else {
+  //     const timeEnd = hoursEnd;
 
-      return (
-        <div>
-          {timeEnd}:{minutesEnd}
-        </div>
-      );
-    }
-  };
+  //     return (
+  //       <div>
+  //         {timeEnd}:{minutesEnd}
+  //       </div>
+  //     );
+  //   }
+  // };
 
   return (
     <div>

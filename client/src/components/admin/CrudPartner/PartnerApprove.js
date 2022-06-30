@@ -10,7 +10,10 @@ const PartnerApprove = observer(() => {
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   useEffect(() => {
-    adminStore.getPartnerApprove();
+    const getPartnerApprove = async ()=>{
+      await adminStore.getPartnerApprove();
+    }
+    getPartnerApprove()
   }, []);
 
   const partnersApprove = adminStore.partnersApprove;

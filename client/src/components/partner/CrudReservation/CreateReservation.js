@@ -7,8 +7,11 @@ import AllDayReserv from "./AllDayReserv";
 
 const CreateReservation = observer(() => {
   const { id } = useParams();
-  useEffect(async () => {
-    await partnerStore.getInformation(id);
+  useEffect(() => {
+    const getInfo = async () => {
+      await partnerStore.getInformation(id);
+    };
+    getInfo();
   }, []);
   const partnerInfos = partnerStore.partnerInfo;
   console.log(partnerInfos);
@@ -21,7 +24,7 @@ const CreateReservation = observer(() => {
             {partnerInfo.type_rest && partnerInfo.type_rest === "rounds" ? (
               <RoundsReserv partnerInfo={partnerInfo} />
             ) : (
-              <AllDayReserv partnerInfo={partnerInfo}/>
+              <AllDayReserv partnerInfo={partnerInfo} />
             )}
           </div>
         );

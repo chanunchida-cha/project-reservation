@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { partnerStore } from "../../Store/partnerStore";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
+
 import SearchText from "../../SearchText/SearchText";
 
 const MenuData = observer(() => {
   const { id } = useParams();
   const [searchText, setSearchText] = useState("");
   const history = useHistory();
-  useEffect(async () => {
-    await partnerStore.getMenuByRest(id);
+  useEffect(() => {
+    const getMenuByRest = async () => {
+      await partnerStore.getMenuByRest(id);
+    };
+    getMenuByRest()
   }, []);
 
   const menus = partnerStore.menus;

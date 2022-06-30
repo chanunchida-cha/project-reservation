@@ -13,16 +13,20 @@ const EditProfile = observer(() => {
   const [customeId, setCustomeId] = useState("");
   const { username, firstname, lastname, email, phoneNumber } = info;
   console.log(userStore.customer);
-  useEffect(async () => {
-    await userStore.getUser();
-    setInfo({
-      username: userStore.customer.username,
-      firstname: userStore.customer.firstname,
-      lastname: userStore.customer.lastname,
-      email: userStore.customer.email,
-      phoneNumber: userStore.customer.phoneNumber,
-    });
-    setCustomeId(userStore.customer._id);
+  useEffect(() => {
+    const getUsers = async () => {
+      await userStore.getUser();
+      setInfo({
+        username: userStore.customer.username,
+        firstname: userStore.customer.firstname,
+        lastname: userStore.customer.lastname,
+        email: userStore.customer.email,
+        phoneNumber: userStore.customer.phoneNumber,
+      });
+      setCustomeId(userStore.customer._id);
+    };
+
+    getUsers();
   }, []);
 
   function onChangeInput(event) {
@@ -35,9 +39,9 @@ const EditProfile = observer(() => {
     });
   }
 
-  const updateProfile = (e) => {
+  const updateProfile = async (e) => {
     e.preventDefault();
-    userStore.editCustomer(customeId, info);
+    await userStore.editCustomer(customeId, info);
   };
 
   return (

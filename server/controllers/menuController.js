@@ -5,7 +5,7 @@ const createMenu = async (req, res) => {
   try {
     const { partner_id, name, description, price } = req.body;
     const partnerId = mongoose.Types.ObjectId(partner_id);
-    const image = req.file.originalname;
+    const image = req.file.filename;
 
     if (!(partner_id && name && price)) {
       res.status(400).json({ error: "All input is requires" });

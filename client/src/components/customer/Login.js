@@ -62,6 +62,9 @@ const Login = observer(() => {
                 onChange={onChangeInput}
               />
             </div>
+            <div className="mt-3 text-center">
+            ผูใช้ใหม่?  <a href="/register">สมัครสมาชิก</a>
+            </div>
             <div className="mt-3">
               <button
                 type="submit"

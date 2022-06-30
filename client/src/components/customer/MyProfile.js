@@ -8,7 +8,7 @@ const MyProfile = observer(() => {
   const history = useHistory();
   return (
     <div>
-      <div className="mx-10 py-3 sm:px-6">
+      <div className="mx-10 mt-20 py-3 sm:px-6">
         <div className="mt-3 md:mt-0 md:col-span-2">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="grid grid-cols-2 ">

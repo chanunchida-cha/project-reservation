@@ -78,7 +78,7 @@ const CreatePartner = observer(() => {
                     autoComplete="restaurantName"
                     value={restaurantName}
                     onChange={onChangeInput}
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3">
@@ -95,7 +95,7 @@ const CreatePartner = observer(() => {
                     value={firstname}
                     onChange={onChangeInput}
                     autoComplete="given-name"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                     required
                   />
                 </div>
@@ -114,7 +114,7 @@ const CreatePartner = observer(() => {
                     onChange={onChangeInput}
                     id="lastname"
                     autoComplete="family-name"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-6">
@@ -131,7 +131,7 @@ const CreatePartner = observer(() => {
                     autoComplete="username"
                     value={username}
                     onChange={onChangeInput}
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -149,7 +149,7 @@ const CreatePartner = observer(() => {
                     onChange={onChangeInput}
                     id="email"
                     autoComplete="email"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -167,7 +167,7 @@ const CreatePartner = observer(() => {
                     onChange={onChangeInput}
                     id="phoneNumber"
                     autoComplete="phonenumber"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -185,7 +185,7 @@ const CreatePartner = observer(() => {
                     onChange={onChangeInput}
                     id="password"
                     autoComplete="password"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -203,7 +203,7 @@ const CreatePartner = observer(() => {
                     onChange={onChangeInput}
                     id="confirmPass"
                     autoComplete="confirmPass"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-6">
@@ -220,7 +220,7 @@ const CreatePartner = observer(() => {
                     onChange={onChangeInput}
                     id="address"
                     autoComplete="address"
-                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-lg border-gray-300 rounded-md"
+                    className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
                   />
                 </div>
               </div>
