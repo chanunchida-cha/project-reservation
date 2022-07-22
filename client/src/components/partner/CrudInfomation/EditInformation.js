@@ -236,7 +236,7 @@ const EditInformation = observer(() => {
   };
 
   console.log(partnerStore.partnerInfo);
-  console.log(infoId);
+  console.log("infoId", infoId);
 
   const handleChangeInput = (index, event) => {
     const newInputFields = inputFields.map((inputField, id) => {
@@ -292,7 +292,7 @@ const EditInformation = observer(() => {
       }
     }
 
-    await partnerStore.updateInformation(infoId, formData);
+    await partnerStore.updateInformation(formData);
     history.push(`/partner/information/${id} `);
   };
   return (

@@ -35,6 +35,8 @@ const EditReservRound = observer(() => {
   const [table, setTable] = useState([]);
   const [customerId, setCustomerId] = useState("");
   const dateTime = new Date(date);
+  const dateSent = new Date(date).toLocaleDateString().split("/").join("-");
+  const day = `${dateSent}z`;
   useEffect(() => {
     const getReservs = async () => {
       await partnerStore.getInformation(partnerId);
@@ -120,7 +122,7 @@ const EditReservRound = observer(() => {
         partnerId,
         customerId,
         amount,
-        dateTime,
+        day,
         timeRound.start,
         timeRound.end,
         table
@@ -131,7 +133,7 @@ const EditReservRound = observer(() => {
         partnerId,
         selfReserv,
         amount,
-        dateTime,
+        day,
         timeRound.start,
         timeRound.end,
         table

@@ -5,9 +5,13 @@ import { getToken } from "../../services/authorize";
 
 class UserStore {
   customer = {};
-  allRestaurant = [];
-  singleRestaurant = [];
-  menus = [];
+
+  allDayReservPending = [];
+  allDayReservArrived = [];
+  roundReservPending = [];
+  roundReservArrived = [];
+  allDayHistory = [];
+  roundHistory = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -116,37 +120,91 @@ class UserStore {
     sessionStorage.removeItem("token");
   }
 
-  async getAllInformation() {
+  async resetPassword(allPassword) {
+    const { oldPassword, newPassword, confirmPassword } = allPassword;
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_API}/reset-password`,
+        {
+          oldPassWord: oldPassword,
+          newPassWord: newPassword,
+          confirmNewPassWord: confirmPassword,
+        },
+        {
+          headers: { "x-access-token": getToken() },
+        }
+      );
+      Swal.fire(
+        "แก้ไขรหัสผ่านสำเร็จ!",
+        "กรุณาเข้าสู่ระบบใหม่อีกครั้ง",
+        "success"
+      );
+      this.logout();
+    } catch (err) {
+      Swal.fire({
+        icon: "มีบางอย่างผิดพลาด",
+        title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+        text: err.response.data.error,
+      });
+    }
+  }
+
+  async getAllDayReservPending(id) {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API}/get-all-info`
+        `${process.env.REACT_APP_API_RESERV}/customer/get-all-day-reserv-pending/${id}`
       );
-      this.allRestaurant = response.data;
-      console.log(this.allRestaurant);
+      this.allDayReservPending = response.data;
     } catch (err) {
       console.log(err.response.data.error);
     }
   }
-
-  async getInformationById(id) {
+  async getAllDayReservArrived(id) {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API}/get-all-info/${id}`
+        `${process.env.REACT_APP_API_RESERV}/customer/get-all-day-reserv-arrived/${id}`
       );
-      this.singleRestaurant = response.data;
-      console.log(this.singleRestaurant);
+      this.allDayReservArrived = response.data;
     } catch (err) {
       console.log(err.response.data.error);
     }
   }
-
-  async getMenuByRest(id) {
+  async getAllDayReservHistory(id) {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_PARTNER}/get-menu/${id}`
+        `${process.env.REACT_APP_API_RESERV}/customer/get-all-day-reserv-history/${id}`
       );
-      this.menus = response.data;
-      console.log(this.menus);
+      this.allDayHistory = response.data;
+    } catch (err) {
+      console.log(err.response.data.error);
+    }
+  }
+  async getRoundReservPending(id) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_RESERV}/customer/get-round-reserv-pending/${id}`
+      );
+      this.roundReservPending = response.data;
+    } catch (err) {
+      console.log(err.response.data.error);
+    }
+  }
+  async getRoundReservArrived(id) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_RESERV}/customer/get-round-reserv-arrived/${id}`
+      );
+      this.roundReservArrived = response.data;
+    } catch (err) {
+      console.log(err.response.data.error);
+    }
+  }
+  async getRoundReservHistory(id) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_RESERV}/customer/get-round-reserv-history/${id}`
+      );
+      this.roundHistory = response.data;
     } catch (err) {
       console.log(err.response.data.error);
     }

@@ -12,6 +12,7 @@ class PartnerStore {
   tables = [];
   table = {};
   tables_no = [];
+  countPerDay = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -99,11 +100,14 @@ class PartnerStore {
     }
   }
 
-  async updateInformation(id, formData) {
+  async updateInformation(formData) {
     try {
       await axios.put(
-        `${process.env.REACT_APP_API_PARTNER}/update-info/${id}`,
-        formData
+        `${process.env.REACT_APP_API_PARTNER}/update-info`,
+        formData,
+        {
+          headers: { "x-access-token": getToken() },
+        }
       );
       Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
     } catch (err) {
@@ -162,7 +166,10 @@ class PartnerStore {
     try {
       await axios.put(
         `${process.env.REACT_APP_API_PARTNER}/update-menu/${id}`,
-        formData
+        formData,
+        {
+          headers: { "x-access-token": getToken() },
+        }
       );
       Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
     } catch (err) {
@@ -236,16 +243,30 @@ class PartnerStore {
       console.log(err.response.data.error);
     }
   }
-  async updateTable(id, partner_id, table) {
+
+  async getCountPerDay(id) {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_DASHBOARD}/get-count-allday-reserv-for-day/${id}`
+      );
+      this.countPerDay = response.data;
+      console.log(this.countPerDay);
+    } catch (err) {
+      console.log(err.response.data.error);
+    }
+  }
+  async updateTable(id, table) {
     try {
       const { table_no, seat, description } = table;
       await axios.put(
         `${process.env.REACT_APP_API_PARTNER}/update-table/${id}`,
         {
-          partner_id: partner_id,
           table_no: table_no,
           seat: seat,
           description: description,
+        },
+        {
+          headers: { "x-access-token": getToken() },
         }
       );
       Swal.fire(
@@ -320,6 +341,35 @@ class PartnerStore {
   logout() {
     this.partnerlogin = {};
     sessionStorage.removeItem("token");
+  }
+
+  async resetPassword(allPassword) {
+    const { oldPassword, newPassword, confirmPassword } = allPassword;
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_API_PARTNER}/reset-password`,
+        {
+          oldPassWord: oldPassword,
+          newPassWord: newPassword,
+          confirmNewPassWord: confirmPassword,
+        },
+        {
+          headers: { "x-access-token": getToken() },
+        }
+      );
+      Swal.fire(
+        "แก้ไขรหัสผ่านสำเร็จ!",
+        "กรุณาเข้าสู่ระบบใหม่อีกครั้ง",
+        "success"
+      );
+      this.logout();
+    } catch (err) {
+      Swal.fire({
+        icon: "มีบางอย่างผิดพลาด",
+        title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+        text: err.response.data.error,
+      });
+    }
   }
 }
 

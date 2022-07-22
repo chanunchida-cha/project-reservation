@@ -15,12 +15,15 @@ import AdminsData from "./CrudAdmin/AdminsData";
 import CreateAdmin from "./CrudAdmin/CreateAdmin";
 import SingleAdminData from "./CrudAdmin/SingleAdminData";
 import EditAdmin from "./CrudAdmin/EditAdmin";
+import EditPassword from "./EditPassword";
+import Dashboard from "./Dashboard/Dashboard";
 
 function ContentAdmin() {
   return (
     <div>
       <Switch>
-        <Route path={"/admin"} exact component={HomeAdmin} />
+        <Route path={"/admin/dashboard/:id"} exact component={Dashboard} />
+        <Route path={"/admin/edit/password"} exact component={EditPassword} />
         <Route path={"/admin/partnerverify"} exact component={PartnerVerify} />
         <Route path={"/admin/partner/:id"} exact component={SinglePartner} />
         <Route

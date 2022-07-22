@@ -26,18 +26,27 @@ const createMenu = async (req, res) => {
   }
 };
 
-const updateMenu = (req, res) => {
+const updateMenu = async (req, res) => {
   const { id } = req.params;
-  const { partner_id, name, description, price } = req.body;
-  const partnerId = mongoose.Types.ObjectId(partner_id);
+  const { name, description, price } = req.body;
+  const partner = await partners.findById(req.partner.partner_id);
+  const partner_id = partner._id;
+  const menuInRest =await menus.aggregate([
+    {
+      $match: {
+        _id: mongoose.Types.ObjectId(id),
+        partner_id: mongoose.Types.ObjectId(partner_id),
+      },
+    },
+  ]);
 
+if(menuInRest.length > 0){
   if (req.file) {
     const image = req.file.filename;
     menus.findByIdAndUpdate(
       id,
       {
         $set: {
-          partner_id: partnerId,
           name: name,
           description: description,
           price: price,
@@ -57,7 +66,6 @@ const updateMenu = (req, res) => {
       id,
       {
         $set: {
-          partner_id: partnerId,
           name: name,
           description: description,
           price: price,
@@ -71,7 +79,10 @@ const updateMenu = (req, res) => {
         }
       }
     );
+  }}else{
+    res.status(400).json({error:"ไม่มีสิทธิแก้ไข"});
   }
+ 
 };
 
 const getMenu = (req, res) => {

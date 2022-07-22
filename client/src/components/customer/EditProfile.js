@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { userStore } from "../Store/userStore";
+import useSWR from "swr";
+import axios from "axios";
 
 const EditProfile = observer(() => {
   const [info, setInfo] = useState({
@@ -121,7 +123,7 @@ const EditProfile = observer(() => {
 
             <br />
             <div className=" flex justify-center text-[#89a5c0]">
-              <a>เปลี่ยนรหัสผ่าน</a>
+              <a href="/myprofile/edit/password">เปลี่ยนรหัสผ่าน</a>
             </div>
             <div className="mt-3">
               <button

@@ -10,7 +10,7 @@ const SingleAllDayReserv = observer(() => {
       await reservStore.getAlldayById(id);
     };
     getSingleAllday();
-  }, []);
+  }, [id]);
   return (
     <>
       <div className="mb-3 ml-6 mt-3">

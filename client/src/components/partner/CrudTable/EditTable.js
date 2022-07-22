@@ -39,7 +39,7 @@ const EditTable = observer(() => {
 
   const editTable = async (event) => {
     event.preventDefault();
-    await partnerStore.updateTable(id, partnerId, table);
+    await partnerStore.updateTable(id, table);
     partnerStore.getTableByRest(partnerId);
     history.push(`/partner/table/${partnerId}`);
   };

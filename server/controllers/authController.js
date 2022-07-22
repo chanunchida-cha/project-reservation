@@ -40,40 +40,34 @@ const getUser = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  try {
+    const { oldPassWord, newPassWord, confirmNewPassWord } = req.body;
+    // encrytedPassword = await bcrypt.hash(oldPassWord, 10);
+    const user = await Users.findById(req.user.user_id);
+
+    if (newPassWord != confirmNewPassWord) {
+      res.status(400).json({ error: "Please check password" });
+    }
+    encrytedPassword = await bcrypt.hash(newPassWord, 10);
+    if (await bcrypt.compare(oldPassWord, user.password)) {
+      await Users.findByIdAndUpdate(
+        {
+          _id: req.user.user_id,
+        },
+        {
+          password: encrytedPassword,
+        }
+      );
+      res.status(200).json({ msg: "reset password " });
+    }
+    res.status(400).json({ err: "กรุณาเช็ครหัสผ่านใหม่อีกครั้ง" });
+  } catch (err) {
+    console.log(err);
+  }
+};
 module.exports = {
   login,
   getUser,
+  resetPassword,
 };
-// const { username, password } = req.body;
-// const user = await Users.findOne({ user: username, password: password });
-// if (user && user.password === password) {
-//   const token = jwt.sign(
-//     {
-//       username: user.username,
-//       password: user.password,
-//     },
-//     process.env.JWT_SECRET,
-//     { expiresIn: "1d" }
-//   );
-//   return res.json({ token, username });
-// } else {
-//   return res.status(404).json({ error: "check username or password " });
-// }
-
-// const user = Users.findOne({
-//     username: req.body.username,
-//     password: req.body.password,
-//   });
-//   if (user) {
-//     const token = jwt.sign(
-//       {
-//         username: user.username,
-//         password: user.password,
-//       },
-//       process.env.JWT_SECRET,
-//       { expiresIn: "1d" }
-//     );
-//     return res.json({ status: "ok", token });
-//   } else {
-//     return res.jon({ status: "error" });
-//   }

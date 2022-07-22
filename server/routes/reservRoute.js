@@ -20,6 +20,10 @@ const {
   updateStatusRound,
   getRoundReservByCustomerPending,
   getAlldayReservByCustomerPending,
+  getRoundReservByCustomerArrived,
+  getAlldayReservByCustomerArrived,
+  getRoundReservByCustomerHistory,
+  getAlldayReservByCustomerHistory,
 } = require("../controllers/reservController");
 const router = Router();
 
@@ -61,5 +65,17 @@ router
 router
   .route("/customer/get-all-day-reserv-pending/:id")
   .get(getAlldayReservByCustomerPending);
+router
+  .route("/customer/get-round-reserv-arrived/:id")
+  .get(getRoundReservByCustomerArrived);
+router
+  .route("/customer/get-all-day-reserv-arrived/:id")
+  .get(getAlldayReservByCustomerArrived);
+router
+  .route("/customer/get-round-reserv-history/:id")
+  .get(getRoundReservByCustomerHistory);
+router
+  .route("/customer/get-all-day-reserv-history/:id")
+  .get(getAlldayReservByCustomerHistory);
 
 module.exports = router;

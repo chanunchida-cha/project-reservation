@@ -10,11 +10,11 @@ const PartnerDisApprove = observer(() => {
   const history = useHistory();
   const [searchText, setSearchText] = useState("");
   useEffect(() => {
-    const getPartnerDisapprove = async()=>{
+    const getPartnerDisapprove = async () => {
       await adminStore.getPartnerDisApprove();
-    }
-    getPartnerDisapprove()
-  }, []);
+    };
+    getPartnerDisapprove();
+  }, [adminStore.allParner]);
 
   const partnerDisApprove = adminStore.partnersDisApprove;
   console.log(partnerDisApprove);

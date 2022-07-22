@@ -1,5 +1,5 @@
 const restaurants = require("../models/restaurantDB");
-
+const partners = require("../models/partnerDB");
 const mongoose = require("mongoose");
 
 const createInfoRestaurant = async (req, res) => {
@@ -35,8 +35,9 @@ const createInfoRestaurant = async (req, res) => {
   }
 };
 
-const updateInfoRestaurant = (req, res) => {
-  const { id } = req.params;
+const updateInfoRestaurant = async (req, res) => {
+  const partner = await partners.findById(req.partner.partner_id);
+  const partner_id = partner._id;
   const {
     description,
     contact,
@@ -47,10 +48,26 @@ const updateInfoRestaurant = (req, res) => {
     rounds,
   } = req.body;
 
+  const restInfo = await restaurants.aggregate([
+    {
+      $match: {
+        partner_id: mongoose.Types.ObjectId(partner_id),
+      },
+    },
+    {
+      $lookup: {
+        from: "partners",
+        localField: "partner_id",
+        foreignField: "_id",
+        as: "information",
+      },
+    },
+  ]);
+
   if (req.file) {
     const image = req.file.filename;
     restaurants.findByIdAndUpdate(
-      id,
+      restInfo[0]._id,
       {
         $set: {
           description: description,
@@ -73,7 +90,7 @@ const updateInfoRestaurant = (req, res) => {
     );
   } else {
     restaurants.findByIdAndUpdate(
-      id,
+      restInfo[0]._id,
       {
         $set: {
           description: description,
@@ -94,6 +111,7 @@ const updateInfoRestaurant = (req, res) => {
       }
     );
   }
+  console.log(restInfo[0]._id);
 };
 
 const deleteInfoRestaurant = (req, res) => {

@@ -13,6 +13,11 @@ import MyProfile from "./components/customer/MyProfile";
 import EditProfile from "./components/customer/EditProfile";
 import SingleRestaurant from "./components/indexPage/SingleRestaurant";
 import MyReservation from "./components/indexPage/MyReservation";
+import EditReservAllDay from "./components/partner/CrudReservation/EditReservAllDay";
+import EditMyReservationAllday from "./components/indexPage/EditMyReservationAllday";
+import EditMyReservationRounds from "./components/indexPage/EditMyReservationRounds";
+import HistoryReservation from "./components/customer/HistoryReservation";
+import EditPassword from "./components/customer/EditPassword";
 
 function MyRoute() {
   return (
@@ -27,11 +32,31 @@ function MyRoute() {
         <Route path={"/loginadmin"} exact component={LoginAdmin} />
         <Route path={"/myprofile"} exact component={MyProfile} />
         <Route path={"/myprofile/edit"} exact component={EditProfile} />
+        <Route
+          path={"/myprofile/edit/password"}
+          exact
+          component={EditPassword}
+        />
+        <Route
+          path={"/myhistoryreservation/:id"}
+          exact
+          component={HistoryReservation}
+        />
         <Route path={"/restaurant/:id"} exact component={SingleRestaurant} />
         <Route
-          path={"/myreservation/:type/:typecustomer/:id"}
+          path={"/myreservation/:type/:partner_id/:id"}
           exact
           component={MyReservation}
+        />
+        <Route
+          path={"/editmyreservation/allDay/:partner_id/:id"}
+          exact
+          component={EditMyReservationAllday}
+        />
+        <Route
+          path={"/editmyreservation/rounds/:partner_id/:id"}
+          exact
+          component={EditMyReservationRounds}
         />
       </Switch>
     </Layout>

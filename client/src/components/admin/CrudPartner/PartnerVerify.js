@@ -14,7 +14,7 @@ const PartnerVerify = observer(() => {
       await adminStore.getPartnerVarify();
     };
     getPartnerVerify();
-  }, []);
+  }, [adminStore.allParner]);
 
   const partners = adminStore.partners;
   console.log(partners);

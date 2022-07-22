@@ -22,10 +22,10 @@ const SinglePartner = observer(() => {
   };
 
   useEffect(() => {
-   const getSinglePartner = async()=>{
-    await  adminStore.getPartnerVarifyById(id);
-   }
-   getSinglePartner()
+    const getSinglePartner = async () => {
+      await adminStore.getPartnerVarifyById(id);
+    };
+    getSinglePartner();
   }, []);
 
   const {
@@ -47,7 +47,10 @@ const SinglePartner = observer(() => {
   function updateStatus(e) {
     e.preventDefault();
     adminStore.updateStatusPartner(_id, value, note);
-    history.push("/admin/partnerapprove");
+    if (value === "approve") {
+      history.push("/admin/partnerapprove");
+    }
+    history.push("/admin/partnerdisapprove");
     console.log(_id, value, note);
   }
   return (

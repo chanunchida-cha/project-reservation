@@ -10,7 +10,7 @@ const SingleRoundReserv = observer(() => {
       await reservStore.getRoundById(id);
     };
     getRoundById();
-  }, []);
+  }, [id]);
   return (
     <>
       <div className="mb-3 ml-6 mt-3">

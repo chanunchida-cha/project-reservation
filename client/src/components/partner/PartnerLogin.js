@@ -23,7 +23,8 @@ const PartnerLogin = observer(() => {
   async function submitForm(event) {
     event.preventDefault();
     await partnerStore.loginPartner(login);
-    history.push("/partner");
+    const partner_id = partnerStore.partnerlogin._id;
+    history.push(`/partner/dashboard/${partner_id}`);
   }
 
   return (

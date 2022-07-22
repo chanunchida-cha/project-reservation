@@ -69,26 +69,38 @@ const getTableById = (req, res) => {
 
 const updateTable = async (req, res) => {
   const { id } = req.params;
-  const { partner_id, table_no, seat } = req.body;
-  const partnerId = mongoose.Types.ObjectId(partner_id);
-
-  tables.findByIdAndUpdate(
-    id,
+  const { table_no, seat } = req.body;
+  const partner = await partners.findById(req.partner.partner_id);
+  const partner_id = partner._id;
+  const tableInRest = await tables.aggregate([
     {
-      $set: {
-        partner_id: partnerId,
-        table_no: table_no,
-        seat: seat,
+      $match: {
+        _id: mongoose.Types.ObjectId(id),
+        partner_id: mongoose.Types.ObjectId(partner_id),
       },
     },
-    (err, menu) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(menu);
+  ]);
+
+  if (tableInRest.length > 0) {
+    tables.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          table_no: table_no,
+          seat: seat,
+        },
+      },
+      (err, menu) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(menu);
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.status(400).json({ error: "ไม่มีสิทธิแก้ไข" });
+  }
 };
 
 const deleteTable = (req, res) => {

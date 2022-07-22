@@ -33,6 +33,8 @@ const EditReservAllDay = observer(() => {
 
   console.log(table);
   const dateTime = new Date(date);
+  const dateSent = new Date(date).toLocaleDateString().split("/").join("-");
+  const day = `${dateSent}z`;
   const startTime = `${dateTime.getFullYear()}  ${
     dateTime.getMonth() + 1
   } ${dateTime.getDate()} ${start} GMT+0700 (Indochina Time)`;
@@ -112,7 +114,7 @@ const EditReservAllDay = observer(() => {
         partnerId,
         customerId,
         amount,
-        dateTime,
+        day,
         startTime,
         table
       );
@@ -122,24 +124,19 @@ const EditReservAllDay = observer(() => {
         partnerId,
         selfReserv,
         amount,
-        dateTime,
+        day,
         startTime,
         table
       );
     }
   };
 
-  console.log(startTime);
-  console.log(dateTime);
-  console.log(customerId);
-  console.log("table", table);
-  console.log(partnerStore.tables_no);
-
+  console.log(day);
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">
         <h3 className="text-lg leading-6 font-medium text-gray-900 ml-1 mb-3">
-          เพิ่มคิวการจอง
+          แก้ไขข้อมูลการจอง
         </h3>
         <div className="border-t border-gray-300" />
         <form onSubmit={editAllDayReserv}>
@@ -281,7 +278,7 @@ const EditReservAllDay = observer(() => {
                     {({ open }) => (
                       <>
                         <Listbox.Label className="block text-sm font-medium text-gray-700">
-                          เลือกประเภทร้านอาหาร
+                          เลือกโต๊ะ
                         </Listbox.Label>
                         <div className="mt-1 relative">
                           <Listbox.Button className="relative w-80 h-10 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">

@@ -47,7 +47,7 @@ const CreateAdmin = observer(() => {
       password: "",
       confirmPass: "",
     });
-    await adminStore.getAdminsData();
+
     history.push("/admin/adminsdata");
   }
 

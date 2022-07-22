@@ -5,7 +5,7 @@ import Navbar from "../Navbar";
 function Partner() {
   return (
     <div>
-      <div className="container p-5 pt-2">
+      <div className="container p-5 pt-2 mt-20">
         Partner with us
         <div>
           <button type="button" className="btn btn-primary btn-sm">

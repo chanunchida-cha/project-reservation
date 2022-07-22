@@ -29,7 +29,6 @@ class AdminStore {
       );
       sessionStorage.setItem("token", JSON.stringify(response.data.token));
       this.adminlogin = response.data;
-      console.log(this.adminlogin);
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -58,6 +57,35 @@ class AdminStore {
   logout() {
     this.adminlogin = {};
     sessionStorage.removeItem("token");
+  }
+
+  async resetPassword(allPassword) {
+    const { oldPassword, newPassword, confirmPassword } = allPassword;
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_API_ADMIN}/reset-password`,
+        {
+          oldPassWord: oldPassword,
+          newPassWord: newPassword,
+          confirmNewPassWord: confirmPassword,
+        },
+        {
+          headers: { "x-access-token": getToken() },
+        }
+      );
+      Swal.fire(
+        "แก้ไขรหัสผ่านสำเร็จ!",
+        "กรุณาเข้าสู่ระบบใหม่อีกครั้ง",
+        "success"
+      );
+      this.logout();
+    } catch (err) {
+      Swal.fire({
+        icon: "มีบางอย่างผิดพลาด",
+        title: "กรุณาตรวจสอบใหม่อีกครั้ง",
+        text: err.response.data.error,
+      });
+    }
   }
   async getAllPartner() {
     try {
@@ -218,7 +246,7 @@ class AdminStore {
 
   async deleteCustomer(id) {
     try {
-     const response = await axios.delete(
+      const response = await axios.delete(
         `${process.env.REACT_APP_API_ADMIN}/delete-customer/${id}`
       );
       Swal.fire(
@@ -345,7 +373,7 @@ class AdminStore {
   }
   async deletePartner(id) {
     try {
-     const response = await axios.delete(
+      const response = await axios.delete(
         `${process.env.REACT_APP_API_ADMIN}/delete-partner/${id}`
       );
       Swal.fire(
@@ -367,7 +395,9 @@ class AdminStore {
 
   async getAdminsData() {
     try {
-     const response = await axios.get(`${process.env.REACT_APP_API_ADMIN}/admins-data`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_ADMIN}/admins-data`
+      );
       this.admins = response.data;
       console.log(this.admins);
     } catch (err) {

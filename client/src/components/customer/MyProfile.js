@@ -6,9 +6,10 @@ import { useHistory } from "react-router-dom";
 
 const MyProfile = observer(() => {
   const history = useHistory();
+
   return (
     <div>
-      <div className="mx-10 mt-20 py-3 sm:px-6">
+      <div className="mx-10 mt-20 py-3 sm:px-6 sm:mx-96">
         <div className="mt-3 md:mt-0 md:col-span-2">
           <div className="bg-white shadow overflow-hidden sm:rounded-lg">
             <div className="grid grid-cols-2 ">
@@ -19,10 +20,11 @@ const MyProfile = observer(() => {
                 <p className="mt-1 max-w-2xl text-sm text-gray-500">Profile.</p>
               </div>
               <div className="px-4 py-3 text-right">
-                <button className=" py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
-                onClick={()=>{
-                  history.push("/myprofile/edit")
-                }}
+                <button
+                  className=" py-1 px-3 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+                  onClick={() => {
+                    history.push("/myprofile/edit");
+                  }}
                 >
                   {<EditOutlined />}
                 </button>

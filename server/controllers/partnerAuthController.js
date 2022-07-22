@@ -43,7 +43,35 @@ const getPartner = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  try {
+    const { oldPassWord, newPassWord, confirmNewPassWord } = req.body;
+    // encrytedPassword = await bcrypt.hash(oldPassWord, 10);
+    const partner = await partners.findById(req.partner.partner_id);
+
+    if (newPassWord != confirmNewPassWord) {
+      res.status(400).json({ error: "Please check password" });
+    }
+    encrytedPassword = await bcrypt.hash(newPassWord, 10);
+    if (await bcrypt.compare(oldPassWord, partner.password)) {
+      await partners.findByIdAndUpdate(
+        {
+          _id: req.partner.partner_id,
+        },
+        {
+          password: encrytedPassword,
+        }
+      );
+      res.status(200).json({ msg: "reset password " });
+    }
+    res.status(400).json({ err: "กรุณาเช็ครหัสผ่านใหม่อีกครั้ง" });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
   partnerLogin,
   getPartner,
+  resetPassword
 };

@@ -23,6 +23,9 @@ const AllDayReserv = observer(() => {
     setDate(newDate);
   };
   const dateTime = new Date();
+  const dateSent = new Date(date).toLocaleDateString().split("/").join("-");
+  const day = `${dateSent}z`;
+  console.log(day);
   const startTime = `${dateTime.getFullYear()}  ${
     dateTime.getMonth() + 1
   } ${dateTime.getDate()} ${start} GMT+0700 (Indochina Time)`;
@@ -42,7 +45,7 @@ const AllDayReserv = observer(() => {
 
   const createReserv = async (event) => {
     event.preventDefault();
-    await reservStore.selfAllDayReserv(id, selfReserv, amount, date, startTime);
+    await reservStore.selfAllDayReserv(id, selfReserv, amount, day, startTime);
     setSelfReserv({
       firstname: "",
       lastname: "",
@@ -52,8 +55,8 @@ const AllDayReserv = observer(() => {
     setStart("");
     setDate(new Date());
   };
-  console.log(date);
-  console.log(startTime);
+
+  console.log(day);
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">

@@ -10,13 +10,14 @@ function classNames(...classes) {
 }
 const types = [
   {
-    key: "todayReserv",
-    i18n: "การจองวันนี้",
-  },
-  {
     key: "allReserv",
     i18n: "การจองทั้งหมด",
   },
+  {
+    key: "todayReserv",
+    i18n: "การจองวันนี้",
+  },
+
 ];
 function ReservRoundData() {
   const [selected, setSelected] = useState(types[0]);

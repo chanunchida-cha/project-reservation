@@ -10,7 +10,7 @@ const allDayReservs = mongoose.Schema({
     required: true,
   },
   day: {
-    type: String,
+    type: Date,
     required: true,
   },
   start: {

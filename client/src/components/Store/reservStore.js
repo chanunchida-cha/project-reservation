@@ -390,6 +390,7 @@ class ReservStore {
       Swal.fire("แก้ไขสถานะเรียบร้อยแล้ว", "update success!", "success");
       this.getAllday(partnerId);
       this.getAlldayToday(partnerId);
+      this.getAlldayById(id);
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -411,6 +412,7 @@ class ReservStore {
       Swal.fire("แก้ไขสถานะเรียบร้อยแล้ว", "update success!", "success");
       this.getRound(partnerId);
       this.getRoundToday(partnerId);
+      this.getRoundById(id);
     } catch (err) {
       Swal.fire({
         icon: "error",

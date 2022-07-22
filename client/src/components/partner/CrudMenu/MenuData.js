@@ -15,8 +15,8 @@ const MenuData = observer(() => {
     const getMenuByRest = async () => {
       await partnerStore.getMenuByRest(id);
     };
-    getMenuByRest()
-  }, []);
+    getMenuByRest();
+  }, [id]);
 
   const menus = partnerStore.menus;
   const isMenu = menus.length == 0;

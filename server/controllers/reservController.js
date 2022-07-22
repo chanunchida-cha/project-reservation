@@ -20,11 +20,13 @@ const customerRoundReserv = async (req, res) => {
       weekday: "long",
     });
 
-    const reservtotal = await roundsReservs.find();
+    const reservtotal = await roundsReservs.aggregate([
+      { $match: { partner_id: partnerId } },
+    ]);
     const reservs = await roundsReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         { start: start },
         { end: end },
         {
@@ -120,7 +122,7 @@ const customerRoundReserv = async (req, res) => {
       reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       customer_id: customerId,
-      day: new Date(day).toLocaleDateString(),
+      day: new Date(day).toISOString(),
       start: start,
       end: end,
       amount: amount,
@@ -147,11 +149,13 @@ const customerAllDayReserv = async (req, res) => {
       weekday: "long",
     });
 
-    const reservtotal = await allDayReservs.find();
+    const reservtotal = await allDayReservs.aggregate([
+      { $match: { partner_id: partnerId } },
+    ]);
     const reservs = await allDayReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         {
           $or: [
             { start: { $gte: new Date(start).toLocaleTimeString("it-IT") } },
@@ -283,7 +287,7 @@ const customerAllDayReserv = async (req, res) => {
       reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       customer_id: customerId,
-      day: new Date(day).toLocaleDateString(),
+      day: new Date(day).toISOString(),
       start: new Date(start).toLocaleTimeString("it-IT"),
       end: end,
       amount: amount,
@@ -310,11 +314,13 @@ const selfRoundReserv = async (req, res) => {
       weekday: "long",
     });
 
-    const reservtotal = await roundsReservs.find();
+    const reservtotal = await roundsReservs.aggregate([
+      { $match: { partner_id: partnerId } },
+    ]);
     const reservs = await roundsReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         { start: start },
         { end: end },
         {
@@ -409,7 +415,7 @@ const selfRoundReserv = async (req, res) => {
       reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       self_reserv: self_reserv,
-      day: new Date(day).toLocaleDateString(),
+      day: new Date(day).toISOString(),
       start: start,
       end: end,
       amount: amount,
@@ -437,12 +443,14 @@ const selfAllDayReserv = async (req, res) => {
       weekday: "long",
     });
 
-    const reservtotal = await allDayReservs.find();
+    const reservtotal = await allDayReservs.aggregate([
+      { $match: { partner_id: partnerId } },
+    ]);
 
     const reservs = await allDayReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         {
           $or: [
             { start: { $gte: new Date(start).toLocaleTimeString("it-IT") } },
@@ -575,7 +583,7 @@ const selfAllDayReserv = async (req, res) => {
       reservNumber: `cq${reservtotal.length + 1}`,
       partner_id: partnerId,
       self_reserv: self_reserv,
-      day: new Date(day).toLocaleDateString(),
+      day: new Date(day).toISOString(),
       start: new Date(start).toLocaleTimeString("it-IT"),
       end: end,
       amount: amount,
@@ -619,15 +627,15 @@ const getAllDayReserv = async (req, res) => {
     });
 };
 
-const getAllDayReservToday = async (req, res) => {
+const getAllDayReservToday = (req, res) => {
   const { id } = req.params;
-
+  const date = `${new Date().toLocaleDateString().split("/").join("-")}z`;
   allDayReservs
     .aggregate([
       {
         $match: {
           partner_id: mongoose.Types.ObjectId(id),
-          day: new Date().toLocaleDateString(),
+          day: new Date(date),
         },
       },
       {
@@ -647,7 +655,7 @@ const getAllDayReservToday = async (req, res) => {
     });
 };
 
-const getAllDayReservByID = async (req, res) => {
+const getAllDayReservByID = (req, res) => {
   const { id } = req.params;
   allDayReservs
     .aggregate([
@@ -672,7 +680,7 @@ const getAllDayReservByID = async (req, res) => {
       console.log(err);
     });
 };
-const getRoundReserv = async (req, res) => {
+const getRoundReserv = (req, res) => {
   const { id } = req.params;
   roundsReservs
     .aggregate([
@@ -697,15 +705,15 @@ const getRoundReserv = async (req, res) => {
       console.log(err);
     });
 };
-const getRoundReservToday = async (req, res) => {
+const getRoundReservToday = (req, res) => {
   const { id } = req.params;
-
+  const date = `${new Date().toLocaleDateString().split("/").join("-")}z`;
   roundsReservs
     .aggregate([
       {
         $match: {
           partner_id: mongoose.Types.ObjectId(id),
-          day: new Date().toLocaleDateString(),
+          day: new Date(date),
         },
       },
       {
@@ -719,13 +727,14 @@ const getRoundReservToday = async (req, res) => {
     ])
     .then((response) => {
       res.json(response);
+      console.log(new Date(date));
     })
     .catch((err) => {
       console.log(err);
     });
 };
 
-const getRoundReservByID = async (req, res) => {
+const getRoundReservByID = (req, res) => {
   const { id } = req.params;
 
   roundsReservs
@@ -767,11 +776,10 @@ const updateSelfAllDayReserv = async (req, res) => {
     const dayOfWeekName = new Date(day).toLocaleString("default", {
       weekday: "long",
     });
-
     const reservs = await allDayReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         {
           $or: [
             { start: { $gte: new Date(start).toLocaleTimeString("it-IT") } },
@@ -796,6 +804,12 @@ const updateSelfAllDayReserv = async (req, res) => {
         },
       ],
     });
+
+    //โต๊ะทั้งหมด
+    const alltables = await tables.find({
+      partner_id: partnerId,
+    });
+    //โต๊ะของการจอง id นี้
     const myReservTables = await allDayReservs.aggregate([
       {
         $match: {
@@ -803,58 +817,51 @@ const updateSelfAllDayReserv = async (req, res) => {
         },
       },
     ]);
-    const alltables = await tables.find({
-      partner_id: partnerId,
-    });
     const reserved_tables = [];
-
-    const remain_n = [];
     const myReservTable = [];
-
-    //โต๊ะที่ถูกจองในเวลาที่ครอบคลุม
+    const remain_n = [];
+    let newTables = [];
+    let seatAmount = Number(amount);
     reservs.forEach((reserv) => {
       reserv.table.forEach((table) => {
         reserved_tables.push(table);
       });
     });
-
-    //โต๊ะของการจองนี้
     myReservTables.forEach((reservTable) => {
       myReservTable.push(...reservTable.table);
     });
 
-    reserved_tables.push(...myReservTable);
+    // reserved_tables.push(myReservTable);
 
-    //หาว่ามีโต๊ะซ้ำไหม
+    let isReservTable = [];
+
+    //ถ้ารอบเวลาภายในนี้ให้เอาโต๊ะ id นี้ออก
     let dupArrs = reserved_tables.filter((dupArr, index) => {
       return reserved_tables.indexOf(dupArr) !== index;
     });
-
-    //เอาโต๊ะของรอบจองนี้ออก
-    let isReservTable = reserved_tables.filter((reservedTable) => {
-      let found = false;
-      for (const myTable of myReservTable) {
-        if (reservedTable === myTable) {
-          found = true;
+    if (
+      new Date(myReservTables[0].day).toISOString() ===
+        new Date(day).toISOString() &&
+      (myReservTables[0].start >= new Date(start).toLocaleTimeString("it-IT") ||
+        myReservTables[0].end > new Date(start).toLocaleTimeString("it-IT")) &&
+      (myReservTables[0].start < end || myReservTables[0].end <= end)
+    ) {
+      isReservTable = reserved_tables.filter((reservedTable) => {
+        let found = false;
+        for (const myTable of myReservTable) {
+          if (reservedTable === myTable) {
+            found = true;
+          }
         }
+        return !found;
+      });
+      if (dupArrs.length > 0) {
+        isReservTable.push(...dupArrs);
       }
-      return !found;
-    });
-
-    for (const myDay of myReservTables) {
-      if (myDay.day !== new Date(day).toLocaleDateString()) {
-        dupArrs.forEach((dupArr) => {
-          isReservTable.push(dupArr);
-        });
-      } else if (myDay.day === new Date(day).toLocaleDateString()) {
-        if (myDay.start !== new Date(start).toLocaleTimeString("it-IT")) {
-          dupArrs.forEach((dupArr) => {
-            isReservTable.push(dupArr);
-          });
-        }
-      }
+    } else {
+      isReservTable = [...reserved_tables];
     }
-    //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
+
     const remaining_tables = alltables.filter((tableNo) => {
       let found = false;
       for (const reservedTable of isReservTable) {
@@ -864,11 +871,11 @@ const updateSelfAllDayReserv = async (req, res) => {
       }
       return !found;
     });
+
     //โต๊ะที่จองได้
     remaining_tables.forEach((remaining_table) => {
       remain_n.push(remaining_table.table_no);
     });
-
     const duplicateTable = isReservTable.filter((remain) => {
       let found = false;
       for (const theTable of table) {
@@ -879,21 +886,60 @@ const updateSelfAllDayReserv = async (req, res) => {
       return found;
     });
 
-    // if (reservs) {
-    //   return res.status(400).json(reservs);
-    // }
-    // if (remain_n) {
-    //   return res.status(400).json(remain_n);
-    // }
-    // if (dupArrs) {
-    //   return res.status(400).json(dupArrs);
-    // }
-    // if (myReservTables) {
-    //   return res.status(400).json(myReservTables);
-    // }
-    // if (isReservTable) {
-    //   return res.status(400).json(isReservTable);
-    // }
+    const reservedTable = (n, remaining_tables) => {
+      const max_reamaining = [];
+      remaining_tables.forEach((remaining_table) => {
+        max_reamaining.push(Number(remaining_table.seat));
+      });
+
+      const maxSeat = Math.max(...max_reamaining);
+      const total_reamining_n = remaining_tables.reduce(
+        (prev, cur) => Number(cur.seat) + Number(prev.seat),
+        0
+      );
+
+      if (n <= 0) {
+        return res.status(400).json({ error: "กรุณากรอกจำนวนคนใหม่" });
+      } else if (n > total_reamining_n) {
+        return res.status(400).json({ error: "โต๊ะไม่พอรองรับ" });
+      } else if (n <= maxSeat) {
+        const Numseats = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (remaining_table.seat >= seatAmount) {
+            found = true;
+          }
+          return found;
+        });
+
+        const minSeats = Numseats.reduce((prev, cur) =>
+          Number(cur.seat) < Number(prev.seat) ? cur : prev
+        );
+
+        newTables.push(minSeats.table_no);
+      } else if (n > maxSeat) {
+        const maxSeats = remaining_tables.reduce((prev, cur) =>
+          Number(cur.seat) > Number(prev.seat) ? cur : prev
+        );
+
+        seatAmount -= maxSeats.seat;
+        newTables.push(maxSeats.table_no);
+
+        const remain_n = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (maxSeats.table_no === remaining_table.table_no) {
+            found = true;
+          }
+
+          return !found;
+        });
+
+        return reservedTable(seatAmount, remain_n);
+      }
+    };
+
+    if (amount !== myReservTables[0].amount) {
+      reservedTable(seatAmount, remaining_tables);
+    } else newTables = [...table];
 
     if (
       partnerInfo.openday[dayOfWeekName.toLocaleLowerCase()].type === "close"
@@ -926,11 +972,11 @@ const updateSelfAllDayReserv = async (req, res) => {
       {
         $set: {
           self_reserv: self_reserv,
-          day: new Date(day).toLocaleDateString(),
+          day: new Date(day).toISOString(),
           start: new Date(start).toLocaleTimeString("it-IT"),
           end: end,
           amount: amount,
-          table: table,
+          table: newTables,
         },
       },
       (err, update) => {
@@ -941,7 +987,6 @@ const updateSelfAllDayReserv = async (req, res) => {
         }
       }
     );
-    // res.status(200).json("update success");
   } catch (err) {
     console.log(err);
   }
@@ -966,7 +1011,7 @@ const updateCustomerAllDayReserv = async (req, res) => {
     const reservs = await allDayReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         {
           $or: [
             { start: { $gte: new Date(start).toLocaleTimeString("it-IT") } },
@@ -991,6 +1036,11 @@ const updateCustomerAllDayReserv = async (req, res) => {
         },
       ],
     });
+    //โต๊ะทั้งหมด
+    const alltables = await tables.find({
+      partner_id: partnerId,
+    });
+    //โต๊ะของการจอง id นี้
     const myReservTables = await allDayReservs.aggregate([
       {
         $match: {
@@ -998,58 +1048,47 @@ const updateCustomerAllDayReserv = async (req, res) => {
         },
       },
     ]);
-    const alltables = await tables.find({
-      partner_id: partnerId,
-    });
     const reserved_tables = [];
     const remain_n = [];
     const myReservTable = [];
 
-    //โต๊ะที่ถูกจองในเวลาที่ครอบคลุม
+    let newTables = [];
+    let seatAmount = Number(amount);
     reservs.forEach((reserv) => {
       reserv.table.forEach((table) => {
         reserved_tables.push(table);
       });
     });
-
-    //โต๊ะของการจองนี้
     myReservTables.forEach((reservTable) => {
       myReservTable.push(...reservTable.table);
     });
-
-    reserved_tables.push(...myReservTable);
-
-    //หาว่ามีโต๊ะซ้ำไหม
+    let isReservTable = [];
+    //เอาโต๊ะของรอบจองนี้ออก
     let dupArrs = reserved_tables.filter((dupArr, index) => {
       return reserved_tables.indexOf(dupArr) !== index;
     });
-
-    //เอาโต๊ะของรอบจองนี้ออก
-
-    let isReservTable = reserved_tables.filter((reservedTable) => {
-      let found = false;
-      for (const myTable of myReservTable) {
-        if (reservedTable === myTable) {
-          found = true;
+    if (
+      new Date(myReservTables[0].day).toISOString() ===
+        new Date(day).toISOString() &&
+      (myReservTables[0].start >= new Date(start).toLocaleTimeString("it-IT") ||
+        myReservTables[0].end > new Date(start).toLocaleTimeString("it-IT")) &&
+      (myReservTables[0].start < end || myReservTables[0].end <= end)
+    ) {
+      isReservTable = reserved_tables.filter((reservedTable) => {
+        let found = false;
+        for (const myTable of myReservTable) {
+          if (reservedTable === myTable) {
+            found = true;
+          }
         }
+        return !found;
+      });
+      if (dupArrs.length > 0) {
+        isReservTable.push(...dupArrs);
       }
-      return !found;
-    });
-
-    for (const myDay of myReservTables) {
-      if (myDay.day !== new Date(day).toLocaleDateString()) {
-        dupArrs.forEach((dupArr) => {
-          isReservTable.push(dupArr);
-        });
-      } else if (myDay.day === new Date(day).toLocaleDateString()) {
-        if (myDay.start !== new Date(start).toLocaleTimeString("it-IT")) {
-          dupArrs.forEach((dupArr) => {
-            isReservTable.push(dupArr);
-          });
-        }
-      }
+    } else {
+      isReservTable = [...reserved_tables];
     }
-    //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
     const remaining_tables = alltables.filter((tableNo) => {
       let found = false;
       for (const reservedTable of isReservTable) {
@@ -1063,11 +1102,6 @@ const updateCustomerAllDayReserv = async (req, res) => {
     remaining_tables.forEach((remaining_table) => {
       remain_n.push(remaining_table.table_no);
     });
-
-    // if(remain_n){
-    //   return res.status(400).json(remain_n);
-    // }
-
     const duplicateTable = isReservTable.filter((remain) => {
       let found = false;
       for (const theTable of table) {
@@ -1077,6 +1111,65 @@ const updateCustomerAllDayReserv = async (req, res) => {
       }
       return found;
     });
+    // if (remaining_tables) {
+    //   return res.status(400).json(remaining_tables);
+    // }
+
+    const reservedTable = (n, remaining_tables) => {
+      const max_reamaining = [];
+      remaining_tables.forEach((remaining_table) => {
+        max_reamaining.push(Number(remaining_table.seat));
+      });
+
+      const maxSeat = Math.max(...max_reamaining);
+      const total_reamining_n = remaining_tables.reduce(
+        (prev, cur) => Number(cur.seat) + Number(prev.seat),
+        0
+      );
+
+      if (n <= 0) {
+        return res.status(400).json({ error: "กรุณากรอกจำนวนคนใหม่" });
+      } else if (n > total_reamining_n) {
+        return res.status(400).json({ error: "โต๊ะไม่พอรองรับ" });
+      } else if (n <= maxSeat) {
+        const Numseats = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (remaining_table.seat >= seatAmount) {
+            found = true;
+          }
+          return found;
+        });
+
+        const minSeats = Numseats.reduce((prev, cur) =>
+          Number(cur.seat) < Number(prev.seat) ? cur : prev
+        );
+
+        newTables.push(minSeats.table_no);
+      } else if (n > maxSeat) {
+        const maxSeats = remaining_tables.reduce((prev, cur) =>
+          Number(cur.seat) > Number(prev.seat) ? cur : prev
+        );
+
+        seatAmount -= maxSeats.seat;
+        newTables.push(maxSeats.table_no);
+
+        const remain_n = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (maxSeats.table_no === remaining_table.table_no) {
+            found = true;
+          }
+
+          return !found;
+        });
+
+        return reservedTable(seatAmount, remain_n);
+      }
+    };
+
+    if (amount !== myReservTables[0].amount) {
+      reservedTable(seatAmount, remaining_tables);
+    } else newTables = [...table];
+
     if (
       partnerInfo.openday[dayOfWeekName.toLocaleLowerCase()].type === "close"
     ) {
@@ -1108,7 +1201,7 @@ const updateCustomerAllDayReserv = async (req, res) => {
       {
         $set: {
           customer_id: customer_id,
-          day: new Date(day).toLocaleDateString(),
+          day: new Date(day).toISOString(),
           start: new Date(start).toLocaleTimeString("it-IT"),
           end: end,
           amount: amount,
@@ -1144,7 +1237,7 @@ const updateSelfRoundReserv = async (req, res) => {
     const reservs = await roundsReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         { start: start },
         { end: end },
         {
@@ -1165,6 +1258,8 @@ const updateSelfRoundReserv = async (req, res) => {
     const reserved_tables = [];
     const remain_n = [];
     const myReservTable = [];
+    let newTables = [];
+    let seatAmount = Number(amount);
 
     //โต๊ะที่ถูกจองในเวลาที่ครอบคลุม
     reservs.forEach((reserv) => {
@@ -1172,13 +1267,9 @@ const updateSelfRoundReserv = async (req, res) => {
         reserved_tables.push(table);
       });
     });
-
-    //โต๊ะของการจองนี้
     myReservTables.forEach((reservTable) => {
       myReservTable.push(...reservTable.table);
     });
-
-    reserved_tables.push(...myReservTable);
 
     //หาว่ามีโต๊ะซ้ำไหม
     let dupArrs = reserved_tables.filter((dupArr, index) => {
@@ -1186,28 +1277,26 @@ const updateSelfRoundReserv = async (req, res) => {
     });
 
     //เอาโต๊ะของรอบจองนี้ออก
-    let isReservTable = reserved_tables.filter((reservedTable) => {
-      let found = false;
-      for (const myTable of myReservTable) {
-        if (reservedTable === myTable) {
-          found = true;
+    let isReservTable = [];
+    if (
+      new Date(myReservTables[0].day).toISOString() ===
+        new Date(day).toISOString() &&
+      myReservTables[0].start === start
+    ) {
+      isReservTable = reserved_tables.filter((reservedTable) => {
+        let found = false;
+        for (const myTable of myReservTable) {
+          if (reservedTable === myTable) {
+            found = true;
+          }
         }
+        return !found;
+      });
+      if (dupArrs.length > 0) {
+        isReservTable.push(...dupArrs);
       }
-      return !found;
-    });
-
-    for (const myDay of myReservTables) {
-      if (myDay.day !== new Date(day).toLocaleDateString()) {
-        dupArrs.forEach((dupArr) => {
-          isReservTable.push(dupArr);
-        });
-      } else if (myDay.day === new Date(day).toLocaleDateString()) {
-        if (myDay.start !== start) {
-          dupArrs.forEach((dupArr) => {
-            isReservTable.push(dupArr);
-          });
-        }
-      }
+    } else {
+      isReservTable = [...reserved_tables];
     }
     //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
     const remaining_tables = alltables.filter((tableNo) => {
@@ -1233,10 +1322,60 @@ const updateSelfRoundReserv = async (req, res) => {
       }
       return found;
     });
+    const reservedTable = (n, remaining_tables) => {
+      const max_reamaining = [];
+      remaining_tables.forEach((remaining_table) => {
+        max_reamaining.push(Number(remaining_table.seat));
+      });
 
-    // if (isReservTable) {
-    //   return res.status(400).json(isReservTable);
-    // }
+      const maxSeat = Math.max(...max_reamaining);
+      const total_reamining_n = remaining_tables.reduce(
+        (prev, cur) => Number(cur.seat) + Number(prev.seat),
+        0
+      );
+
+      if (n <= 0) {
+        return res.status(400).json({ error: "กรุณากรอกจำนวนคนใหม่" });
+      } else if (n > total_reamining_n) {
+        return res.status(400).json({ error: "โต๊ะไม่พอรองรับ" });
+      } else if (n <= maxSeat) {
+        const Numseats = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (remaining_table.seat >= seatAmount) {
+            found = true;
+          }
+          return found;
+        });
+
+        const minSeats = Numseats.reduce((prev, cur) =>
+          Number(cur.seat) < Number(prev.seat) ? cur : prev
+        );
+
+        newTables.push(minSeats.table_no);
+      } else if (n > maxSeat) {
+        const maxSeats = remaining_tables.reduce((prev, cur) =>
+          Number(cur.seat) > Number(prev.seat) ? cur : prev
+        );
+
+        seatAmount -= maxSeats.seat;
+        newTables.push(maxSeats.table_no);
+
+        const remain_n = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (maxSeats.table_no === remaining_table.table_no) {
+            found = true;
+          }
+
+          return !found;
+        });
+
+        return reservedTable(seatAmount, remain_n);
+      }
+    };
+
+    if (amount !== myReservTables[0].amount) {
+      reservedTable(seatAmount, remaining_tables);
+    } else newTables = [...table];
 
     if (
       partnerInfo.openday[dayOfWeekName.toLocaleLowerCase()].type === "close"
@@ -1255,11 +1394,11 @@ const updateSelfRoundReserv = async (req, res) => {
       {
         $set: {
           self_reserv: self_reserv,
-          day: new Date(day).toLocaleDateString(),
+          day: new Date(day).toISOString(),
           start: start,
           end: end,
           amount: amount,
-          table: table,
+          table: newTables,
         },
       },
       (err, update) => {
@@ -1292,13 +1431,16 @@ const updateCustomerRoundReserv = async (req, res) => {
     const reservs = await roundsReservs.find({
       $and: [
         { partner_id: partnerId },
-        { day: new Date(day).toLocaleDateString() },
+        { day: new Date(day).toISOString() },
         { start: start },
         { end: end },
         {
           $or: [{ status: "pending" }, { status: "arrived" }],
         },
       ],
+    });
+    const alltables = await tables.find({
+      partner_id: partnerId,
     });
     const myReservTables = await roundsReservs.aggregate([
       {
@@ -1307,12 +1449,12 @@ const updateCustomerRoundReserv = async (req, res) => {
         },
       },
     ]);
-    const alltables = await tables.find({
-      partner_id: partnerId,
-    });
+
     const reserved_tables = [];
     const remain_n = [];
     const myReservTable = [];
+    let newTables = [];
+    let seatAmount = Number(amount);
 
     //โต๊ะที่ถูกจองในเวลาที่ครอบคลุม
     reservs.forEach((reserv) => {
@@ -1322,11 +1464,14 @@ const updateCustomerRoundReserv = async (req, res) => {
     });
 
     //โต๊ะของการจองนี้
+    reservs.forEach((reserv) => {
+      reserv.table.forEach((table) => {
+        reserved_tables.push(table);
+      });
+    });
     myReservTables.forEach((reservTable) => {
       myReservTable.push(...reservTable.table);
     });
-
-    reserved_tables.push(...myReservTable);
 
     //หาว่ามีโต๊ะซ้ำไหม
     let dupArrs = reserved_tables.filter((dupArr, index) => {
@@ -1334,28 +1479,27 @@ const updateCustomerRoundReserv = async (req, res) => {
     });
 
     //เอาโต๊ะของรอบจองนี้ออก
-    let isReservTable = reserved_tables.filter((reservedTable) => {
-      let found = false;
-      for (const myTable of myReservTable) {
-        if (reservedTable === myTable) {
-          found = true;
-        }
-      }
-      return !found;
-    });
+    let isReservTable = [];
 
-    for (const myDay of myReservTables) {
-      if (myDay.day !== new Date(day).toLocaleDateString()) {
-        dupArrs.forEach((dupArr) => {
-          isReservTable.push(dupArr);
-        });
-      } else if (myDay.day === new Date(day).toLocaleDateString()) {
-        if (myDay.start !== start) {
-          dupArrs.forEach((dupArr) => {
-            isReservTable.push(dupArr);
-          });
+    if (
+      new Date(myReservTables[0].day).toISOString() ===
+        new Date(day).toISOString() &&
+      myReservTables[0].start === start
+    ) {
+      isReservTable = reserved_tables.filter((reservedTable) => {
+        let found = false;
+        for (const myTable of myReservTable) {
+          if (reservedTable === myTable) {
+            found = true;
+          }
         }
+        return !found;
+      });
+      if (dupArrs.length > 0) {
+        isReservTable.push(...dupArrs);
       }
+    } else {
+      isReservTable = [...reserved_tables];
     }
     //โต๊ะที่เหลือ filter out โต๊ะที่ถูกจองในเวลานั้นออกแล้ว
     const remaining_tables = alltables.filter((tableNo) => {
@@ -1382,9 +1526,60 @@ const updateCustomerRoundReserv = async (req, res) => {
       return found;
     });
 
-    // if (remain_n) {
-    //   return res.status(400).json(remain_n );
-    // }
+    const reservedTable = (n, remaining_tables) => {
+      const max_reamaining = [];
+      remaining_tables.forEach((remaining_table) => {
+        max_reamaining.push(Number(remaining_table.seat));
+      });
+
+      const maxSeat = Math.max(...max_reamaining);
+      const total_reamining_n = remaining_tables.reduce(
+        (prev, cur) => Number(cur.seat) + Number(prev.seat),
+        0
+      );
+
+      if (n <= 0) {
+        return res.status(400).json({ error: "กรุณากรอกจำนวนคนใหม่" });
+      } else if (n > total_reamining_n) {
+        return res.status(400).json({ error: "โต๊ะไม่พอรองรับ" });
+      } else if (n <= maxSeat) {
+        const Numseats = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (remaining_table.seat >= seatAmount) {
+            found = true;
+          }
+          return found;
+        });
+
+        const minSeats = Numseats.reduce((prev, cur) =>
+          Number(cur.seat) < Number(prev.seat) ? cur : prev
+        );
+
+        newTables.push(minSeats.table_no);
+      } else if (n > maxSeat) {
+        const maxSeats = remaining_tables.reduce((prev, cur) =>
+          Number(cur.seat) > Number(prev.seat) ? cur : prev
+        );
+
+        seatAmount -= maxSeats.seat;
+        newTables.push(maxSeats.table_no);
+
+        const remain_n = remaining_tables.filter((remaining_table) => {
+          let found = false;
+          if (maxSeats.table_no === remaining_table.table_no) {
+            found = true;
+          }
+
+          return !found;
+        });
+
+        return reservedTable(seatAmount, remain_n);
+      }
+    };
+
+    if (amount !== myReservTables[0].amount) {
+      reservedTable(seatAmount, remaining_tables);
+    } else newTables = [...table];
 
     if (
       partnerInfo.openday[dayOfWeekName.toLocaleLowerCase()].type === "close"
@@ -1403,11 +1598,11 @@ const updateCustomerRoundReserv = async (req, res) => {
       {
         $set: {
           customer_id: customer_id,
-          day: new Date(day).toLocaleDateString(),
+          day: new Date(day).toISOString(),
           start: start,
           end: end,
           amount: amount,
-          table: table,
+          table: newTables,
         },
       },
       (err, update) => {
@@ -1484,22 +1679,22 @@ const updateStatusRound = (req, res) => {
 
 const getRoundReservByCustomerPending = async (req, res) => {
   const { id } = req.params;
-
+  const date = new Date().toISOString().split("T", 1);
   roundsReservs
     .aggregate([
       {
         $match: {
           customer_id: mongoose.Types.ObjectId(id),
-          day: new Date().toLocaleDateString(),
-          $or: [{ status: "pending" }, { status: "arrived" }],
+          day: { $gte: new Date(date) },
+          status: "pending",
         },
       },
       {
         $lookup: {
-          from: "users",
-          localField: "customer_id",
+          from: "partners",
+          localField: "partner_id",
           foreignField: "_id",
-          as: "customer",
+          as: "partner",
         },
       },
     ])
@@ -1512,22 +1707,130 @@ const getRoundReservByCustomerPending = async (req, res) => {
 };
 const getAlldayReservByCustomerPending = async (req, res) => {
   const { id } = req.params;
+  const date = new Date().toISOString().split("T", 1);
+  allDayReservs
+    .aggregate([
+      {
+        $match: {
+          customer_id: mongoose.Types.ObjectId(id),
+          day: { $gte: new Date(date) },
+          status: "pending",
+        },
+      },
+      {
+        $lookup: {
+          from: "partners",
+          localField: "partner_id",
+          foreignField: "_id",
+          as: "partner",
+        },
+      },
+    ])
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getRoundReservByCustomerArrived = async (req, res) => {
+  const { id } = req.params;
+  const date = new Date().toISOString().split("T", 1);
+  roundsReservs
+    .aggregate([
+      {
+        $match: {
+          customer_id: mongoose.Types.ObjectId(id),
+          day: { $gte: new Date(date) },
+          status: "arrived",
+        },
+      },
+      {
+        $lookup: {
+          from: "partners",
+          localField: "partner_id",
+          foreignField: "_id",
+          as: "partner",
+        },
+      },
+    ])
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getAlldayReservByCustomerArrived = async (req, res) => {
+  const { id } = req.params;
+  const date = new Date().toISOString().split("T", 1);
+  allDayReservs
+    .aggregate([
+      {
+        $match: {
+          customer_id: mongoose.Types.ObjectId(id),
+          day: { $gte: new Date(date) },
+          status: "arrived",
+        },
+      },
+      {
+        $lookup: {
+          from: "partners",
+          localField: "partner_id",
+          foreignField: "_id",
+          as: "partner",
+        },
+      },
+    ])
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getRoundReservByCustomerHistory = async (req, res) => {
+  const { id } = req.params;
+
+  roundsReservs
+    .aggregate([
+      {
+        $match: {
+          customer_id: mongoose.Types.ObjectId(id),
+        },
+      },
+      {
+        $lookup: {
+          from: "partners",
+          localField: "partner_id",
+          foreignField: "_id",
+          as: "partner",
+        },
+      },
+    ])
+    .then((response) => {
+      res.json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getAlldayReservByCustomerHistory = async (req, res) => {
+  const { id } = req.params;
 
   allDayReservs
     .aggregate([
       {
         $match: {
           customer_id: mongoose.Types.ObjectId(id),
-          day: new Date().toLocaleDateString(),
-          $or: [{ status: "pending" }, { status: "arrived" }],
         },
       },
       {
         $lookup: {
-          from: "users",
-          localField: "customer_id",
+          from: "partners",
+          localField: "partner_id",
           foreignField: "_id",
-          as: "customer",
+          as: "partner",
         },
       },
     ])
@@ -1558,5 +1861,9 @@ module.exports = {
   updateStatusAllDay,
   updateStatusRound,
   getRoundReservByCustomerPending,
-  getAlldayReservByCustomerPending
+  getAlldayReservByCustomerPending,
+  getRoundReservByCustomerArrived,
+  getAlldayReservByCustomerArrived,
+  getRoundReservByCustomerHistory,
+  getAlldayReservByCustomerHistory,
 };

@@ -15,17 +15,21 @@ import EditReservAllDay from "./CrudReservation/EditReservAllDay";
 import EditReservRound from "./CrudReservation/EditReservRound";
 import SingleAllDayReserv from "./CrudReservation/SingleAllDayReserv";
 import SingleRoundReserv from "./CrudReservation/SingleRoundReserv";
+import EditPassword from "./EditPassword";
+import Dashboard from "./Dashboard/Dashboard";
+import Report from "./Report/Report";
 
 function ContentPartner() {
   return (
     <div>
       <Switch>
-        <Route path={"/partner"} exact component={HomePartner} />
+        <Route path={"/partner/dashboard/:id"} exact component={Dashboard} />
         <Route
           path={"/partner/information/:id"}
           exact
           component={Information}
         />
+        <Route path={"/partner/edit/password"} exact component={EditPassword} />
         <Route
           path={"/partner/editinformation/:id"}
           exact
@@ -70,6 +74,11 @@ function ContentPartner() {
           path={"/partner/reserv/round/:id"}
           exact
           component={SingleRoundReserv}
+        />
+          <Route
+          path={"/partner/report/:id"}
+          exact
+          component={Report}
         />
       </Switch>
     </div>

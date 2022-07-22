@@ -39,8 +39,35 @@ const getAdmin = async (req, res) => {
     res.status(400).json({ msg: e.message });
   }
 };
+const resetPassword = async (req, res) => {
+  try {
+    const { oldPassWord, newPassWord, confirmNewPassWord } = req.body;
+    // encrytedPassword = await bcrypt.hash(oldPassWord, 10);
+    const admin = await admins.findById(req.admin.admin_id);
+
+    if (newPassWord != confirmNewPassWord) {
+      res.status(400).json({ error: "Please check password" });
+    }
+    encrytedPassword = await bcrypt.hash(newPassWord, 10);
+    if (await bcrypt.compare(oldPassWord, admin.password)) {
+      await admins.findByIdAndUpdate(
+        {
+          _id: req.admin.admin_id,
+        },
+        {
+          password: encrytedPassword,
+        }
+      );
+      res.status(200).json({ msg: "reset password " });
+    }
+    res.status(400).json({ err: "กรุณาเช็ครหัสผ่านใหม่อีกครั้ง" });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 module.exports = {
   adminLogin,
   getAdmin,
+  resetPassword,
 };

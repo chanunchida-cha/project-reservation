@@ -25,6 +25,9 @@ const RoundsReserv = observer(({ partnerInfo }) => {
     setDate(newDate);
   };
   console.log(timeRound);
+  const dateSent = new Date(date).toLocaleDateString().split("/").join("-");
+  const day = `${dateSent}z`;
+  console.log(day);
   const onChangeValue = (event) => {
     const { name, value } = event.target;
     setSelfReserv((prevSelfReserv) => {
@@ -44,7 +47,7 @@ const RoundsReserv = observer(({ partnerInfo }) => {
       id,
       selfReserv,
       amount,
-      date,
+      day,
       timeRound.start,
       timeRound.end
     );
@@ -60,7 +63,7 @@ const RoundsReserv = observer(({ partnerInfo }) => {
     });
     setDate(new Date());
   };
-  console.log(date);
+  console.log(day);
   return (
     <div>
       <div className="mt-3 md:mt-0 md:col-span-2">

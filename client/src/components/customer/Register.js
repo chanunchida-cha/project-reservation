@@ -32,7 +32,7 @@ const Register = observer(() => {
     });
   }
 
-  const registerSubmit=async(event) =>{
+  const registerSubmit = async (event) => {
     event.preventDefault();
     await userStore.createUser(info);
 
@@ -45,10 +45,10 @@ const Register = observer(() => {
       password: "",
       confirmPass: "",
     });
-  }
+  };
 
   return (
-    <div className="m-5 flex justify-center">
+    <div className="m-5 mt-20 flex justify-center">
       <div className=" bg-[#FAFAFA] pt-5 sm:p-5 xl:p-10 xl:px-20 w-full sm:w-full xl:w-3/5 rounded-md">
         <div className="grid place-items-center">
           <div>

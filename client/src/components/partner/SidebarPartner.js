@@ -6,11 +6,13 @@ import { observer } from "mobx-react-lite";
 
 import {
   LogoutOutlined,
-  NotificationOutlined,
+  HomeOutlined,
   CodepenOutlined,
   FormOutlined,
   ContainerOutlined,
   ScheduleOutlined,
+  KeyOutlined,
+  BarsOutlined,
 } from "@ant-design/icons";
 import ContentPartner from "./ContentPartner";
 import ElementStatus from "./ElementStatus";
@@ -53,6 +55,7 @@ const SidebarPartner = observer(() => {
             style={{ height: "100%", borderRight: 0 }}
           >
             <Menu.Item
+              className="mt-4"
               key="1"
               icon={
                 <CodepenOutlined
@@ -61,28 +64,26 @@ const SidebarPartner = observer(() => {
               }
               style={{ fontSize: "20px" }}
             >
-              <Link to="/partner">cubeQue</Link>
+              <Link to={`/partner/dashboard/${partner_id}`}>cubeQue</Link>
             </Menu.Item>
-
-            <Menu.Item key="2" icon={<FormOutlined />}>
+            <Menu.Item key="2" icon={<HomeOutlined />}>
+              <Link to={`/partner/dashboard/${partner_id}`}>Dashboard</Link>
+            </Menu.Item>
+            <Menu.Item key="3" icon={<FormOutlined />}>
               <Link to={`/partner/information/${partner_id}`}>
                 จัดการข้อมูลทั่วไป
               </Link>
             </Menu.Item>
 
-            <Menu.Item key="3" icon={<ContainerOutlined />}>
+            <Menu.Item key="4" icon={<ContainerOutlined />}>
               <Link to={`/partner/menu/${partner_id}`}>เมนูอาหาร</Link>
             </Menu.Item>
 
-            <Menu.Item key="4" icon={<ScheduleOutlined />}>
+            <Menu.Item key="5" icon={<ScheduleOutlined />}>
               <Link to={`/partner/table/${partner_id}`}>จัดการโต๊ะอาหาร</Link>
             </Menu.Item>
 
-            <SubMenu
-              key="sub3"
-              icon={<NotificationOutlined />}
-              title="จัดการคิวการจอง"
-            >
+            <SubMenu key="sub3" icon={<BarsOutlined />} title="จัดการคิวการจอง">
               <Menu.Item key="7">
                 {" "}
                 <Link to={`/partner/reservationdata/${partner_id}`}>
@@ -96,7 +97,12 @@ const SidebarPartner = observer(() => {
                 </Link>
               </Menu.Item>
             </SubMenu>
-
+            <Menu.Item icon={<KeyOutlined />} key="15">
+              <Link to={"/partner/edit/password"}> เปลี่ยนรหัสผ่าน</Link>
+            </Menu.Item>
+            <Menu.Item icon={<KeyOutlined />} key="16">
+              <Link to={`/partner/report/${partner_id} `}> รายงาน</Link>
+            </Menu.Item>
             <Menu.Item
               key="13"
               onClick={() => {
