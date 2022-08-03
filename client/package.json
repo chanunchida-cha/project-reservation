@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "mobx": "^6.4.0",
     "mobx-react-lite": "^3.3.0",
+    "pastel-color": "^1.0.3",
     "react": "^17.0.2",
     "react-chartjs-2": "^4.2.0",
     "react-dom": "^17.0.2",

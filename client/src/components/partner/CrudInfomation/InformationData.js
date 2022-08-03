@@ -53,7 +53,7 @@ const InformationData = observer(() => {
   return (
     <div>
       {partnerInfos.map((partnerInfo) => {
-        return partnerInfo.information.map((info) => {
+        
           return (
             <div
               key={partnerInfo._id}
@@ -62,7 +62,7 @@ const InformationData = observer(() => {
               <div className="grid grid-cols-2 ">
                 <div className="px-4 py-3 sm:px-6   ">
                   <h3 className="text-lg leading-6 font-medium text-gray-900 ">
-                    ร้าน {`${info.restaurantName} `}
+                    ร้าน {`${partnerInfo.information.restaurantName} `}
                   </h3>
                 </div>
                 <div className="px-4 py-3 text-right">
@@ -207,7 +207,7 @@ const InformationData = observer(() => {
               </div>
             </div>
           );
-        });
+      
       })}
     </div>
   );

@@ -369,6 +369,7 @@ class PartnerStore {
         title: "กรุณาตรวจสอบใหม่อีกครั้ง",
         text: err.response.data.error,
       });
+      throw err;
     }
   }
 }

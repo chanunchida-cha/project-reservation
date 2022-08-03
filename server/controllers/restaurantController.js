@@ -36,8 +36,6 @@ const createInfoRestaurant = async (req, res) => {
 };
 
 const updateInfoRestaurant = async (req, res) => {
-  const partner = await partners.findById(req.partner.partner_id);
-  const partner_id = partner._id;
   const {
     description,
     contact,
@@ -51,7 +49,7 @@ const updateInfoRestaurant = async (req, res) => {
   const restInfo = await restaurants.aggregate([
     {
       $match: {
-        partner_id: mongoose.Types.ObjectId(partner_id),
+        partner_id: mongoose.Types.ObjectId(req.partner.partner_id),
       },
     },
     {
@@ -64,52 +62,56 @@ const updateInfoRestaurant = async (req, res) => {
     },
   ]);
 
-  if (req.file) {
-    const image = req.file.filename;
-    restaurants.findByIdAndUpdate(
-      restInfo[0]._id,
-      {
-        $set: {
-          description: description,
-          contact: contact,
-          address: address,
-          type_rest: type_rest,
-          time_length: time_length,
-          openday: openday,
-          rounds: rounds,
-          image: image,
+  if (restInfo.length > 0) {
+    if (req.file) {
+      const image = req.file.filename;
+      restaurants.findByIdAndUpdate(
+        restInfo[0]._id,
+        {
+          $set: {
+            description: description,
+            contact: contact,
+            address: address,
+            type_rest: type_rest,
+            time_length: time_length,
+            openday: openday,
+            rounds: rounds,
+            image: image,
+          },
         },
-      },
-      (err, restaurant) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(restaurant);
+        (err, restaurant) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json(restaurant);
+          }
         }
-      }
-    );
+      );
+    } else {
+      restaurants.findByIdAndUpdate(
+        restInfo[0]._id,
+        {
+          $set: {
+            description: description,
+            contact: contact,
+            address: address,
+            type_rest: type_rest,
+            time_length: time_length,
+            openday: openday,
+            rounds: rounds,
+          },
+        },
+        (err, restaurant) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json(restaurant);
+          }
+        }
+      );
+    }
   } else {
-    restaurants.findByIdAndUpdate(
-      restInfo[0]._id,
-      {
-        $set: {
-          description: description,
-          contact: contact,
-          address: address,
-          type_rest: type_rest,
-          time_length: time_length,
-          openday: openday,
-          rounds: rounds,
-        },
-      },
-      (err, restaurant) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(restaurant);
-        }
-      }
-    );
+    res.status(400).json({ error: "ไม่มีสิทธิแก้ไข" });
   }
   console.log(restInfo[0]._id);
 };
@@ -138,6 +140,9 @@ const getInfoRestaurant = (req, res) => {
           as: "information",
         },
       },
+      {
+        $unwind: "$information",
+      },
     ])
     .then((response) => {
       res.json(response);
@@ -163,6 +168,9 @@ const getInfoRestaurantById = (req, res) => {
           foreignField: "_id",
           as: "information",
         },
+      },
+      {
+        $unwind: "$information",
       },
     ])
     .then((response) => {

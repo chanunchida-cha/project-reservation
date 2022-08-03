@@ -52,7 +52,7 @@ const MyReservation = observer(() => {
         : reservStore.roundReservById
       ).map((reserv) => {
         return partnerStore.partnerInfo.map((partnerInfo) => {
-          return partnerInfo.information.map((info) => {
+         
             return (
               <div
                 className="bg-white shadow overflow-hidden sm:bg-white sm:shadow sm:overflow-hidden sm:rounded-lg "
@@ -81,7 +81,7 @@ const MyReservation = observer(() => {
                     รายละเอียดการจอง
                   </div>
                   <div className="px-4 py-2  sm:px-4">
-                    {`ร้าน${info.restaurantName}`}
+                    {`ร้าน${partnerInfo.information.restaurantName}`}
                   </div>
                   <div className="px-4 py-2   sm:px-4">{`หมายเลขการจอง: ${reserv.reservNumber}`}</div>
                   {reserv.self_reserv && (
@@ -143,7 +143,7 @@ const MyReservation = observer(() => {
               </div>
             );
           });
-        });
+    
       })}
     </div>
   );

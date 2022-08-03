@@ -4,22 +4,22 @@ import useSWR from "swr";
 import { useParams, useHistory } from "react-router-dom";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
-function TableReportWeek() {
-  const { id } = useParams();
+
+function TableReportYear() {
   const {
-    data: countReservPerWeek,
-    error: errorReservPerWeek,
-    isValidating: loadingReservPerWeek,
+    data: countReservPerYear,
+    error: errorReservPerYear,
+    isValidating: loadingReservPerYear,
   } = useSWR(
-    `${process.env.REACT_APP_API_DASHBOARD}/get-count-allday-reserv-for-week/${id}`,
+    `${process.env.REACT_APP_API_DASHBOARD_ADMIN}/get-count-group-partner-for-year`,
     fetcher
   );
-  if (errorReservPerWeek) return <div>failed to load</div>;
-  if (loadingReservPerWeek) {
+  if (errorReservPerYear) return <div>failed to load</div>;
+  if (loadingReservPerYear) {
     return <div>Loading...</div>;
   }
- return (
-    <div className="w-2/4">
+  return (
+    <div className="w-full">
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div className="h-[600px]  overflow-x-auto rounded-lg ">
           <div className="inline-block min-w-full shadow-md rounded-lg ">
@@ -27,7 +27,10 @@ function TableReportWeek() {
               <thead>
                 <tr>
                   <th className="px-1 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
-                    สัปดาห์/เดือน/ปี
+                    ปี
+                  </th>
+                  <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
+                    ชื่อร้านอาหาร
                   </th>
                   <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                     จำนวนการจอง
@@ -35,13 +38,19 @@ function TableReportWeek() {
                 </tr>
               </thead>
               <tbody>
-                {countReservPerWeek.map((count, index) => {
+                {countReservPerYear.map((count, index) => {
                   return (
                     <tr key={index}>
                       <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
                         <p className="text-gray-900 whitespace-no-wrap">
-                          {`สัปดาห์ที่${count._id.week}/${count._id.month}/${count._id.year}
-                          `}
+                          {`ปี${count._id.year}
+                        `}
+                        </p>
+                      </td>
+                      <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
+                        <p className="text-gray-900 whitespace-no-wrap">
+                          {`ร้าน${count.information.restaurantName}
+                        `}
                         </p>
                       </td>
                       <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
@@ -58,7 +67,7 @@ function TableReportWeek() {
         </div>
       </div>
     </div>
-  );;
+  );
 }
 
-export default TableReportWeek;
+export default TableReportYear;

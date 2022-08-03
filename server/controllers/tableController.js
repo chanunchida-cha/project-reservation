@@ -70,13 +70,11 @@ const getTableById = (req, res) => {
 const updateTable = async (req, res) => {
   const { id } = req.params;
   const { table_no, seat } = req.body;
-  const partner = await partners.findById(req.partner.partner_id);
-  const partner_id = partner._id;
   const tableInRest = await tables.aggregate([
     {
       $match: {
         _id: mongoose.Types.ObjectId(id),
-        partner_id: mongoose.Types.ObjectId(partner_id),
+        partner_id: mongoose.Types.ObjectId(req.partner.partner_id),
       },
     },
   ]);

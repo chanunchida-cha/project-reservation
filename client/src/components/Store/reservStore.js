@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { getToken } from "../../services/authorize";
 
 class ReservStore {
   allDayReserv = [];

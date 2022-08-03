@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { partnerStore } from "../Store/partnerStore";
 import { observer } from "mobx-react-lite";
 
@@ -13,6 +13,7 @@ import {
   ScheduleOutlined,
   KeyOutlined,
   BarsOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import ContentPartner from "./ContentPartner";
 import ElementStatus from "./ElementStatus";
@@ -50,7 +51,7 @@ const SidebarPartner = observer(() => {
         >
           <Menu
             mode="inline"
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={useLocation().pathname}
             defaultOpenKeys={["sub1"]}
             style={{ height: "100%", borderRight: 0 }}
           >
@@ -64,43 +65,58 @@ const SidebarPartner = observer(() => {
               }
               style={{ fontSize: "20px" }}
             >
-              <Link to={`/partner/dashboard/${partner_id}`}>cubeQue</Link>
+              cubeQue
             </Menu.Item>
-            <Menu.Item key="2" icon={<HomeOutlined />}>
+            <Menu.Item
+              key={`/partner/dashboard/${partner_id}`}
+              icon={<HomeOutlined />}
+            >
               <Link to={`/partner/dashboard/${partner_id}`}>Dashboard</Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<FormOutlined />}>
+            <Menu.Item
+              key={`/partner/information/${partner_id}`}
+              icon={<FormOutlined />}
+            >
               <Link to={`/partner/information/${partner_id}`}>
                 จัดการข้อมูลทั่วไป
               </Link>
             </Menu.Item>
 
-            <Menu.Item key="4" icon={<ContainerOutlined />}>
+            <Menu.Item
+              key={`/partner/menu/${partner_id}`}
+              icon={<ContainerOutlined />}
+            >
               <Link to={`/partner/menu/${partner_id}`}>เมนูอาหาร</Link>
             </Menu.Item>
 
-            <Menu.Item key="5" icon={<ScheduleOutlined />}>
+            <Menu.Item
+              key={`/partner/table/${partner_id}`}
+              icon={<ScheduleOutlined />}
+            >
               <Link to={`/partner/table/${partner_id}`}>จัดการโต๊ะอาหาร</Link>
             </Menu.Item>
 
             <SubMenu key="sub3" icon={<BarsOutlined />} title="จัดการคิวการจอง">
-              <Menu.Item key="7">
+              <Menu.Item key={`/partner/reservationdata/${partner_id}`}>
                 {" "}
                 <Link to={`/partner/reservationdata/${partner_id}`}>
                   ข้อมูลคิวการจอง
                 </Link>
               </Menu.Item>
-              <Menu.Item key="8">
+              <Menu.Item key={`/partner/createreservation/${partner_id}`}>
                 {" "}
                 <Link to={`/partner/createreservation/${partner_id}`}>
                   เพิ่มคิวการจอง
                 </Link>
               </Menu.Item>
             </SubMenu>
-            <Menu.Item icon={<KeyOutlined />} key="15">
+            <Menu.Item icon={<KeyOutlined />} key={"/partner/edit/password"}>
               <Link to={"/partner/edit/password"}> เปลี่ยนรหัสผ่าน</Link>
             </Menu.Item>
-            <Menu.Item icon={<KeyOutlined />} key="16">
+            <Menu.Item
+              icon={<BarChartOutlined />}
+              key={`/partner/report/${partner_id} `}
+            >
               <Link to={`/partner/report/${partner_id} `}> รายงาน</Link>
             </Menu.Item>
             <Menu.Item

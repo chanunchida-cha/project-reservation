@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams, useHistory } from "react-router-dom";
 import { partnerStore } from "../../Store/partnerStore";
-import ReportAllday from "./ReportAllday";
-import ReportRound from "./ReportRound";
+import ReportAllday from "./ReportAllDay/ReportAllday";
+import ReportRound from "./ReportRound/ReportRound";
 
 const Report=observer(() =>{
   const { id } = useParams();

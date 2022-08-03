@@ -80,16 +80,22 @@ class UserStore {
     }
   }
 
-  async editCustomer(id, info) {
+  async editCustomer(info) {
     const { username, firstname, lastname, email, phoneNumber } = info;
     try {
-      await axios.put(`${process.env.REACT_APP_API}/profile/update/${id}`, {
-        username: username,
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        phoneNumber: phoneNumber,
-      });
+      await axios.put(
+        `${process.env.REACT_APP_API}/profile/update`,
+        {
+          username: username,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phoneNumber: phoneNumber,
+        },
+        {
+          headers: { "x-access-token": getToken() },
+        }
+      );
       Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
       this.getCustomersData();
     } catch (err) {

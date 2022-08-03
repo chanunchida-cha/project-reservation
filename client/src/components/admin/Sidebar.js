@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Layout, Menu } from "antd";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import {
-  HomeOutlined ,
+  HomeOutlined,
   TeamOutlined,
   UserOutlined,
   NotificationOutlined,
@@ -19,7 +19,7 @@ const Sidebar = observer(() => {
   const history = useHistory();
   const [collapsed, setCollapsed] = useState(false);
   const admin = adminStore.adminlogin;
-  const admin_id = adminStore.adminlogin._id
+  const admin_id = adminStore.adminlogin._id;
   const { SubMenu } = Menu;
   const { Content, Sider, Header } = Layout;
   const onCollapsed = () => {
@@ -40,48 +40,52 @@ const Sidebar = observer(() => {
       >
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={useLocation().pathname}
           defaultOpenKeys={["sub1"]}
           style={{ height: "100%", borderRight: 0 }}
         >
           <Menu.Item
-          className="mt-4"
+            className="mt-4"
             key="1"
             icon={
               <CodepenOutlined style={{ fontSize: "30px", color: "#f5222d" }} />
             }
             style={{ fontSize: "20px" }}
           >
-            <Link to={`/admin/dashboard/${admin_id}`}>cubeQue</Link>
+            cubeQue
           </Menu.Item>
-          <Menu.Item key="2" icon={<HomeOutlined />}>
-              <Link to={`/admin/dashboard/${admin_id}`}>
-                Dashboard
-              </Link>
-            </Menu.Item>
+          <Menu.Item
+            key={`/admin/dashboard/${admin_id}`}
+            icon={<HomeOutlined />}
+          >
+            <Link to={`/admin/dashboard/${admin_id}`}>Dashboard</Link>
+          </Menu.Item>
           <SubMenu key="sub1" icon={<TeamOutlined />} title="ร้านอาหาร">
-            <Menu.Item key="3">
+            <Menu.Item key={"/admin/partnerverify"}>
               <Link to="/admin/partnerverify">รอตรวจสอบ</Link>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key={"/admin/partnerapprove"}>
               <Link to="/admin/partnerapprove">อนุมัติ</Link>
             </Menu.Item>
-            <Menu.Item key="5">
+            <Menu.Item key={"/admin/partnerdisapprove"}>
               <Link to="/admin/partnerdisapprove">ไม่อนุมัติ</Link>
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item icon={<UserOutlined />} key="6">
+          <Menu.Item icon={<UserOutlined />} key={"/admin/customersdata"}>
             <Link to={"/admin/customersdata"}>ข้อมูลลูกค้า</Link>
           </Menu.Item>
 
-          <Menu.Item icon={<NotificationOutlined />} key="7">
+          <Menu.Item icon={<NotificationOutlined />} key={"/admin/adminsdata"}>
             <Link to={"/admin/adminsdata"}>ข้อมูลผู้ดูแลระบบ</Link>
           </Menu.Item>
-          <Menu.Item icon={<BarChartOutlined />} key="8">
-            รายงาน
+          <Menu.Item
+            icon={<BarChartOutlined />}
+            key={`/admin/report/${admin_id}`}
+          >
+            <Link to={`/admin/report/${admin_id}`}> รายงาน</Link>
           </Menu.Item>
-          <Menu.Item icon={<KeyOutlined />} key="9">
+          <Menu.Item icon={<KeyOutlined />} key={"/admin/edit/password"}>
             <Link to={"/admin/edit/password"}> เปลี่ยนรหัสผ่าน</Link>
           </Menu.Item>
           <Menu.Item

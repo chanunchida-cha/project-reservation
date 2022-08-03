@@ -159,6 +159,17 @@ const groupReservByPartnerForWeek = async (req, res) => {
           count: { $count: {} },
         },
       },
+      {
+        $lookup: {
+          from: "partners",
+          localField: "_id.partner_id",
+          foreignField: "_id",
+          as: "information",
+        },
+      },
+      {
+        $unwind: "$information",
+      },
     ]);
     const response2 = await roundsReservs.aggregate([
       {
@@ -173,6 +184,17 @@ const groupReservByPartnerForWeek = async (req, res) => {
           },
           count: { $count: {} },
         },
+      },
+      {
+        $lookup: {
+          from: "partners",
+          localField: "_id.partner_id",
+          foreignField: "_id",
+          as: "information",
+        },
+      },
+      {
+        $unwind: "$information",
       },
     ]);
 
@@ -205,6 +227,9 @@ const groupReservByPartnerForMonth = async (req, res) => {
           as: "information",
         },
       },
+      {
+        $unwind: "$information",
+      },
     ]);
     const response2 = await roundsReservs.aggregate([
       {
@@ -224,6 +249,10 @@ const groupReservByPartnerForMonth = async (req, res) => {
           foreignField: "_id",
           as: "information",
         },
+      },
+
+      {
+        $unwind: "$information",
       },
     ]);
 
@@ -254,6 +283,9 @@ const groupReservByPartnerForYear = async (req, res) => {
           as: "information",
         },
       },
+      {
+        $unwind: "$information",
+      },
     ]);
     const response2 = await roundsReservs.aggregate([
       {
@@ -273,6 +305,9 @@ const groupReservByPartnerForYear = async (req, res) => {
           foreignField: "_id",
           as: "information",
         },
+      },
+      {
+        $unwind: "$information",
       },
     ]);
 

@@ -9,7 +9,7 @@ import { useParams, useHistory } from "react-router-dom";
 const navigation = [
   { name: "เข้าสู่ระบบ", href: "/login", current: false },
   { name: "สมัครสมาชิก", href: "/register", current: false },
-  { name: "ต้องการเป็นพาร์ทเนอร์", href: "/register", current: false },
+  { name: "พาร์ทเนอร์", href: "/register", current: false },
 ];
 
 function classNames(...classes) {
@@ -87,7 +87,7 @@ const Navbar = observer(() => {
                               {item.name}
                             </a>
                           )
-                        ) : item.name === "ต้องการเป็นพาร์ทเนอร์" ? (
+                        ) : item.name === "พาร์ทเนอร์" ? (
                           <Menu
                             key={item.name}
                             as="div"
@@ -124,7 +124,7 @@ const Navbar = observer(() => {
                                 <Menu.Item>
                                   {({ active }) => (
                                     <a
-                                      href="/joinpartner"
+                                      href="/registerpartner"
                                       className={classNames(
                                         active ? "bg-gray-100" : "",
                                         "block px-4 py-2 text-sm text-gray-700"

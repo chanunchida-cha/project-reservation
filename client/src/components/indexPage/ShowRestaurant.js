@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { partnerStore } from "../Store/partnerStore";
 
-const ShowRestaurant = observer(() => {
+const ShowRestaurant = observer(({ value }) => {
   useEffect(() => {
     const getAllRestaurant = async () => {
       await partnerStore.getAllInformation();
@@ -17,8 +17,11 @@ const ShowRestaurant = observer(() => {
         <h2 className="sr-only">Products</h2>
 
         <div className="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {partnerStore.allPartnerInfo.map((restaurant) => {
-            return restaurant.information.map((info) => {
+          {partnerStore.allPartnerInfo
+            .filter((restaurant) => {
+              return restaurant.information.restaurantName.includes(value);
+            })
+            .map((restaurant) => {
               return (
                 <a
                   key={restaurant._id}
@@ -32,12 +35,11 @@ const ShowRestaurant = observer(() => {
                     />
                   </div>
                   <h3 className="mt-2 pl-2 text-base font-semibold text-gray-700">
-                    {`ร้าน${info.restaurantName}`}
+                    {`ร้าน${restaurant.information.restaurantName}`}
                   </h3>
                 </a>
               );
-            });
-          })}
+            })}
         </div>
       </div>
     </div>

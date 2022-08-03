@@ -41,33 +41,25 @@ const EditMyReservationAllday = observer(() => {
       await partnerStore.getTableByRest(partner_id);
       await reservStore.getAlldayById(id);
       reservStore.allDayReservById.map((reserv) => {
+        setAmount(reserv.amount);
+        setDate(new Date(reserv.day).toLocaleString());
+        setStart(reserv.start);
+        setTable(reserv.table);
         if (reserv.customer_id) {
           reserv.customer.map((customer) => {
-            return (
-              setSelfReserv({
-                firstname: customer.firstname,
-                lastname: customer.lastname,
-                phoneNumber: customer.phoneNumber,
-              }),
-              setAmount(reserv.amount),
-              setDate(new Date(reserv.day).toLocaleString()),
-              setStart(reserv.start),
-              setTable(reserv.table),
-              setCustomerId(reserv.customer_id)
-            );
-          });
-        } else if (selfReserv) {
-          return (
             setSelfReserv({
-              firstname: reserv.self_reserv.firstname,
-              lastname: reserv.self_reserv.lastname,
-              phoneNumber: reserv.self_reserv.phoneNumber,
-            }),
-            setAmount(reserv.amount),
-            setDate(new Date(reserv.day).toLocaleString()),
-            setStart(reserv.start),
-            setTable(reserv.table)
-          );
+              firstname: customer.firstname,
+              lastname: customer.lastname,
+              phoneNumber: customer.phoneNumber,
+            });
+            setCustomerId(reserv.customer_id);
+          });
+        } else if (reserv.self_reserv) {
+          setSelfReserv({
+            firstname: reserv.self_reserv.firstname,
+            lastname: reserv.self_reserv.lastname,
+            phoneNumber: reserv.self_reserv.phoneNumber,
+          });
         }
       });
     };
@@ -123,19 +115,7 @@ const EditMyReservationAllday = observer(() => {
       );
     }
   };
-  const confirmUpdateStatus = (reserv_id, partner_id, status) => {
-    console.log(reserv_id);
-    console.log(status);
-    Swal.fire({
-      title: "ยืนยันยกเลิกการจอง",
-      icon: "warning",
-      showCancelButton: true,
-    }).then((resualt) => {
-      if (resualt.isConfirmed) {
-        reservStore.updateStatusAllDay(reserv_id, partner_id, status);
-      }
-    });
-  };
+
   return (
     <div className="mt-32 mx-96 ">
       <div className="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -148,157 +128,155 @@ const EditMyReservationAllday = observer(() => {
         <div className="border-t border-gray-200 px-4 py-4">
           {reservStore.allDayReservById.map((reserv) => {
             return partnerStore.partnerInfo.map((partnerInfo) => {
-              return partnerInfo.information.map((info) => {
-                return (
-                  <>
-                    <div key={reserv._id}>
-                      <div className="">{`ร้าน${info.restaurantName}`}</div>
-                      <div className="pt-2">{`หมายเลขการจอง: ${reserv.reservNumber}`}</div>
-                    </div>
+              return (
+                <>
+                  <div key={reserv._id}>
+                    <div className="">{`ร้าน${partnerInfo.information.restaurantName}`}</div>
+                    <div className="pt-2">{`หมายเลขการจอง: ${reserv.reservNumber}`}</div>
+                  </div>
 
-                    <form onSubmit={editAllDayReserv}>
-                      <div className="grid grid-cols-12 gap-6 pt-4">
-                        <div className="col-span-12  sm:col-span-12">
-                          รายละเอียดการจอง
-                        </div>
-                        <div className="col-span-6 sm:col-span-6">
-                          <label
-                            htmlFor="first-name"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            ชื่อ
-                          </label>
-                          <input
-                            type="text"
-                            name="firstname"
-                            id="firstname"
-                            disabled={customerId ? true : false}
-                            value={selfReserv.firstname}
-                            onChange={onChangeValue}
-                            autoComplete="given-name"
-                            className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-6">
-                          <label
-                            htmlFor="lastname"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            นามสกุล
-                          </label>
-                          <input
-                            type="text"
-                            name="lastname"
-                            id="lastname"
-                            value={selfReserv.lastname}
-                            disabled={customerId ? true : false}
-                            onChange={onChangeValue}
-                            autoComplete="family-name"
-                            className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-6">
-                          <label
-                            htmlFor="first-name"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            เบอร์โทรศัพท์
-                          </label>
-                          <input
-                            disabled={customerId ? true : false}
-                            type="text"
-                            name="phoneNumber"
-                            id="phoneNumber"
-                            value={selfReserv.phoneNumber}
-                            onChange={onChangeValue}
-                            autoComplete="given-name"
-                            className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
-                          />
-                        </div>
-                        <div className="col-span-6 sm:col-span-6"></div>
-                        <div className="col-span-6 sm:col-span-6">
-                          <label
-                            htmlFor="last-name"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            จำนวนคน
-                          </label>
-                          <input
-                            type="text"
-                            name="amount"
-                            id="amount"
-                            value={amount}
-                            onChange={onChangeAmount}
-                            autoComplete="family-name"
-                            className="p-2 mt-1 w-full focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm lg:text-sm border-gray-300 rounded-md"
-                          />
-                        </div>
-                        <div className="col-span-6  sm:col-span-6"></div>
+                  <form onSubmit={editAllDayReserv}>
+                    <div className="grid grid-cols-12 gap-6 pt-4">
+                      <div className="col-span-12  sm:col-span-12">
+                        รายละเอียดการจอง
+                      </div>
+                      <div className="col-span-6 sm:col-span-6">
+                        <label
+                          htmlFor="first-name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          ชื่อ
+                        </label>
+                        <input
+                          type="text"
+                          name="firstname"
+                          id="firstname"
+                          disabled={customerId ? true : false}
+                          value={selfReserv.firstname}
+                          onChange={onChangeValue}
+                          autoComplete="given-name"
+                          className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div className="col-span-6 sm:col-span-6">
+                        <label
+                          htmlFor="lastname"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          นามสกุล
+                        </label>
+                        <input
+                          type="text"
+                          name="lastname"
+                          id="lastname"
+                          value={selfReserv.lastname}
+                          disabled={customerId ? true : false}
+                          onChange={onChangeValue}
+                          autoComplete="family-name"
+                          className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div className="col-span-6 sm:col-span-6">
+                        <label
+                          htmlFor="first-name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          เบอร์โทรศัพท์
+                        </label>
+                        <input
+                          disabled={customerId ? true : false}
+                          type="text"
+                          name="phoneNumber"
+                          id="phoneNumber"
+                          value={selfReserv.phoneNumber}
+                          onChange={onChangeValue}
+                          autoComplete="given-name"
+                          className="p-2 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm lg:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div className="col-span-6 sm:col-span-6"></div>
+                      <div className="col-span-6 sm:col-span-6">
+                        <label
+                          htmlFor="last-name"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          จำนวนคน
+                        </label>
+                        <input
+                          type="text"
+                          name="amount"
+                          id="amount"
+                          value={amount}
+                          onChange={onChangeAmount}
+                          autoComplete="family-name"
+                          className="p-2 mt-1 w-full focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm lg:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div className="col-span-6  sm:col-span-6"></div>
 
-                        <div className="col-span-6  sm:col-span-6">
-                          <label
-                            htmlFor="email-address"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            วันที่ต้องการจอง
-                          </label>
-                          <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <Stack spacing={2}>
-                              <DesktopDatePicker
-                                inputFormat="dd/MM/yyyy"
-                                UTC
-                                value={date}
-                                onChange={handleChange}
-                                renderInput={(params) => (
-                                  <TextField {...params} />
-                                )}
-                              />
-                            </Stack>
-                          </LocalizationProvider>
-                        </div>
-                        <div className="col-span-6  sm:col-span-6"></div>
+                      <div className="col-span-6  sm:col-span-6">
+                        <label
+                          htmlFor="email-address"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          วันที่ต้องการจอง
+                        </label>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                          <Stack spacing={2}>
+                            <DesktopDatePicker
+                              inputFormat="dd/MM/yyyy"
+                              UTC
+                              value={date}
+                              onChange={handleChange}
+                              renderInput={(params) => (
+                                <TextField {...params} />
+                              )}
+                            />
+                          </Stack>
+                        </LocalizationProvider>
+                      </div>
+                      <div className="col-span-6  sm:col-span-6"></div>
 
-                        <div className="col-span-6 sm:col-span ">
-                          <label
-                            htmlFor="email-address"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            เวลาที่ต้องการจอง
-                          </label>
-                          <div>
-                            <Stack>
-                              <TextField
-                                name="start"
-                                id="time"
-                                type="time"
-                                value={start}
-                                onChange={(e) => {
-                                  setStart(e.target.value);
-                                }}
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                inputProps={{
-                                  step: 300, // 5 min
-                                }}
-                              />
-                            </Stack>
-                          </div>
-                        </div>
-                        <div className="col-span-6  sm:col-span-6"></div>
-                        <div className="col-span-6  sm:col-span-6">
-                          <button
-                            type="submit"
-                            className="group relative  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
-                          >
-                            บันทึกข้อมูล
-                          </button>
+                      <div className="col-span-6 sm:col-span ">
+                        <label
+                          htmlFor="email-address"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          เวลาที่ต้องการจอง
+                        </label>
+                        <div>
+                          <Stack>
+                            <TextField
+                              name="start"
+                              id="time"
+                              type="time"
+                              value={start}
+                              onChange={(e) => {
+                                setStart(e.target.value);
+                              }}
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              inputProps={{
+                                step: 300, // 5 min
+                              }}
+                            />
+                          </Stack>
                         </div>
                       </div>
-                    </form>
-                  </>
-                );
-              });
+                      <div className="col-span-6  sm:col-span-6"></div>
+                      <div className="col-span-6  sm:col-span-6">
+                        <button
+                          type="submit"
+                          className="group relative  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#1890ff] hover:bg-[#40a9ff] "
+                        >
+                          บันทึกข้อมูล
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </>
+              );
             });
           })}
         </div>

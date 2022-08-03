@@ -8,7 +8,7 @@ import GraphGroupByMonth from "./Graph/GraphGroupByMonth";
 import GraphGroupByYear from "./Graph/GraphGroupByYear";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
-const labelsButton = ["รายเดือน", "รายปี"];
+const labelsButton = ["รายสัปดาห์", "รายเดือน", "รายปี"];
 function Dashboard() {
   const [type, setType] = useState(labelsButton[0]);
   const {
@@ -215,7 +215,7 @@ function Dashboard() {
               จำนวนการจองของแต่ละร้านอาหาร
             </div>
             <div className="border-t border-gray-300 mt-2 mx-4" />
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {labelsButton.map((labelButton, index) => {
                 return (
                   <div className="col-span-1 flex justify-center" key={index}>
@@ -237,7 +237,9 @@ function Dashboard() {
             </div>
             <div className="mt-4 flex justify-center">{`จำนวนการจอง${type}`}</div>
             <div className="mt-2">
-              {type === "รายเดือน" ? (
+              {type === "รายสัปดาห์" ? (
+                <GraphGroupByWeek />
+              ) : type === "รายเดือน" ? (
                 <GraphGroupByMonth />
               ) : (
                 <GraphGroupByYear />

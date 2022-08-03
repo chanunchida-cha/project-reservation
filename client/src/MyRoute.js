@@ -26,7 +26,6 @@ function MyRoute() {
         <Route path={"/"} exact component={App} />
         <Route path={"/register"} exact component={Register} />
         <Route path={"/login"} exact component={Login} />
-        <Route path={"/joinpartner"} exact component={Partner} />
         <Route path={"/registerpartner"} exact component={PartnerRegis} />
         <Route path={"/loginpartner"} exact component={PartnerLogin} />
         <Route path={"/loginadmin"} exact component={LoginAdmin} />

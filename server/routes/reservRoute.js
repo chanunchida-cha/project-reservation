@@ -25,6 +25,7 @@ const {
   getRoundReservByCustomerHistory,
   getAlldayReservByCustomerHistory,
 } = require("../controllers/reservController");
+const partnerAuth = require("../middlewares/partnerAuth");
 const router = Router();
 
 router.route("/customer/round-reserv").post(customerRoundReserv);
@@ -49,7 +50,7 @@ router
 
 router
   .route("/partner/update-customer-round-day-reserv/:id")
-  .put(updateCustomerRoundReserv);
+  .put( updateCustomerRoundReserv);
 
 router.route("/partner/delete-all-day-reserv/:id").delete(allDayDelete);
 router.route("/partner/delete-round-reserv/:id").delete(roundDelete);

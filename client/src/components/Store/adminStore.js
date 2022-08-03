@@ -185,6 +185,9 @@ class AdminStore {
         {
           status: status,
           note: note,
+        },
+        {
+          headers: { "x-access-token": getToken() },
         }
       );
       this.getPartnerApprove();
@@ -285,6 +288,9 @@ class AdminStore {
           phoneNumber: phoneNumber,
           password: password,
           confirmPass: confirmPass,
+        },
+        {
+          headers: { "x-access-token": getToken() },
         }
       );
       Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
@@ -350,17 +356,23 @@ class AdminStore {
       confirmPass,
     } = partner;
     try {
-      await axios.put(`${process.env.REACT_APP_API_ADMIN}/edit-partner/${id}`, {
-        restaurantName: restaurantName,
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        phoneNumber: phoneNumber,
-        address: address,
-        username: username,
-        password: password,
-        confirmPass: confirmPass,
-      });
+      await axios.put(
+        `${process.env.REACT_APP_API_ADMIN}/edit-partner/${id}`,
+        {
+          restaurantName: restaurantName,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phoneNumber: phoneNumber,
+          address: address,
+          username: username,
+          password: password,
+          confirmPass: confirmPass,
+        },
+        {
+          headers: { "x-access-token": getToken() },
+        }
+      );
       Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
       this.getAllPartner();
     } catch (err) {
@@ -472,15 +484,21 @@ class AdminStore {
       confirmPass,
     } = admin;
     try {
-      await axios.put(`${process.env.REACT_APP_API_ADMIN}/edit-admin/${id}`, {
-        username: username,
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        phoneNumber: phoneNumber,
-        password: password,
-        confirmPass: confirmPass,
-      });
+      await axios.put(
+        `${process.env.REACT_APP_API_ADMIN}/edit-admin/${id}`,
+        {
+          username: username,
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          phoneNumber: phoneNumber,
+          password: password,
+          confirmPass: confirmPass,
+        },
+        {
+          headers: { "x-access-token": getToken() },
+        }
+      );
       Swal.fire("แก้ไขข้อมูลสำเร็จ!", "", "success");
       this.getAdminsData();
     } catch (err) {

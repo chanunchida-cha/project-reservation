@@ -77,47 +77,18 @@ const HistoryReservation = observer(() => {
             userStore.roundReservPending.length > 0) && (
             <div className="col-span-1">
               {userStore.allDayReservPending.map((reserv) => {
-                return reserv.partner.map((partner) => {
-                  return (
-                    <div
-                      className="hover:bg-gray-50 shadow-md my-2 px-4 py-4"
-                      onClick={() => {
-                        setModal(true);
-                        setType("allDay");
-                        setReserv_id(reserv._id);
-                        setPartner_id(partner._id);
-                      }}
-                    >
-                      <div className="font-semibold">
-                        {partner.restaurantName}
-                      </div>
-                      <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
-                      <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
-                        "en-GB"
-                      )}`}</div>
-                      <div>{reserv.amount} ที่นั่ง</div>
-                      <div>{reserv.status}</div>
-                    </div>
-                  );
-                });
-              })}
-            </div>
-          )}
-          <div className="col-span-1 ">
-            {userStore.roundReservPending.map((reserv) => {
-              return reserv.partner.map((partner) => {
                 return (
                   <div
-                    className=" hover:bg-gray-50  rounded-md shadow-md my-4 px-4 py-4"
+                    className="hover:bg-gray-50 shadow-md my-2 px-4 py-4"
                     onClick={() => {
                       setModal(true);
-                      setType("rounds");
+                      setType("allDay");
                       setReserv_id(reserv._id);
-                      setPartner_id(partner._id);
+                      setPartner_id(reserv.partner._id);
                     }}
                   >
                     <div className="font-semibold">
-                      {partner.restaurantName}
+                      {reserv.partner.restaurantName}
                     </div>
                     <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
                     <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
@@ -127,7 +98,32 @@ const HistoryReservation = observer(() => {
                     <div>{reserv.status}</div>
                   </div>
                 );
-              });
+              })}
+            </div>
+          )}
+          <div className="col-span-1 ">
+            {userStore.roundReservPending.map((reserv) => {
+              return (
+                <div
+                  className=" hover:bg-gray-50  rounded-md shadow-md my-4 px-4 py-4"
+                  onClick={() => {
+                    setModal(true);
+                    setType("rounds");
+                    setReserv_id(reserv._id);
+                    setPartner_id(reserv.partner._id);
+                  }}
+                >
+                  <div className="font-semibold">
+                    {reserv.partner.restaurantName}
+                  </div>
+                  <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
+                  <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
+                    "en-GB"
+                  )}`}</div>
+                  <div>{reserv.amount} ที่นั่ง</div>
+                  <div>{reserv.status}</div>
+                </div>
+              );
             })}
           </div>
         </div>
@@ -143,54 +139,50 @@ const HistoryReservation = observer(() => {
           </div>
           <div className="col-span-1">
             {userStore.allDayReservArrived.map((reserv) => {
-              return reserv.partner.map((partner) => {
-                return (
-                  <div
-                    className="hover:bg-gray-50 shadow-md my-2 px-4 py-4"
-                    onClick={() => {
-                      setModal(true);
-                      setType("allDay");
-                      setReserv_id(reserv._id);
-                      setPartner_id(partner._id);
-                    }}
-                  >
-                    <div className="font-semibold">
-                      {partner.restaurantName}
-                    </div>
-                    <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
-                    <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
-                      "en-GB"
-                    )}`}</div>
-                    <div>{reserv.status}</div>
+              return (
+                <div
+                  className="hover:bg-gray-50 shadow-md my-2 px-4 py-4"
+                  onClick={() => {
+                    setModal(true);
+                    setType("allDay");
+                    setReserv_id(reserv._id);
+                    setPartner_id(reserv.partner._id);
+                  }}
+                >
+                  <div className="font-semibold">
+                    {reserv.partner.restaurantName}
                   </div>
-                );
-              });
+                  <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
+                  <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
+                    "en-GB"
+                  )}`}</div>
+                  <div>{reserv.status}</div>
+                </div>
+              );
             })}
           </div>
           <div className="col-span-1 ">
             {userStore.roundReservArrived.map((reserv) => {
-              return reserv.partner.map((partner) => {
-                return (
-                  <div
-                    className="hover:bg-gray-50 rounded-md shadow-md my-4 px-4 py-4"
-                    onClick={() => {
-                      setModal(true);
-                      setType("rounds");
-                      setReserv_id(reserv._id);
-                      setPartner_id(partner._id);
-                    }}
-                  >
-                    <div className="font-semibold">
-                      {partner.restaurantName}
-                    </div>
-                    <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
-                    <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
-                      "en-GB"
-                    )}`}</div>
-                    <div>{reserv.status}</div>
+              return (
+                <div
+                  className="hover:bg-gray-50 rounded-md shadow-md my-4 px-4 py-4"
+                  onClick={() => {
+                    setModal(true);
+                    setType("rounds");
+                    setReserv_id(reserv._id);
+                    setPartner_id(reserv.partner._id);
+                  }}
+                >
+                  <div className="font-semibold">
+                    {reserv.partner.restaurantName}
                   </div>
-                );
-              });
+                  <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
+                  <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
+                    "en-GB"
+                  )}`}</div>
+                  <div>{reserv.status}</div>
+                </div>
+              );
             })}
           </div>
         </div>
@@ -204,33 +196,29 @@ const HistoryReservation = observer(() => {
           </div>
           <div className="col-span-1">
             {userStore.allDayHistory.map((reserv) => {
-              return reserv.partner.map((partner) => {
-                return (
-                  <div
-                    className="hover:bg-gray-50 shadow-md my-2 px-4 py-4"
-                    onClick={() => {
-                      setModal(true);
-                      setType("allDay");
-                      setReserv_id(reserv._id);
-                      setPartner_id(partner._id);
-                    }}
-                  >
-                    <div className="font-semibold">
-                      {partner.restaurantName}
-                    </div>
-                    <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
-                    <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
-                      "en-GB"
-                    )}`}</div>
-                    <div>{reserv.status}</div>
-                  </div>
-                );
-              });
+              return (
+                <div
+                  className="hover:bg-gray-50 shadow-md my-2 px-4 py-4"
+                  onClick={() => {
+                    setModal(true);
+                    setType("allDay");
+                    setReserv_id(reserv._id);
+                    setPartner_id(reserv.partner._id);
+                  }}
+                >
+                  <div className="font-semibold">{reserv.partner.restaurantName}</div>
+                  <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
+                  <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
+                    "en-GB"
+                  )}`}</div>
+                  <div>{reserv.status}</div>
+                </div>
+              );
             })}
           </div>
           <div className="col-span-1 ">
             {userStore.roundHistory.map((reserv) => {
-              return reserv.partner.map((partner) => {
+              
                 return (
                   <div
                     className="hover:bg-gray-50 rounded-md shadow-md my-4 px-4 py-4"
@@ -238,11 +226,11 @@ const HistoryReservation = observer(() => {
                       setModal(true);
                       setType("rounds");
                       setReserv_id(reserv._id);
-                      setPartner_id(partner._id);
+                      setPartner_id(reserv.partner._id);
                     }}
                   >
                     <div className="font-semibold">
-                      {partner.restaurantName}
+                      {reserv.partner.restaurantName}
                     </div>
                     <div>{`หมายเลขการจอง ${reserv.reservNumber}`}</div>
                     <div>{`วันที่ ${new Date(reserv.day).toLocaleDateString(
@@ -251,7 +239,7 @@ const HistoryReservation = observer(() => {
                     <div>{reserv.status}</div>
                   </div>
                 );
-              });
+           
             })}
           </div>
         </div>

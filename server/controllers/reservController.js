@@ -1,6 +1,7 @@
 const roundsReservs = require("../models/roundsReservDB");
 const allDayReservs = require("../models/allDayReservDB");
 const restaurants = require("../models/restaurantDB");
+const partners = require("../models/partnerDB");
 const tables = require("../models/tableDB");
 const Users = require("../models/userDB");
 const mongoose = require("mongoose");
@@ -1697,6 +1698,9 @@ const getRoundReservByCustomerPending = async (req, res) => {
           as: "partner",
         },
       },
+      {
+        $unwind: "$partner",
+      },
     ])
     .then((response) => {
       res.json(response);
@@ -1724,6 +1728,9 @@ const getAlldayReservByCustomerPending = async (req, res) => {
           foreignField: "_id",
           as: "partner",
         },
+      },
+      {
+        $unwind: "$partner",
       },
     ])
     .then((response) => {
@@ -1753,6 +1760,9 @@ const getRoundReservByCustomerArrived = async (req, res) => {
           as: "partner",
         },
       },
+      {
+        $unwind: "$partner",
+      },
     ])
     .then((response) => {
       res.json(response);
@@ -1781,6 +1791,9 @@ const getAlldayReservByCustomerArrived = async (req, res) => {
           as: "partner",
         },
       },
+      {
+        $unwind: "$partner",
+      },
     ])
     .then((response) => {
       res.json(response);
@@ -1807,6 +1820,9 @@ const getRoundReservByCustomerHistory = async (req, res) => {
           as: "partner",
         },
       },
+      {
+        $unwind: "$partner",
+      },
     ])
     .then((response) => {
       res.json(response);
@@ -1832,6 +1848,9 @@ const getAlldayReservByCustomerHistory = async (req, res) => {
           foreignField: "_id",
           as: "partner",
         },
+      },
+      {
+        $unwind: "$partner",
       },
     ])
     .then((response) => {

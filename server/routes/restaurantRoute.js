@@ -17,3 +17,4 @@ router.route("/get-all-info").get(getInfoRestaurant);
 router.route("/get-all-info/:id").get(getInfoRestaurantById);
 
 module.exports = router;
+

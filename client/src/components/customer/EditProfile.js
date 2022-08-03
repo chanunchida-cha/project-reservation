@@ -12,7 +12,6 @@ const EditProfile = observer(() => {
     email: "",
     phoneNumber: "",
   });
-  const [customeId, setCustomeId] = useState("");
   const { username, firstname, lastname, email, phoneNumber } = info;
   console.log(userStore.customer);
   useEffect(() => {
@@ -25,7 +24,6 @@ const EditProfile = observer(() => {
         email: userStore.customer.email,
         phoneNumber: userStore.customer.phoneNumber,
       });
-      setCustomeId(userStore.customer._id);
     };
 
     getUsers();
@@ -43,7 +41,7 @@ const EditProfile = observer(() => {
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    await userStore.editCustomer(customeId, info);
+    await userStore.editCustomer(info);
   };
 
   return (

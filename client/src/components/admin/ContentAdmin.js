@@ -17,6 +17,7 @@ import SingleAdminData from "./CrudAdmin/SingleAdminData";
 import EditAdmin from "./CrudAdmin/EditAdmin";
 import EditPassword from "./EditPassword";
 import Dashboard from "./Dashboard/Dashboard";
+import Report from "./Report/Report";
 
 function ContentAdmin() {
   return (
@@ -62,6 +63,7 @@ function ContentAdmin() {
         />
         <Route path={"/admin/createadmin"} exact component={CreateAdmin} />
         <Route path={"/admin/editadmin/:id"} exact component={EditAdmin} />
+        <Route path={"/admin/report/:id"} exact component={Report} />
       </Switch>
     </div>
   );

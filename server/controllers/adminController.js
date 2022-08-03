@@ -73,21 +73,27 @@ const getPartnerById = (req, res) => {
   });
 };
 
-const updateStatusPartner = (req, res) => {
+const updateStatusPartner = async (req, res) => {
   const { id } = req.params;
-  partners.findByIdAndUpdate(
-    id,
-    {
-      $set: req.body,
-    },
-    (err, partner) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(partner);
+  const admin = await admins.findById(req.admin.admin_id);
+
+  if (admin !== undefined) {
+    partners.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      (err, partner) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(partner);
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.status(400).json({ err: "ไม่มีสิทธิแก้ไข" });
+  }
 };
 
 const createCustomer = async (req, res) => {
@@ -159,8 +165,10 @@ const deleteCustomer = (req, res) => {
   });
 };
 
-const editCustomer = (req, res) => {
+const editCustomer =async (req, res) => {
   const { id } = req.params;
+  const admin = await admins.findById(req.admin.admin_id);
+  if(admin !== undefined){
   Users.findByIdAndUpdate(
     id,
     {
@@ -174,6 +182,9 @@ const editCustomer = (req, res) => {
       }
     }
   );
+  }else {
+    res.status(400).json({ err: "ไม่มีสิทธิแก้ไข" });
+  }
 };
 
 const createPartner = async (req, res) => {
@@ -259,8 +270,10 @@ const deletePartner = (req, res) => {
   });
 };
 
-const editPartner = (req, res) => {
+const editPartner =async (req, res) => {
   const { id } = req.params;
+  const admin = await admins.findById(req.admin.admin_id);
+  if(admin !== undefined){
   partners.findByIdAndUpdate(
     id,
     {
@@ -274,6 +287,9 @@ const editPartner = (req, res) => {
       }
     }
   );
+  }else{
+    res.status(400).json({ err: "ไม่มีสิทธิแก้ไข" });
+  }
 };
 
 const getAdmins = (req, res) => {
@@ -353,8 +369,10 @@ const createAdmin = async (req, res) => {
   }
 };
 
-const editAdmin = (req, res) => {
+const editAdmin = async (req, res) => {
   const { id } = req.params;
+  const admin = await admins.findById(req.admin.admin_id);
+  if( admin !== undefined){
   admins.findByIdAndUpdate(
     id,
     {
@@ -368,6 +386,9 @@ const editAdmin = (req, res) => {
       }
     }
   );
+  }else{
+    res.status(400).json({ err: "ไม่มีสิทธิแก้ไข" });
+  }
 };
 
 const deleteAdmin = (req, res) => {
@@ -402,5 +423,5 @@ module.exports = {
   getAdminById,
   createAdmin,
   editAdmin,
-  deleteAdmin
+  deleteAdmin,
 };

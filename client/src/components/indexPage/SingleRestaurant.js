@@ -194,7 +194,7 @@ const SingleRestaurant = observer(() => {
   return (
     <>
       {partnerStore.partnerInfo.map((restaurant) => {
-        return restaurant.information.map((info) => {
+        
           return (
             <div className="bg-white  " key={restaurant._id}>
               {reservElement}
@@ -533,7 +533,7 @@ const SingleRestaurant = observer(() => {
                           aria-current="page"
                           className="font-medium text-black hover:text-gray-600"
                         >
-                          {`ร้าน${info.restaurantName}`}
+                          {`ร้าน${restaurant.information.restaurantName}`}
                         </a>
                       </li>
                     </ol>
@@ -709,7 +709,7 @@ const SingleRestaurant = observer(() => {
               </div>
             </div>
           );
-        });
+        
       })}
     </>
   );

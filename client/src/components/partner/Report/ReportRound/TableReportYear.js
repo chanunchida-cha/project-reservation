@@ -4,25 +4,22 @@ import useSWR from "swr";
 import { useParams, useHistory } from "react-router-dom";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
-function TableReportDay() {
+function TableReportYear() {
   const { id } = useParams();
   const {
-    data: countReservPerDay,
-    error: errorReservPerDay,
-    isValidating: loadingReservPerDay,
-  } =  useSWR(
-    `${process.env.REACT_APP_API_DASHBOARD}/get-count-allday-reserv-for-day/${id}`,
+    data: countReservPerYear,
+    error: errorReservPerYear,
+    isValidating: loadingReservPerYear,
+  } = useSWR(
+    `${process.env.REACT_APP_API_DASHBOARD}/get-count-round-reserv-for-year/${id}`,
     fetcher
   );
-
-  if (errorReservPerDay) return <div>failed to load</div>;
-  if (loadingReservPerDay) {
+  if (errorReservPerYear) return <div>failed to load</div>;
+  if (loadingReservPerYear) {
     return <div>Loading...</div>;
   }
-
-  console.log(countReservPerDay);
   return (
-    <div className="w-2/4">
+    <div className="w-full">
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div className="h-[600px]  overflow-x-auto rounded-lg ">
           <div className="inline-block min-w-full shadow-md rounded-lg ">
@@ -30,7 +27,7 @@ function TableReportDay() {
               <thead>
                 <tr>
                   <th className="px-1 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
-                    วัน/เดือน/ปี
+                    ปี
                   </th>
                   <th className="px-3 py-3 border-b-2 border-gray-200 bg-white text-center text-md font-semibold text-gray-700 uppercase tracking-wider">
                     จำนวนการจอง
@@ -38,13 +35,13 @@ function TableReportDay() {
                 </tr>
               </thead>
               <tbody>
-                {countReservPerDay.map((count, index) => {
+                {countReservPerYear.map((count, index) => {
                   return (
                     <tr key={index}>
                       <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
                         <p className="text-gray-900 whitespace-no-wrap">
-                          {`${count._id.day}/${count._id.month}/${count._id.year}
-                          `}
+                          {`ปี${count._id}
+                        `}
                         </p>
                       </td>
                       <td className="px-1 py-2 border-b border-gray-200 bg-white text-sm text-center">
@@ -64,4 +61,4 @@ function TableReportDay() {
   );
 }
 
-export default TableReportDay;
+export default TableReportYear;

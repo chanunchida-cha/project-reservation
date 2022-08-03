@@ -1,9 +1,8 @@
 const Users = require("../models/userDB");
 
 const updateCustomer = async (req, res) => {
-  const { id } = req.params;
   Users.findByIdAndUpdate(
-    id,
+    req.user.user_id,
     {
       $set: req.body,
     },

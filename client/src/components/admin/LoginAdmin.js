@@ -23,7 +23,9 @@ const LoginAdmin = observer(() => {
   async function submitForm(event) {
     event.preventDefault();
     await adminStore.loginAdmin(login);
-    history.push("/admin");
+    const admin_id = adminStore.adminlogin._id;
+
+    history.push(`/admin/dashboard/${admin_id}`);
   }
   return (
     <div className=" min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

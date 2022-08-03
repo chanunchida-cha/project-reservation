@@ -21,6 +21,9 @@ const {
   getAdminById,
   deleteAdmin,
 } = require("../controllers/adminController");
+
+const adminAuth = require("../middlewares/adminAuth");
+
 router.route("/all-partner").get(getPartner);
 router.route("/verify").get(getPartnerVerify);
 router.route("/customers-data").get(getUsers);
@@ -28,17 +31,17 @@ router.route("/customers-data/:id").get(getUserById);
 router.route("/approve").get(getPartnerApprove);
 router.route("/disapprove").get(getPartnerDisApprove);
 router.route("/verify/:id").get(getPartnerById);
-router.route("/update-status/:id").put(updateStatusPartner);
+router.route("/update-status/:id").put(adminAuth, updateStatusPartner);
 router.route("/create-customer").post(createCustomer);
 router.route("/delete-customer/:id").delete(deleteCustomer);
-router.route("/edit-customer/:id").put(editCustomer);
+router.route("/edit-customer/:id").put(adminAuth, editCustomer);
 router.route("/create-partner").post(createPartner);
 router.route("/delete-partner/:id").delete(deletePartner);
-router.route("/edit-partner/:id").put(editPartner);
+router.route("/edit-partner/:id").put(adminAuth, editPartner);
 router.route("/admins-data").get(getAdmins);
 router.route("/admins-data/:id").get(getAdminById);
 router.route("/create-admin").post(createAdmin);
-router.route("/edit-admin/:id").put(editAdmin);
+router.route("/edit-admin/:id").put(adminAuth, editAdmin);
 router.route("/delete-admin/:id").delete(deleteAdmin);
 
 module.exports = router;

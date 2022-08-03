@@ -29,60 +29,58 @@ const createMenu = async (req, res) => {
 const updateMenu = async (req, res) => {
   const { id } = req.params;
   const { name, description, price } = req.body;
-  const partner = await partners.findById(req.partner.partner_id);
-  const partner_id = partner._id;
-  const menuInRest =await menus.aggregate([
+  const menuInRest = await menus.aggregate([
     {
       $match: {
         _id: mongoose.Types.ObjectId(id),
-        partner_id: mongoose.Types.ObjectId(partner_id),
+        partner_id: mongoose.Types.ObjectId(req.partner.partner_id),
       },
     },
   ]);
 
-if(menuInRest.length > 0){
-  if (req.file) {
-    const image = req.file.filename;
-    menus.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          name: name,
-          description: description,
-          price: price,
-          image: image,
+  if (menuInRest.length > 0) {
+    if (req.file) {
+      const image = req.file.filename;
+      menus.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            name: name,
+            description: description,
+            price: price,
+            image: image,
+          },
         },
-      },
-      (err, menu) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(menu);
+        (err, menu) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json(menu);
+          }
         }
-      }
-    );
+      );
+    } else {
+      menus.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            name: name,
+            description: description,
+            price: price,
+          },
+        },
+        (err, menu) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json(menu);
+          }
+        }
+      );
+    }
   } else {
-    menus.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          name: name,
-          description: description,
-          price: price,
-        },
-      },
-      (err, menu) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(menu);
-        }
-      }
-    );
-  }}else{
-    res.status(400).json({error:"ไม่มีสิทธิแก้ไข"});
+    res.status(400).json({ error: "ไม่มีสิทธิแก้ไข" });
   }
- 
 };
 
 const getMenu = (req, res) => {
